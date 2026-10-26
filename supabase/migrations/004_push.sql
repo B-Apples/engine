@@ -76,8 +76,8 @@ $$;
 revoke execute on function public.engine_push_claim(), public.engine_push_config() from public, anon, authenticated;
 grant execute on function public.engine_push_claim(), public.engine_push_config() to service_role;
 
-create extension if not exists pg_cron;
-create extension if not exists pg_net;
+create extension if not exists pg_cron with schema pg_catalog;
+create extension if not exists pg_net with schema extensions;
 select cron.schedule('engine-push', '5 seconds', $cron$
   select net.http_post(
     url := 'https://niuslslcmzacodgaklwl.supabase.co/functions/v1/push',
