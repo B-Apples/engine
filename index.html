@@ -91,6 +91,9 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .srow .sub{font-size:12.5px}
 .srow .chev{color:var(--faint)}
 .mini-seg{grid-auto-columns:64px}
+.ctl2{display:flex;gap:6px;flex:none}
+.mini.day{width:84px;text-align:left;padding-left:10px}
+.srow.col{flex-direction:column;align-items:stretch;gap:8px}
 .mini-seg button{min-height:32px;font-size:13px}
 .sw2{position:relative;width:48px;height:28px;flex:none}
 .sw2 input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer;z-index:1}
@@ -820,7 +823,7 @@ const THEMES = [
   { id: 'espresso', name: 'Espresso', bg: '#16100D', card: '#221915', accent: '#FF7A45' },
   { id: 'chalk', name: 'Chalk (light)', bg: '#F2F3F5', card: '#FFFFFF', accent: '#2F6BFF' }
 ];
-const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null };
+const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null, checkin: true, checkinDay: 0, checkinTime: '19:00', tz: null, tzPhone: null };
 const MAIN_LIFTS = { squat: 'Back Squat', bench: 'Barbell Bench Press', deadlift: 'Deadlift', ohp: 'Overhead Press' };
 const MATURITY = [
   { key: 'novice', label: 'Novice', rate: 0.04, text: 'Lifts can still climb quickly, often several percent a month.' },
@@ -2314,7 +2317,10 @@ function vSettings() {
     ${srow('Sound when rest ends', 'Vibrates too', swc('sound', st.sound, 'Sound when rest ends'))}
     ${srow('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'))}</div></div>`;
   h += `<div class="sec"><span class="label">Coaching</span><div class="card slist">
+    ${srow('Weekly check-in', st.checkin ? `${DOWL[st.checkinDay]}s at ${fmtTime(st.checkinTime)}. Claude reviews your week and sets next week's targets` : 'Claude reviews your week and sets next week\'s targets', swc('checkin', st.checkin, 'Weekly check-in'))}
+    ${st.checkin ? srow('When', '', `<span class="ctl2"><select id="ck-day" class="in mini day" data-act-change="ckday" aria-label="Check-in day">${[0, 1, 2, 3, 4, 5, 6].map(d => `<option value="${d}" ${st.checkinDay === d ? 'selected' : ''}>${DOWL[d].slice(0, 3)}</option>`).join('')}</select><input id="ck-time" type="time" class="in mini time" data-act-change="cktime" value="${esc(st.checkinTime)}" aria-label="Check-in time"></span>`) : ''}
     ${srow('Block suggestions', 'Offer a ready-made block when you start a new one', swc('suggestBlocks', st.suggestBlocks, 'Block suggestions'))}</div></div>`;
+  h += `<div class="sec"><span class="label">Time zone</span><div class="card slist"><div class="srow col"><span class="grow"><span class="t">Time zone</span><span class="sub">Your check-in and workout reminders follow it</span></span>${tzSelect()}</div></div></div>`;
   h += `<div class="sec"><span class="label">Alerts and devices</span><div class="card slist">${slink('pnotif', 'Notifications', 'bell')}${slink('phr', 'Heart rate monitor', 'heart')}</div></div>`;
   h += `<div class="sec"><span class="label">Account</span><div class="card slist">${slink('pdata', 'Data and account', 'cloud')}</div></div>`;
   h += `<span class="sub" style="text-align:center">Units: pounds, kilometres, pool metres, inches.</span><div class="brand">${ic('fibre')}<span>Engine</span></div>`;
@@ -2612,6 +2618,9 @@ const C = {
   },
   hrmax(t) { const v = parseInt(t.value, 10); saveSetting({ hrMax: v >= 120 && v <= 230 ? v : null }); },
   remindtime(t) { if (t.value) { saveSetting({ remindTime: t.value }); syncReminders(true); } },
+  ckday(t) { saveSetting({ checkinDay: +t.value }); },
+  cktime(t) { if (t.value) saveSetting({ checkinTime: t.value }); },
+  tz(t) { saveSetting({ tz: t.value || null }); syncReminders(true); },
   pickfm(t) { S.ui.sheet.fm = t.value; S.ui.customForm = false; refreshPick(); },
   pickfe(t) { S.ui.sheet.fe = t.value; S.ui.customForm = false; refreshPick(); }
 };
@@ -2980,6 +2989,29 @@ function hrSection(w) {
   return `<div class="sec"><span class="label">Heart rate</span><div class="stats"><div class="stat"><b>${hr.avg}</b><span>Average (bpm)</span></div><div class="stat"><b>${hr.max}</b><span>Max (bpm)</span></div><div class="stat"><b>${Math.round(hr.zones.slice(3).reduce((a, b) => a + b, 0) / tot * 100)}%</b><span>In zones 4–5</span></div></div>${s}${zbar}</div>`;
 }
 
+/* ================= time zone ================= */
+// The check-in (run on the server) and workout reminders follow the zone picked in Settings, or the phone's own.
+// The phone's zone is saved too, so the server knows it when "Automatic" is chosen.
+const phoneTz = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'; } catch (e) { return 'UTC'; } };
+const userTz = () => settings().tz || phoneTz();
+const TZ_CA = [['America/Vancouver', 'Pacific (Vancouver)'], ['America/Edmonton', 'Mountain (Edmonton)'], ['America/Regina', 'Saskatchewan (Regina)'], ['America/Winnipeg', 'Central (Winnipeg)'], ['America/Toronto', 'Eastern (Toronto)'], ['America/Halifax', 'Atlantic (Halifax)'], ['America/St_Johns', 'Newfoundland (St. John\'s)']];
+const tzLabel = z => { const c = TZ_CA.find(x => x[0] === z); return c ? c[1] : z.split('/').pop().replace(/_/g, ' '); };
+const allTz = () => mm('tzs', () => { try { return Intl.supportedValuesOf('timeZone'); } catch (e) { return TZ_CA.map(x => x[0]); } });
+function tzSelect() {
+  const st = settings(), opt = (z, l) => `<option value="${z}" ${st.tz === z ? 'selected' : ''}>${esc(l)}</option>`;
+  return `<select id="st-tz" class="in" data-act-change="tz" aria-label="Time zone"><option value="" ${st.tz ? '' : 'selected'}>Automatic · ${esc(tzLabel(phoneTz()))}</option>
+    <optgroup label="Canada">${TZ_CA.map(([z, l]) => opt(z, l)).join('')}</optgroup><optgroup label="All time zones">${allTz().filter(z => !TZ_CA.some(x => x[0] === z)).map(z => opt(z, z.replace(/_/g, ' '))).join('')}</optgroup></select>`;
+}
+// Minutes the zone is ahead of UTC at a moment, and the moment a wall-clock time on a date happens in a zone.
+function tzOffset(tz, ms) {
+  const p = {}; for (const x of new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }).formatToParts(new Date(ms))) p[x.type] = +x.value;
+  return (Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second) - Math.floor(ms / 1000) * 1000) / 60000;
+}
+function zonedMs(date, hh, mi, tz) {
+  const [y, m, d] = date.split('-').map(Number), wall = Date.UTC(y, m - 1, d, hh, mi);
+  try { const t = wall - tzOffset(tz, wall) * 60000; return wall - tzOffset(tz, t) * 60000; } catch (e) { const at = pd(date); at.setHours(hh, mi, 0, 0); return at.getTime(); }
+}
+
 /* ================= notifications (Web Push) ================= */
 // Reminders and rest alerts are sent by the "push" function on the server, so they arrive with Engine closed.
 // Reminders belong to the account and go to every phone that has notifications on; rest alerts go only to this phone.
@@ -3011,7 +3043,7 @@ function planReminders() {
   const [hh, mi] = (st.remindTime || '17:00').split(':').map(Number), soon = Date.now() + 60000, out = [];
   for (let i = 0; i < 14; i++) {
     const date = addDays(ymd(), i), ses = sessionsOn(date).filter(({ d }) => !doneFor(date, d.key));
-    const at = pd(date); at.setHours(hh, mi, 0, 0);
+    const at = new Date(zonedMs(date, hh, mi, userTz()));
     if (!ses.length || at.getTime() < soon) continue;
     const { b, w } = ses[0], one = ses.length === 1 && ses[0].d.type === 'strength' ? (ses[0].d.items || []).length : 0;
     out.push({ send_at: at.toISOString(), tag: 'remind-' + date,
@@ -3123,7 +3155,7 @@ function startApp() {
   render();
   if (started) { flush(); return; }
   started = true;
-  connect().then(() => { const st = settings(); if (st.accent) applyAccent(st.accent); applyTheme(st); render(); pushRefresh(); syncReminders(); });
+  connect().then(() => { const st = settings(); if (st.accent) applyAccent(st.accent); applyTheme(st); render(); if (!S.net.dbFailed && st.tzPhone !== phoneTz()) saveSetting({ tzPhone: phoneTz() }); pushRefresh(); syncReminders(); });
 }
 if (window.engine && !engine.signedIn()) { S.ui.auth = { mode: 'in' }; render(); } else startApp();
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
