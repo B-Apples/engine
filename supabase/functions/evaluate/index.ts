@@ -1,0 +1,96 @@
+// Runs Engine's post-workout evaluation with Claude. The app sends the prompt it builds from the session; this function
+// checks the caller is signed in and streams Claude's answer back. The Anthropic API key stays in the project's secrets.
+import Anthropic from "npm:@anthropic-ai/sdk@1.3.0";
+import { createClient } from "npm:@supabase/supabase-js@2.118.0";
+
+const MODEL = "claude-opus-5-5";
+const MAX_PROMPT_CHARS = 400_000;
+
+const cors = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+const json = (status: number, body: Record<string, unknown>) =>
+  new Response(JSON.stringify(body), { status, headers: { ...cors, "Content-Type": "application/json" } });
+
+function publishableKey(): string {
+  try {
+    const keys = JSON.parse(Deno.env.get("SUPABASE_PUBLISHABLE_KEYS") ?? "{}");
+    if (keys.default) return keys.default;
+  } catch { /* fall back to the legacy key */ }
+  return Deno.env.get("SUPABASE_ANON_KEY") ?? "";
+}
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "POST") return json(405, { error: "Use POST.", code: "invalid_argument" });
+
+  const token = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
+  const sb = createClient(Deno.env.get("SUPABASE_URL")!, publishableKey(), { auth: { persistSession: false } });
+  const { data, error: authError } = await sb.auth.getUser(token);
+  const user = data?.user;
+  if (authError || !user) return json(401, { error: "Sign in again to get evaluations.", code: "session_expired" });
+  const owner = Deno.env.get("OWNER_EMAIL");
+  if (owner && user.email?.toLowerCase() !== owner.toLowerCase()) {
+    return json(403, { error: "This account can't run evaluations.", code: "not_granted" });
+  }
+
+  const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
+  if (!apiKey) return json(503, { error: "Add your Anthropic API key in Supabase first.", code: "not_configured" });
+
+  let prompt = "";
+  try {
+    prompt = String((await req.json())?.prompt ?? "");
+  } catch { /* handled below */ }
+  if (!prompt || prompt.length > MAX_PROMPT_CHARS) {
+    return json(400, { error: "The evaluation request was empty or too large.", code: "invalid_argument" });
+  }
+
+  const client = new Anthropic({ apiKey });
+  const encoder = new TextEncoder();
+  // Newline-delimited JSON: {t} text deltas, {reset} when a fallback model restarts the answer, then {done} or {error}.
+  const body = new ReadableStream({
+    async start(controller) {
+      const send = (event: Record<string, unknown>) => controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
+      try {
+        const stream = client.beta.messages.stream({
+          model: MODEL,
+          max_tokens: 16000,
+          output_config: { effort: "medium" },
+          betas: ["server-side-fallback-2026-07-01"],
+          fallbacks: "default",
+          messages: [{ role: "user", content: prompt }],
+        });
+        for await (const event of stream) {
+          if (event.type === "content_block_start" && event.content_block.type === "fallback") send({ reset: true });
+          else if (event.type === "content_block_delta" && event.delta.type === "text_delta") send({ t: event.delta.text });
+        }
+        const message = await stream.finalMessage();
+        if (message.stop_reason === "refusal") {
+          send({ error: "Claude declined to evaluate this session.", code: "refused" });
+        } else {
+          let text = "";
+          for (const block of message.content) {
+            if (block.type === "fallback") text = "";
+            else if (block.type === "text") text += block.text;
+          }
+          send({ done: true, text, stop: message.stop_reason });
+        }
+      } catch (e) {
+        if (e instanceof Anthropic.AuthenticationError) {
+          send({ error: "The Anthropic API key in Supabase isn't valid.", code: "not_configured" });
+        } else if (e instanceof Anthropic.RateLimitError) {
+          send({ error: "Claude is busy right now.", code: "rate_limited" });
+        } else if (e instanceof Anthropic.APIError) {
+          send({ error: `Claude API error ${e.status ?? ""}: ${String(e.message).slice(0, 300)}`, code: "upstream_error" });
+        } else {
+          send({ error: String((e as Error)?.message ?? e).slice(0, 300), code: "upstream_error" });
+        }
+      } finally {
+        controller.close();
+      }
+    },
+  });
+  return new Response(body, { headers: { ...cors, "Content-Type": "application/x-ndjson", "Cache-Control": "no-store" } });
+});
