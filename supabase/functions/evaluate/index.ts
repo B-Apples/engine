@@ -31,10 +31,6 @@ Deno.serve(async (req) => {
   const { data, error: authError } = await sb.auth.getUser(token);
   const user = data?.user;
   if (authError || !user) return json(401, { error: "Sign in again to get evaluations.", code: "session_expired" });
-  const owner = Deno.env.get("OWNER_EMAIL");
-  if (owner && user.email?.toLowerCase() !== owner.toLowerCase()) {
-    return json(403, { error: "This account can't run evaluations.", code: "not_granted" });
-  }
 
   const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
   if (!apiKey) return json(503, { error: "Add your Anthropic API key in Supabase first.", code: "not_configured" });

@@ -1695,7 +1695,7 @@ function evalPrompt(w) {
   const last7 = allW().filter(x => x.date <= w.date && x.date > addDays(w.date, -7) && x.id !== w.id).map(x => ({ date: x.date, type: x.type, title: x.title, durationMin: x.durationMin, rpe: x.rpe }));
   const p = profile();
   const ctx = {
-    athlete: { goal: 'Strength and conditioning: get strong again while maintaining or improving cardiovascular fitness', units: 'pounds, kilometers, pool meters', trainingMaturity: maturity().label, age: p.age || null, trainingYears: p.trainingYears || null, previousBests: p.prevBests || null, bodyWeightLb: currentBW() ? Math.round(currentBW()) : null },
+    athlete: { goal: p.goal || 'General strength and conditioning', units: 'pounds, kilometers, pool meters', trainingMaturity: maturity().label, age: p.age || null, trainingYears: p.trainingYears || null, previousBests: p.prevBests || null, bodyWeightLb: currentBW() ? Math.round(currentBW()) : null },
     block: b ? { name: b.name, focus: b.focus, week: w.week, weeks: b.weeks, deloadWeek: b.deloadWeek || null } : null,
     plannedSession: day ? { title: day.title, type: day.type, items: day.items, cardio: day.cardio, stretches: day.stretches } : null,
     workout: strip(w), summary: w.summary || null, previousSessions: prevSessions, otherSessionsLast7Days: last7
@@ -1926,7 +1926,7 @@ function profForms() {
   const today = ymd(), F = S.ui.form;
   if (!F.body) { const e = S.body.get(today) || {}; F.body = { date: today, weightLb: e.weightLb ?? null, bodyFat: e.bodyFat ?? null }; }
   if (!F.meas) { const e = S.body.get(today) || {}; F.meas = { date: today, ...(e.meas || {}) }; }
-  if (!F.prof) { const p = profile(); F.prof = { age: p.age ?? null, ft: p.heightIn ? Math.floor(p.heightIn / 12) : null, inch: p.heightIn ? p.heightIn % 12 : null, trainingYears: p.trainingYears ?? null, prevBests: { ...(p.prevBests || {}) } }; }
+  if (!F.prof) { const p = profile(); F.prof = { age: p.age ?? null, ft: p.heightIn ? Math.floor(p.heightIn / 12) : null, inch: p.heightIn ? p.heightIn % 12 : null, trainingYears: p.trainingYears ?? null, goal: p.goal || '', prevBests: { ...(p.prevBests || {}) } }; }
   return F;
 }
 const PROF_PAGES = [
@@ -1968,8 +1968,9 @@ function vProfPage(k) {
   if (k === 'pphotos') return photosCard();
   if (k === 'pbg') {
     const mat = maturity();
-    return `<div class="card"><span class="sub">Used for your training maturity (now: ${esc(mat.label)}) and to allow faster regain toward previous bests.</span>
+    return `<div class="card"><span class="sub">Used for your coach evaluations, your training maturity (now: ${esc(mat.label)}) and faster regain toward previous bests.</span>
     <div class="grid3"><label class="field"><span>Age</span><input id="pf-age" class="in" inputmode="numeric" data-root="form" data-bind="prof.age" data-num value="${F.prof.age ?? ''}"></label><label class="field"><span>Height (ft)</span><input id="pf-ft" class="in" inputmode="numeric" data-root="form" data-bind="prof.ft" data-num value="${F.prof.ft ?? ''}"></label><label class="field"><span>Height (in)</span><input id="pf-in" class="in" inputmode="numeric" data-root="form" data-bind="prof.inch" data-num value="${F.prof.inch ?? ''}"></label></div>
+    <label class="field"><span>Training goal</span><input id="pf-goal" class="in" placeholder="e.g. Get stronger while keeping my cardio up" data-root="form" data-bind="prof.goal" value="${esc(F.prof.goal)}"></label>
     <label class="field"><span>Years of serious training</span><input id="pf-yrs" class="in" inputmode="decimal" data-root="form" data-bind="prof.trainingYears" data-num value="${F.prof.trainingYears ?? ''}"></label>
     <span class="label">Previous best lifts (1RM or best estimate, lb)</span>
     <div class="grid2">${[['squat', 'Back squat'], ['bench', 'Bench press'], ['deadlift', 'Deadlift'], ['ohp', 'Overhead press']].map(([bk, l]) => `<label class="field"><span>${l}</span><input id="pf-${bk}" class="in" inputmode="numeric" data-root="form" data-bind="prof.prevBests.${bk}" data-num value="${F.prof.prevBests[bk] ?? ''}"></label>`).join('')}</div>
@@ -2355,7 +2356,7 @@ Object.assign(A, {
   prhide() { $('#prb').hidden = true; },
   bodytrends() { S.ui.tab = 'prog'; S.ui.prog = 'body'; S.ui.stack = []; S.ui.weighOpen = false; window.scrollTo(0, 0); render(); },
   savemeas() { const f = S.ui.form.meas; const { date, ...vals } = f; const clean = {}; for (const [k] of MEAS) if (vals[k] != null) clean[k] = vals[k]; if (!Object.keys(clean).length) { toast('Enter at least one measurement'); return; } const e = S.body.get(date) || {}; const doc = { ...e, date, meas: { ...(e.meas || {}), ...clean } }; delete doc.sample; write('body', date, doc); toast('Measurements saved'); },
-  saveprof() { const f = S.ui.form.prof; const heightIn = f.ft != null ? f.ft * 12 + (f.inch || 0) : null; const pb = {}; for (const k of Object.keys(MAIN_LIFTS)) if (f.prevBests[k] != null) pb[k] = f.prevBests[k]; write('meta', 'profile', { age: f.age, heightIn, trainingYears: f.trainingYears, prevBests: pb }); toast('Background saved'); },
+  saveprof() { const f = S.ui.form.prof; const heightIn = f.ft != null ? f.ft * 12 + (f.inch || 0) : null; const pb = {}; for (const k of Object.keys(MAIN_LIFTS)) if (f.prevBests[k] != null) pb[k] = f.prevBests[k]; write('meta', 'profile', { age: f.age, heightIn, trainingYears: f.trainingYears, goal: (f.goal || '').trim(), prevBests: pb }); toast('Background saved'); },
   accent(d) { applyAccent(d.c); saveSetting({ accent: d.c }); },
   theme(d) { const t = THEMES.find(x => x.id === d.id); const patch = t ? { theme: t.id, accent: t.accent } : { theme: 'custom' }; if (t) applyAccent(t.accent); applyTheme({ ...settings(), ...patch }); saveSetting(patch); },
   restdef(d) { const st = settings(); saveSetting({ [d.k]: clamp(st[d.k] + +d.d, 15, 600) }); },
@@ -2465,7 +2466,7 @@ function authMsg(e) {
   if (!navigator.onLine || /fetch|network|Load failed/i.test(m)) return 'No connection. Sign in once you\'re online.';
   if (/invalid login credentials/i.test(m)) return 'That email and password don\'t match.';
   if (/email not confirmed/i.test(m)) return 'Confirm your email first. The link is in your inbox.';
-  if (/signups? not allowed|signup.*disabled|database error saving new user|already has an account/i.test(m)) return 'Engine already has an account. Sign in instead.';
+  if (/signups? not allowed|signup.*disabled|database error saving new user|not on the invite list/i.test(m)) return 'This email isn\'t on the invite list yet. Ask whoever shared Engine with you to add it.';
   if (/already registered/i.test(m)) return 'That email already has an account. Sign in instead.';
   return m || 'Something went wrong. Try again.';
 }
