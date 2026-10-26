@@ -823,7 +823,7 @@ const THEMES = [
   { id: 'espresso', name: 'Espresso', bg: '#16100D', card: '#221915', accent: '#FF7A45' },
   { id: 'chalk', name: 'Chalk (light)', bg: '#F2F3F5', card: '#FFFFFF', accent: '#2F6BFF' }
 ];
-const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null, checkin: true, checkinDay: 0, checkinTime: '19:00', tz: null, tzPhone: null };
+const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null, checkin: true, checkinDay: 0, checkinTime: '19:00', checkinPush: false, tz: null, tzPhone: null };
 const MAIN_LIFTS = { squat: 'Back Squat', bench: 'Barbell Bench Press', deadlift: 'Deadlift', ohp: 'Overhead Press' };
 const MATURITY = [
   { key: 'novice', label: 'Novice', rate: 0.04, text: 'Lifts can still climb quickly, often several percent a month.' },
@@ -837,7 +837,7 @@ const S = {
   workouts: new Map(), blocks: new Map(), templates: new Map(), folders: new Map(), body: new Map(), exercises: new Map(), meta: new Map(),
   active: LS.get('ft.active', null), rest: null, ver: 0,
   ui: { tab: 'today', stack: [], inLog: !!LS.get('ft.active', null), prog: 'strength', lift: null, sport: 'run', bodyMetric: 'weight', confirm: null, draft: null, form: {}, sheet: null, exMenu: null, sel: { e: 0, s: 0 }, evalText: {}, evalBusy: {}, evalErr: {}, noteOpen: null, photoDate: null, cmpA: null, cmpB: null, pose: 'front', folds: new Set(LS.get('ft.folds', [])), foldMenu: null, newFolder: false },
-  net: { online: navigator.onLine, dbReady: false, dbFailed: false, loading: true, lastErr: null }
+  net: { online: navigator.onLine, dbReady: false, dbFailed: false, loading: true, lastErr: null, synced: new Set() }
 };
 let outbox = LS.get('ft.outbox', []);
 let db = null, sampleFn = null, assets = null, downloads = null;
@@ -918,6 +918,7 @@ async function connect() {
       for (const d of snap.docs) S[col].set(d.id, d.data());
       overlay(col);
       S.net.loading = false;
+      S.net.synced.add(col); if (S.net.synced.size === COLS.length) { clearTimeout(planT); planT = setTimeout(syncPlan, 2000); }
       touch();
     }, err => { S.net.lastErr = 'Live sync stopped (' + (err && err.code) + '). Reopen the app to reconnect.'; schedule(); });
   }
@@ -1438,7 +1439,7 @@ function vToday() {
   }
   // coach note
   const c = meta('coach');
-  if (c && c.note) h += `<div class="sec"><div class="sec-h"><span class="label">From Claude${c.sample ? ' · example' : ''}</span><span class="faint" style="font-size:12.5px">${c.updatedAt ? fmtShort(ymd(new Date(c.updatedAt))) : ''}</span></div><div class="card coach">${md(c.note)}</div></div>`;
+  if (c && c.note) h += `<div class="sec"><div class="sec-h"><span class="label">${c.kind === 'checkin' ? 'Weekly check-in' : 'From Claude'}${c.sample ? ' · example' : ''}</span><span class="faint" style="font-size:12.5px">${c.updatedAt ? fmtShort(ymd(new Date(c.updatedAt))) : ''}</span></div><div class="card coach">${md(c.note)}</div></div>`;
   // last workout
   const last = allW()[0];
   if (last) {
@@ -1959,6 +1960,7 @@ function finishActive() {
   if (prev) { if (prev.evaluation) doc.evaluation = prev.evaluation; if (prev.sample) doc.sample = true; }
   doc.summary = computeSummary(doc, id);
   write('workouts', id, doc);
+  syncPlan();
   S.active = null; saveActive(); S.ui.inLog = false; S.rest = null; S.ui.confirm = null; release(); $('#prb').hidden = true; $('#toast').hidden = true;
   S.ui.stack = [{ v: 'session', p: { id, fresh: !prev } }];
   window.scrollTo(0, 0); render();
@@ -2381,13 +2383,14 @@ function vProfPage(k) {
     let h = perm === 'denied' ? `<div class="card"><span class="warn"><b>Notifications are blocked for Engine.</b></span><span class="sub">Turn them on in your phone's Settings › Apps › Engine › Notifications, then come back here.</span></div>` : '';
     h += `<div class="card slist">${srow('Workout reminders', 'On days your active block has a session', swc('remind', st.remind, 'Workout reminders'))}
       ${st.remind ? srow('Reminder time', '', `<input id="rm-time" type="time" class="in mini time" data-act-change="remindtime" value="${esc(st.remindTime)}" aria-label="Reminder time">`) : ''}
-      ${srow('Rest timer alerts', 'When a rest ends while you\'re in another app', swc('restAlerts', st.restAlerts, 'Rest timer alerts'))}</div>`;
+      ${srow('Rest timer alerts', 'When a rest ends while you\'re in another app', swc('restAlerts', st.restAlerts, 'Rest timer alerts'))}
+      ${st.checkin ? srow('Weekly check-in', `When Claude's check-in is ready, ${DOWL[st.checkinDay]}s at ${fmtTime(st.checkinTime)}`, swc('checkinPush', st.checkinPush, 'Weekly check-in notification')) : ''}</div>`;
     if (here && perm === 'granted') h += `<button class="btn" data-act="pushtest">Send a test notification</button>`;
     h += `<span class="sub">${here ? 'This phone is set up to get notifications.' : 'Turning one on asks your phone for permission once.'} Reminders cover the next two weeks of your active block and refresh whenever you open Engine. Rest alerts can arrive a few seconds late.</span>`;
     return h;
   }
   if (k === 'pdata') {
-    let h = `<div class="card"><span class="h3">Your data</span><span class="sub">${S.net.dbFailed ? 'Engine can\'t reach your synced data right now, so changes stay on this phone until it reconnects.' : 'Saved to your private database. Claude reads it for coaching when you ask, and at the Sunday check-in.'}${S.net.lastErr ? `<br><span class="warn">${esc(S.net.lastErr)}</span>` : ''}</span>
+    let h = `<div class="card"><span class="h3">Your data</span><span class="sub">${S.net.dbFailed ? 'Engine can\'t reach your synced data right now, so changes stay on this phone until it reconnects.' : 'Saved to your private database. Claude reads it for coaching when you ask, and for your weekly check-in.'}${S.net.lastErr ? `<br><span class="warn">${esc(S.net.lastErr)}</span>` : ''}</span>
       ${downloads ? `<button class="btn" data-act="export">Export all data (JSON)</button>` : ''}
       ${sampleCount() ? (confirmBox('clearsample', `Delete all ${sampleCount()} example entries? Your own entries stay.`, 'clearsample', 'Delete examples', '', true) || `<button class="btn ghost danger" data-act="ask" data-k="clearsample">Clear example data (${sampleCount()})</button>`) : ''}</div>`;
     h += installCard(true);
@@ -2611,7 +2614,7 @@ const C = {
   sound(t) { saveSetting({ sound: t.checked }); },
   setbool(t) {
     const k = t.dataset.k;
-    if ((k === 'remind' || k === 'restAlerts') && t.checked) { pushEnable().then(() => { saveSetting({ [k]: true }); syncReminders(true); }).catch(e => { t.checked = false; toast(e === 'denied' ? 'Notifications are blocked for Engine on this phone' : 'Couldn\'t turn on notifications (' + ((e && e.message) || e) + ')'); render(); }); return; }
+    if ((k === 'remind' || k === 'restAlerts' || k === 'checkinPush') && t.checked) { pushEnable().then(() => { saveSetting({ [k]: true }); syncReminders(true); }).catch(e => { t.checked = false; toast(e === 'denied' ? 'Notifications are blocked for Engine on this phone' : 'Couldn\'t turn on notifications (' + ((e && e.message) || e) + ')'); render(); }); return; }
     // Saving re-renders the page, so let the switch finish sliding first.
     const on = t.checked;
     setTimeout(() => { saveSetting({ [k]: on }); if (k === 'remind') syncReminders(true); if (k === 'screenOn') { if (on) wake(); else release(); } }, 200);
@@ -3021,7 +3024,7 @@ const fmtTime = hm => { const [h, m] = (hm || '17:00').split(':').map(Number); r
 function notifSummary() {
   if (!pushOk()) return 'Not available on this device';
   if (pushDenied()) return 'Blocked in phone settings';
-  const st = settings(), on = [st.remind ? 'Reminders at ' + fmtTime(st.remindTime) : '', st.restAlerts ? 'rest alerts' : ''].filter(Boolean).join(' · ');
+  const st = settings(), on = [st.remind ? 'Reminders at ' + fmtTime(st.remindTime) : '', st.restAlerts ? 'rest alerts' : '', st.checkin && st.checkinPush ? 'check-in' : ''].filter(Boolean).join(' · ');
   return on ? on[0].toUpperCase() + on.slice(1) : 'Off';
 }
 const b64uBytes = s => { const b = atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)); return Uint8Array.from(b, c => c.charCodeAt(0)); };
@@ -3066,7 +3069,31 @@ function syncReminders(force) {
   remindBusy = true;
   engine.push.setPushJobs('remind', jobs).then(() => LS.set('ft.remindKey', key)).catch(() => LS.del('ft.remindKey')).finally(() => { remindBusy = false; });
 }
-setInterval(syncReminders, 60000);
+// The next two weeks of planned sessions with the targets Engine suggests. The weekly check-in is written on the server,
+// which can't work these out, so it quotes this to match the session cards.
+function planAhead() {
+  const today = ymd(), out = [];
+  for (let i = 0; i < 14; i++) {
+    const d = addDays(today, i);
+    for (const { b, d: day, w } of sessionsOn(d)) {
+      if (doneFor(d, day.key)) continue;
+      const dl = isDeload(b, w), p = { date: d, key: day.key, session: day.title, blockWeek: w };
+      if (day.type === 'strength') p.targets = (day.items || []).map(it => { const sg = suggest(it, { deload: dl }); return { name: it.name, sets: sg.sets, reps: sg.reps, lb: sg.lb }; });
+      else if (SPORT[day.type]) p.cardio = cardioTarget(b, day, w);
+      out.push(p);
+    }
+  }
+  return out;
+}
+let planT = null;
+function syncPlan() {
+  // Only once every collection has loaded from the server, so a half-loaded start can't save an empty plan.
+  if (!settings().checkin || !engine.signedIn() || S.net.dbFailed || S.net.synced.size < COLS.length) return;
+  const days = planAhead(), cur = meta('plan');
+  if (cur && cur.from === ymd() && JSON.stringify(cur.days) === JSON.stringify(days)) return;
+  write('meta', 'plan', { from: ymd(), days });
+}
+setInterval(() => { syncReminders(); syncPlan(); }, 60000);
 // Leaving Engine mid-rest asks the server to buzz this phone when the rest ends; coming back cancels it.
 let restPushed = false;
 document.addEventListener('visibilitychange', () => {
