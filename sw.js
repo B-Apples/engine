@@ -5,7 +5,8 @@ const VERSION = '87b5748c0132';
 const SHELL = 'engine-shell-' + VERSION;
 const RUNTIME = 'engine-runtime';
 const FILES = ['./', 'index.html', 'config.js', 'backend.js', 'vendor/supabase.js', 'manifest.webmanifest',
-  'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png', 'icons/apple-touch-icon.png'];
+  'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png', 'icons/apple-touch-icon.png',
+  'icons/badge-96.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(SHELL).then(c => c.addAll(FILES.map(f => new Request(f, { cache: 'reload' })))).then(() => self.skipWaiting()));
@@ -48,4 +49,21 @@ self.addEventListener('fetch', e => {
   if (url.hostname === 'fonts.googleapis.com') return e.respondWith(staleWhileRevalidate(req));
   if (url.hostname === 'fonts.gstatic.com') return e.respondWith(cacheFirst(req));
   if (url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/sign/')) return e.respondWith(cacheFirst(req));
+});
+
+// Workout reminders and rest alerts, sent by the "push" Edge Function. A newer alert with the same tag replaces the old one.
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (x) { d = { title: 'Engine', body: e.data ? e.data.text() : '' }; }
+  e.waitUntil(self.registration.showNotification(d.title || 'Engine', {
+    body: d.body || '', tag: d.tag || undefined, renotify: !!d.tag, icon: 'icons/icon-192.png', badge: 'icons/badge-96.png',
+    vibrate: d.kind === 'rest' ? [300, 120, 300] : [150], requireInteraction: false, data: { url: './' }
+  }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
+    const c = cs.find(x => 'focus' in x);
+    return c ? c.focus() : self.clients.openWindow('./');
+  }));
 });

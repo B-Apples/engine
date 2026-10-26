@@ -83,6 +83,22 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .menu .rowi{padding:10px 0}
 .mi{width:36px;height:36px;border-radius:10px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--accent);flex:none}
 .mi svg.ic{width:20px;height:20px}
+.slist{padding-block:2px;gap:0}
+.srow{display:flex;align-items:center;gap:12px;min-height:56px;padding:9px 0;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.srow:last-child{border-bottom:0}
+.srow .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.srow .t{font-weight:620}
+.srow .sub{font-size:12.5px}
+.srow .chev{color:var(--faint)}
+.mini-seg{grid-auto-columns:64px}
+.mini-seg button{min-height:32px;font-size:13px}
+.sw2{position:relative;width:48px;height:28px;flex:none}
+.sw2 input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer;z-index:1}
+.sw2 i{position:absolute;inset:0;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);transition:background .2s,border-color .2s}
+.sw2 i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--muted);transition:transform .22s cubic-bezier(.3,1.4,.5,1),background .2s}
+.sw2 input:checked+i{background:var(--accent);border-color:var(--accent)}
+.sw2 input:checked+i::after{transform:translateX(20px);background:var(--accent-ink)}
+.sw2 input:focus-visible+i{outline:2px solid var(--accent);outline-offset:2px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .stats.two{grid-template-columns:repeat(2,1fr)}
 .stat{display:flex;flex-direction:column;gap:2px;min-width:0}
@@ -179,6 +195,25 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 /* logger */
 .logmeta{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px;flex-wrap:wrap}
 .logmeta b{color:var(--fg);font-size:16px}
+.hrchip{margin-left:auto;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:13px;font-weight:650;color:var(--muted)}
+.hrchip svg.ic{width:17px;height:17px;color:var(--bad)}
+.hrchip b{font-size:16px;color:var(--fg);min-width:26px;text-align:right}
+.hrchip span{font-size:11.5px;letter-spacing:.04em}
+.hrcard{align-items:center;gap:12px}
+.hrbig{display:flex;align-items:baseline;gap:8px}
+.hrbig svg.ic{width:28px;height:28px;color:var(--bad);align-self:center}
+.hrbig b{font-size:52px;font-weight:760;font-stretch:85%;line-height:1}
+.hrbig span{color:var(--muted)}
+.hrcard .btn{min-width:160px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px;font-size:14.5px}
+.in.time{width:120px}
+.hrchip:not(.off) svg.ic{animation:beat 1s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}}
+.zbar{display:flex;gap:2px;height:12px;margin-top:4px}
+.zbar i{border-radius:4px;background:var(--accent);min-width:3px}
+.zbar .z1{opacity:.22}.zbar .z2{opacity:.4}.zbar .z3{opacity:.6}.zbar .z4{opacity:.8}
+.zlab{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.zlab b{color:var(--fg);font-weight:650}
 .ex{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 12px 10px;display:flex;flex-direction:column;gap:8px}
 .ex-h{display:flex;align-items:flex-start;gap:8px}
 .ex-h .grow{flex:1;min-width:0}
@@ -189,8 +224,16 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .sh,.set{display:grid;grid-template-columns:34px minmax(0,1.25fr) minmax(0,1fr) minmax(0,.85fr) 44px;gap:6px;align-items:center;padding:0 4px}
 .sh{font-size:11.5px;color:var(--faint);font-weight:650;letter-spacing:.06em;text-transform:uppercase;padding-bottom:2px}
 .sh span{text-align:center}
-.set{border-radius:10px;padding-block:3px}
+.set{border-radius:10px;padding-block:3px;background:var(--surface);position:relative;touch-action:pan-y;transition:transform .22s cubic-bezier(.2,.8,.2,1)}
 .set.sel{background:var(--surface-2)}
+/* Swipe a set left to uncover Delete; nothing is removed until Delete is tapped */
+.sug .h3{display:flex;align-items:center;gap:8px}
+.sug .h3 svg.ic{width:20px;height:20px;color:var(--accent)}
+.swr{position:relative;border-radius:10px;overflow:hidden}
+.swr .sdel{position:absolute;inset:0 0 0 auto;width:96px;background:#D64541;color:#fff;font-weight:700;font-size:14.5px;border-radius:10px;visibility:hidden;padding-left:8px}
+.swr.drag .sdel,.swr.open .sdel{visibility:visible}
+.swr.drag .set{transition:none}
+.swr.open .set{transform:translateX(-88px)}
 .set .kind{height:34px;border-radius:8px;font-weight:700;color:var(--muted);font-size:14px}
 .set .kind.w{color:var(--warn)}
 .set input{width:100%;height:40px;text-align:center;border-radius:9px;border:1px solid transparent;background:var(--bg);font-size:17px;font-weight:620;padding:0 2px}
@@ -316,7 +359,9 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .pick.on .pn{color:var(--accent);font-weight:650}
 .pick.on .pk{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .sheet-f{display:flex;gap:8px;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));border-top:1px solid var(--line);background:var(--bg)}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+.toast{display:flex;align-items:center;gap:18px;width:max-content;position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+.toast[hidden]{display:none}
+.toast button{color:inherit;font-weight:800;text-decoration:underline;text-underline-offset:3px;padding:2px 0;flex:none}
 body.logging .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .prb{position:fixed;left:50%;transform:translateX(-50%);top:calc(64px + env(safe-area-inset-top,0px));z-index:50;width:min(600px,calc(100% - 32px));display:flex;align-items:center;gap:12px;background:var(--accent);color:var(--accent-ink);padding:12px 14px;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.45);animation:prin .35s cubic-bezier(.2,1.4,.4,1)}
 .prb .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
@@ -359,6 +404,26 @@ body.logging .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .cal{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px}
 .cal i{display:block;aspect-ratio:1;border-radius:3px;background:var(--surface-2)}
 .savebar{position:sticky;bottom:calc(var(--nav-h) + 10px + env(safe-area-inset-bottom,0px));z-index:5}
+/* motion */
+@keyframes vpush{from{opacity:0;transform:translateX(32px)}}
+@keyframes vpop{from{opacity:0;transform:translateX(-32px)}}
+@keyframes vfade{from{opacity:0;transform:translateY(6px)}}
+@keyframes vup{from{opacity:0;transform:translateY(48px)}}
+#main.a-push{animation:vpush .28s cubic-bezier(.2,.8,.2,1)}
+#main.a-pop{animation:vpop .28s cubic-bezier(.2,.8,.2,1)}
+#main.a-fade{animation:vfade .2s ease-out}
+#main.a-up{animation:vup .32s cubic-bezier(.2,.8,.2,1)}
+.sheet{animation:vup .3s cubic-bezier(.2,.8,.2,1)}
+.restbar{animation:barin .26s cubic-bezier(.2,.8,.2,1)}
+@keyframes barin{from{transform:translateY(100%)}}
+.toast{animation:toastin .22s cubic-bezier(.2,.8,.2,1)}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,12px)}}
+.set .chk{transition:background-color .18s,border-color .18s,color .18s}
+.set .chk.pop{animation:pop .36s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+.btn,.icon,#nav button,.card[data-act],.rowi,.srow[data-act],.wd,.seg button,.chip{transition:transform .12s ease,filter .12s,background-color .15s}
+.btn:active,.card[data-act]:active,.rowi:active,.srow[data-act]:active,.wd:active,.chip:active{transform:scale(.97)}
+.icon:active,#nav button:active{transform:scale(.92)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -420,140 +485,326 @@ function setPath(o, p, v) { const ks = p.split('.'); let a = o; for (let i = 0; 
 
 /* ================= reference data ================= */
 // name | primary muscle | flags (L = lower-body compound, 10 lb jumps; C = compound, longer rest) | equipment
-const LIB_TXT = `Barbell Bench Press|Chest|C|Barbell
-Incline Barbell Bench Press|Chest|C|Barbell
-Decline Bench Press|Chest|C|Barbell
-Dumbbell Bench Press|Chest|C|Dumbbell
-Incline Dumbbell Press|Chest|C|Dumbbell
-Smith Machine Bench Press|Chest|C|Machine
-Machine Chest Press|Chest|C|Machine
-Weighted Dip|Chest|C|Bodyweight
-Push-Up|Chest||Bodyweight
-Cable Fly|Chest||Cable
-Dumbbell Fly|Chest||Dumbbell
-Pec Deck|Chest||Machine
-Deadlift|Back|L|Barbell
-Barbell Row|Back|C|Barbell
-Pendlay Row|Back|C|Barbell
-Dumbbell Row|Back|C|Dumbbell
-Seated Cable Row|Back|C|Cable
-Chest-Supported Row|Back|C|Dumbbell
-T-Bar Row|Back|C|Barbell
-Meadows Row|Back|C|Barbell
-Machine Row|Back|C|Machine
-Lat Pulldown|Back|C|Cable
-Close-Grip Lat Pulldown|Back|C|Cable
-Pull-Up|Back|C|Bodyweight
-Chin-Up|Back|C|Bodyweight
-Weighted Pull-Up|Back|C|Bodyweight
-Inverted Row|Back||Bodyweight
-Straight-Arm Pulldown|Back||Cable
-Rack Pull|Back|L|Barbell
-Back Extension|Back||Machine
-Overhead Press|Shoulders|C|Barbell
-Seated Dumbbell Press|Shoulders|C|Dumbbell
-Push Press|Shoulders|C|Barbell
-Arnold Press|Shoulders|C|Dumbbell
-Machine Shoulder Press|Shoulders|C|Machine
-Landmine Press|Shoulders|C|Barbell
-Lateral Raise|Shoulders||Dumbbell
-Cable Lateral Raise|Shoulders||Cable
-Rear Delt Fly|Shoulders||Dumbbell
-Reverse Pec Deck|Shoulders||Machine
-Face Pull|Shoulders||Cable
-Upright Row|Shoulders||Barbell
-Front Raise|Shoulders||Dumbbell
-Barbell Shrug|Traps||Barbell
-Dumbbell Shrug|Traps||Dumbbell
-Farmer's Carry|Traps||Dumbbell
-Barbell Curl|Biceps||Barbell
-EZ-Bar Curl|Biceps||Barbell
-Dumbbell Curl|Biceps||Dumbbell
-Hammer Curl|Biceps||Dumbbell
-Incline Dumbbell Curl|Biceps||Dumbbell
-Preacher Curl|Biceps||Dumbbell
-Cable Curl|Biceps||Cable
-Bayesian Cable Curl|Biceps||Cable
-Concentration Curl|Biceps||Dumbbell
-Spider Curl|Biceps||Dumbbell
-Close-Grip Bench Press|Triceps|C|Barbell
-Dip|Triceps|C|Bodyweight
-JM Press|Triceps||Barbell
-Triceps Pushdown|Triceps||Cable
-Rope Pushdown|Triceps||Cable
-Overhead Triceps Extension|Triceps||Dumbbell
-Cable Overhead Extension|Triceps||Cable
-Skull Crusher|Triceps||Barbell
-Dumbbell Kickback|Triceps||Dumbbell
-Wrist Curl|Forearms||Barbell
-Reverse Curl|Forearms||Barbell
-Dead Hang|Forearms||Bodyweight
-Back Squat|Quads|L|Barbell
-High-Bar Squat|Quads|L|Barbell
-Front Squat|Quads|L|Barbell
-Pause Squat|Quads|L|Barbell
-Box Squat|Quads|L|Barbell
-Safety Bar Squat|Quads|L|Barbell
-Belt Squat|Quads|L|Machine
-Smith Machine Squat|Quads|L|Machine
-Hack Squat|Quads|L|Machine
-Leg Press|Quads|L|Machine
-Goblet Squat|Quads|C|Dumbbell
-Bulgarian Split Squat|Quads|C|Dumbbell
-Walking Lunge|Quads|C|Dumbbell
-Reverse Lunge|Quads|C|Dumbbell
-Step-Up|Quads|C|Dumbbell
-Leg Extension|Quads||Machine
-Sissy Squat|Quads||Bodyweight
-Romanian Deadlift|Hamstrings|L|Barbell
-Stiff-Leg Deadlift|Hamstrings|L|Barbell
-Good Morning|Hamstrings|L|Barbell
-Single-Leg Romanian Deadlift|Hamstrings|C|Dumbbell
-Lying Leg Curl|Hamstrings||Machine
-Seated Leg Curl|Hamstrings||Machine
-Nordic Curl|Hamstrings||Bodyweight
-Glute-Ham Raise|Hamstrings||Machine
-Sumo Deadlift|Glutes|L|Barbell
-Trap Bar Deadlift|Glutes|L|Barbell
-Deficit Deadlift|Glutes|L|Barbell
-Pause Deadlift|Glutes|L|Barbell
-Hip Thrust|Glutes|L|Barbell
-Barbell Glute Bridge|Glutes|L|Barbell
-Cable Pull-Through|Glutes||Cable
-Kettlebell Swing|Glutes||Kettlebell
-Hip Abduction Machine|Glutes||Machine
-Cable Kickback|Glutes||Cable
-Standing Calf Raise|Calves||Machine
-Seated Calf Raise|Calves||Machine
-Leg Press Calf Raise|Calves||Machine
-Single-Leg Calf Raise|Calves||Bodyweight
-Plank|Core||Bodyweight
-Side Plank|Core||Bodyweight
-Hanging Leg Raise|Core||Bodyweight
-Ab Wheel Rollout|Core||Bodyweight
-Cable Crunch|Core||Cable
-Pallof Press|Core||Cable
-Dead Bug|Core||Bodyweight
-Russian Twist|Core||Dumbbell
-Decline Sit-Up|Core||Bodyweight
-Hollow Hold|Core||Bodyweight
-Suitcase Carry|Core||Dumbbell
-Copenhagen Plank|Core||Bodyweight
-Power Clean|Full body|L|Barbell
-Hang Clean|Full body|L|Barbell
-Snatch|Full body|L|Barbell
-Thruster|Full body|C|Barbell
-Box Jump|Full body||Bodyweight
-Broad Jump|Full body||Bodyweight
-Medicine Ball Slam|Full body||Other
-Sled Push|Full body||Other
-Sled Pull|Full body||Other
-Turkish Get-Up|Full body||Kettlebell
-Wall Ball|Full body||Other
-Battle Ropes|Full body||Other
-Burpee|Full body||Bodyweight`;
-const LIB = LIB_TXT.trim().split('\n').map(l => { const [name, muscle, f = '', equip = 'Other'] = l.split('|'); return { name, muscle, equip, lower: f.includes('L'), compound: /[LC]/.test(f) }; });
-const EQUIP = ['Barbell', 'Dumbbell', 'Cable', 'Machine', 'Bodyweight', 'Kettlebell', 'Other'];
+const LIB_TXT = `Barbell Bench Press|Chest|C|Barbell|hpress
+Incline Barbell Bench Press|Chest|C|Barbell|ipress
+Decline Bench Press|Chest|C|Barbell|hpress
+Pause Bench Press|Chest|C|Barbell|hpress
+Wide-Grip Bench Press|Chest|C|Barbell|hpress
+Floor Press|Chest|C|Barbell|hpress
+Spoto Press|Chest|C|Barbell|hpress
+Dumbbell Bench Press|Chest|C|Dumbbell|hpress
+Incline Dumbbell Press|Chest|C|Dumbbell|ipress
+Low-Incline Dumbbell Press|Chest|C|Dumbbell|ipress
+Decline Dumbbell Press|Chest|C|Dumbbell|hpress
+Dumbbell Floor Press|Chest|C|Dumbbell|hpress
+Smith Machine Bench Press|Chest|C|Machine|hpress
+Incline Smith Machine Press|Chest|C|Machine|ipress
+Machine Chest Press|Chest|C|Machine|hpress
+Incline Machine Press|Chest|C|Machine|ipress
+Plate-Loaded Chest Press|Chest|C|Machine|hpress
+Cable Chest Press|Chest|C|Cable|hpress
+Weighted Dip|Chest|C|Bodyweight|dip
+Push-Up|Chest||Bodyweight|hpress
+Weighted Push-Up|Chest|C|Bodyweight|hpress
+Deficit Push-Up|Chest||Bodyweight|hpress
+Incline Push-Up|Chest||Bodyweight|hpress
+Cable Fly|Chest||Cable|fly
+Low-to-High Cable Fly|Chest||Cable|fly
+High-to-Low Cable Fly|Chest||Cable|fly
+Dumbbell Fly|Chest||Dumbbell|fly
+Incline Dumbbell Fly|Chest||Dumbbell|fly
+Pec Deck|Chest||Machine|fly
+Band Fly|Chest||Band|fly
+Deadlift|Back|L|Barbell|hinge
+Snatch-Grip Deadlift|Back|L|Barbell|hinge
+Rack Pull|Back|L|Barbell|hinge
+Barbell Row|Back|C|Barbell|hpull
+Pendlay Row|Back|C|Barbell|hpull
+Yates Row|Back|C|Barbell|hpull
+Seal Row|Back|C|Barbell|hpull
+T-Bar Row|Back|C|Barbell|hpull
+Meadows Row|Back|C|Barbell|hpull
+Landmine Row|Back|C|Barbell|hpull
+Dumbbell Row|Back|C|Dumbbell|hpull
+Kroc Row|Back|C|Dumbbell|hpull
+Chest-Supported Row|Back|C|Dumbbell|hpull
+Kettlebell Row|Back|C|Kettlebell|hpull
+Seated Cable Row|Back|C|Cable|hpull
+Wide-Grip Seated Row|Back|C|Cable|hpull
+Single-Arm Cable Row|Back|C|Cable|hpull
+Machine Row|Back|C|Machine|hpull
+Chest-Supported T-Bar Row|Back|C|Machine|hpull
+Smith Machine Row|Back|C|Machine|hpull
+Inverted Row|Back||Bodyweight|hpull
+Band Row|Back||Band|hpull
+Lat Pulldown|Back|C|Cable|vpull
+Wide-Grip Lat Pulldown|Back|C|Cable|vpull
+Close-Grip Lat Pulldown|Back|C|Cable|vpull
+Neutral-Grip Lat Pulldown|Back|C|Cable|vpull
+Single-Arm Lat Pulldown|Back|C|Cable|vpull
+Machine Pulldown|Back|C|Machine|vpull
+Pull-Up|Back|C|Bodyweight|vpull
+Neutral-Grip Pull-Up|Back|C|Bodyweight|vpull
+Chin-Up|Back|C|Bodyweight|vpull
+Weighted Pull-Up|Back|C|Bodyweight|vpull
+Weighted Chin-Up|Back|C|Bodyweight|vpull
+Assisted Pull-Up|Back|C|Machine|vpull
+Band-Assisted Pull-Up|Back|C|Band|vpull
+Straight-Arm Pulldown|Back||Cable|pullover
+Rope Pullover|Back||Cable|pullover
+Dumbbell Pullover|Back||Dumbbell|pullover
+Back Extension|Back||Machine|backext
+Reverse Hyperextension|Back||Machine|backext
+Superman|Back||Bodyweight|backext
+Overhead Press|Shoulders|C|Barbell|vpress
+Seated Barbell Press|Shoulders|C|Barbell|vpress
+Push Press|Shoulders|C|Barbell|vpress
+Z Press|Shoulders|C|Barbell|vpress
+Behind-the-Neck Press|Shoulders|C|Barbell|vpress
+Landmine Press|Shoulders|C|Barbell|vpress
+Seated Dumbbell Press|Shoulders|C|Dumbbell|vpress
+Standing Dumbbell Press|Shoulders|C|Dumbbell|vpress
+Single-Arm Dumbbell Press|Shoulders|C|Dumbbell|vpress
+Arnold Press|Shoulders|C|Dumbbell|vpress
+Kettlebell Press|Shoulders|C|Kettlebell|vpress
+Machine Shoulder Press|Shoulders|C|Machine|vpress
+Smith Machine Shoulder Press|Shoulders|C|Machine|vpress
+Pike Push-Up|Shoulders|C|Bodyweight|vpress
+Handstand Push-Up|Shoulders|C|Bodyweight|vpress
+Lateral Raise|Shoulders||Dumbbell|lateral
+Seated Lateral Raise|Shoulders||Dumbbell|lateral
+Lean-Away Lateral Raise|Shoulders||Dumbbell|lateral
+Cable Lateral Raise|Shoulders||Cable|lateral
+Machine Lateral Raise|Shoulders||Machine|lateral
+Band Lateral Raise|Shoulders||Band|lateral
+Upright Row|Shoulders||Barbell|lateral
+Cable Upright Row|Shoulders||Cable|lateral
+Rear Delt Fly|Shoulders||Dumbbell|reardelt
+Chest-Supported Rear Delt Raise|Shoulders||Dumbbell|reardelt
+Rear Delt Row|Shoulders||Dumbbell|reardelt
+Reverse Pec Deck|Shoulders||Machine|reardelt
+Cable Rear Delt Fly|Shoulders||Cable|reardelt
+Face Pull|Shoulders||Cable|reardelt
+Band Pull-Apart|Shoulders||Band|reardelt
+Y-Raise|Shoulders||Dumbbell|reardelt
+Front Raise|Shoulders||Dumbbell|front
+Cable Front Raise|Shoulders||Cable|front
+Plate Front Raise|Shoulders||Other|front
+Cable External Rotation|Shoulders||Cable|rotator
+Side-Lying External Rotation|Shoulders||Dumbbell|rotator
+Cuban Press|Shoulders||Dumbbell|rotator
+Barbell Shrug|Traps||Barbell|shrug
+Trap Bar Shrug|Traps||Barbell|shrug
+Dumbbell Shrug|Traps||Dumbbell|shrug
+Cable Shrug|Traps||Cable|shrug
+Machine Shrug|Traps||Machine|shrug
+Smith Machine Shrug|Traps||Machine|shrug
+Snatch-Grip High Pull|Traps|C|Barbell|power
+Farmer's Carry|Traps||Dumbbell|carry
+Trap Bar Carry|Traps||Barbell|carry
+Overhead Carry|Traps||Dumbbell|carry
+Barbell Curl|Biceps||Barbell|curl
+EZ-Bar Curl|Biceps||Barbell|curl
+Drag Curl|Biceps||Barbell|curl
+EZ-Bar Preacher Curl|Biceps||Barbell|curl
+Dumbbell Curl|Biceps||Dumbbell|curl
+Hammer Curl|Biceps||Dumbbell|curl
+Cross-Body Hammer Curl|Biceps||Dumbbell|curl
+Incline Dumbbell Curl|Biceps||Dumbbell|curl
+Preacher Curl|Biceps||Dumbbell|curl
+Concentration Curl|Biceps||Dumbbell|curl
+Spider Curl|Biceps||Dumbbell|curl
+Zottman Curl|Biceps||Dumbbell|curl
+Cable Curl|Biceps||Cable|curl
+Bayesian Cable Curl|Biceps||Cable|curl
+High Cable Curl|Biceps||Cable|curl
+Rope Hammer Curl|Biceps||Cable|curl
+Machine Curl|Biceps||Machine|curl
+Machine Preacher Curl|Biceps||Machine|curl
+Band Curl|Biceps||Band|curl
+Close-Grip Bench Press|Triceps|C|Barbell|hpress
+Diamond Push-Up|Triceps||Bodyweight|hpress
+Dip|Triceps|C|Bodyweight|dip
+Machine Dip|Triceps|C|Machine|dip
+Assisted Dip|Triceps|C|Machine|dip
+Bench Dip|Triceps||Bodyweight|dip
+JM Press|Triceps||Barbell|triext
+Skull Crusher|Triceps||Barbell|triext
+EZ-Bar Overhead Extension|Triceps||Barbell|triext
+Dumbbell Skull Crusher|Triceps||Dumbbell|triext
+Overhead Triceps Extension|Triceps||Dumbbell|triext
+Tate Press|Triceps||Dumbbell|triext
+Dumbbell Kickback|Triceps||Dumbbell|triext
+Triceps Pushdown|Triceps||Cable|triext
+Rope Pushdown|Triceps||Cable|triext
+Single-Arm Pushdown|Triceps||Cable|triext
+Cable Overhead Extension|Triceps||Cable|triext
+Cable Triceps Kickback|Triceps||Cable|triext
+Machine Triceps Extension|Triceps||Machine|triext
+Band Pushdown|Triceps||Band|triext
+Wrist Curl|Forearms||Barbell|forearm
+Reverse Wrist Curl|Forearms||Barbell|forearm
+Dumbbell Wrist Curl|Forearms||Dumbbell|forearm
+Reverse Curl|Forearms||Barbell|forearm
+EZ-Bar Reverse Curl|Forearms||Barbell|forearm
+Wrist Roller|Forearms||Other|forearm
+Plate Pinch|Forearms||Other|forearm
+Grip Trainer|Forearms||Other|forearm
+Dead Hang|Forearms||Bodyweight|forearm
+Back Squat|Quads|L|Barbell|squat
+High-Bar Squat|Quads|L|Barbell|squat
+Low-Bar Squat|Quads|L|Barbell|squat
+Front Squat|Quads|L|Barbell|squat
+Pause Squat|Quads|L|Barbell|squat
+Box Squat|Quads|L|Barbell|squat
+Safety Bar Squat|Quads|L|Barbell|squat
+Zercher Squat|Quads|L|Barbell|squat
+Overhead Squat|Quads|L|Barbell|squat
+Belt Squat|Quads|L|Machine|squat
+Smith Machine Squat|Quads|L|Machine|squat
+Hack Squat|Quads|L|Machine|squat
+Pendulum Squat|Quads|L|Machine|squat
+V-Squat|Quads|L|Machine|squat
+Leg Press|Quads|L|Machine|squat
+Single-Leg Leg Press|Quads|C|Machine|squat
+Goblet Squat|Quads|C|Dumbbell|squat
+Heel-Elevated Goblet Squat|Quads|C|Dumbbell|squat
+Dumbbell Squat|Quads|C|Dumbbell|squat
+Kettlebell Goblet Squat|Quads|C|Kettlebell|squat
+Bodyweight Squat|Quads||Bodyweight|squat
+Wall Sit|Quads||Bodyweight|squat
+Spanish Squat|Quads||Band|squat
+Bulgarian Split Squat|Quads|C|Dumbbell|lunge
+Split Squat|Quads|C|Dumbbell|lunge
+Front-Foot-Elevated Split Squat|Quads|C|Dumbbell|lunge
+Barbell Split Squat|Quads|C|Barbell|lunge
+Smith Machine Split Squat|Quads|C|Machine|lunge
+Walking Lunge|Quads|C|Dumbbell|lunge
+Reverse Lunge|Quads|C|Dumbbell|lunge
+Forward Lunge|Quads|C|Dumbbell|lunge
+Barbell Lunge|Quads|C|Barbell|lunge
+Lateral Lunge|Quads|C|Dumbbell|lunge
+Step-Up|Quads|C|Dumbbell|lunge
+Barbell Step-Up|Quads|C|Barbell|lunge
+Pistol Squat|Quads|C|Bodyweight|lunge
+Leg Extension|Quads||Machine|legext
+Single-Leg Leg Extension|Quads||Machine|legext
+Sissy Squat|Quads||Bodyweight|legext
+Reverse Nordic|Quads||Bodyweight|legext
+Jump Squat|Quads||Bodyweight|power
+Romanian Deadlift|Hamstrings|L|Barbell|hinge
+Stiff-Leg Deadlift|Hamstrings|L|Barbell|hinge
+Trap Bar Romanian Deadlift|Hamstrings|L|Barbell|hinge
+Smith Machine Romanian Deadlift|Hamstrings|L|Machine|hinge
+Good Morning|Hamstrings|L|Barbell|hinge
+Dumbbell Romanian Deadlift|Hamstrings|C|Dumbbell|hinge
+Single-Leg Romanian Deadlift|Hamstrings|C|Dumbbell|hinge
+Lying Leg Curl|Hamstrings||Machine|legcurl
+Seated Leg Curl|Hamstrings||Machine|legcurl
+Standing Leg Curl|Hamstrings||Machine|legcurl
+Single-Leg Leg Curl|Hamstrings||Machine|legcurl
+Nordic Curl|Hamstrings||Bodyweight|legcurl
+Glute-Ham Raise|Hamstrings||Machine|legcurl
+Stability Ball Leg Curl|Hamstrings||Other|legcurl
+Slider Leg Curl|Hamstrings||Bodyweight|legcurl
+Sumo Deadlift|Glutes|L|Barbell|hinge
+Trap Bar Deadlift|Glutes|L|Barbell|hinge
+Deficit Deadlift|Glutes|L|Barbell|hinge
+Pause Deadlift|Glutes|L|Barbell|hinge
+Cable Pull-Through|Glutes||Cable|hinge
+Kettlebell Swing|Glutes||Kettlebell|hinge
+Hip Thrust|Glutes|L|Barbell|bridge
+B-Stance Hip Thrust|Glutes|C|Barbell|bridge
+Machine Hip Thrust|Glutes|L|Machine|bridge
+Smith Machine Hip Thrust|Glutes|L|Machine|bridge
+Dumbbell Hip Thrust|Glutes|C|Dumbbell|bridge
+Single-Leg Hip Thrust|Glutes|C|Bodyweight|bridge
+Barbell Glute Bridge|Glutes|L|Barbell|bridge
+Glute Bridge|Glutes||Bodyweight|bridge
+Frog Pump|Glutes||Bodyweight|bridge
+45° Hip Extension|Glutes||Machine|backext
+Cable Kickback|Glutes||Cable|kickback
+Glute Kickback Machine|Glutes||Machine|kickback
+Curtsy Lunge|Glutes|C|Dumbbell|lunge
+Hip Abduction Machine|Glutes||Machine|abduct
+Cable Hip Abduction|Glutes||Cable|abduct
+Banded Lateral Walk|Glutes||Band|abduct
+Hip Adduction Machine|Glutes||Machine|adduct
+Standing Calf Raise|Calves||Machine|calf
+Seated Calf Raise|Calves||Machine|calf
+Leg Press Calf Raise|Calves||Machine|calf
+Smith Machine Calf Raise|Calves||Machine|calf
+Donkey Calf Raise|Calves||Machine|calf
+Dumbbell Calf Raise|Calves||Dumbbell|calf
+Single-Leg Calf Raise|Calves||Bodyweight|calf
+Tibialis Raise|Calves||Bodyweight|calf
+Plank|Core||Bodyweight|antiext
+Weighted Plank|Core||Other|antiext
+Ab Wheel Rollout|Core||Bodyweight|antiext
+Body Saw|Core||Bodyweight|antiext
+Stir the Pot|Core||Other|antiext
+Dead Bug|Core||Bodyweight|antiext
+Bird Dog|Core||Bodyweight|antiext
+Hollow Hold|Core||Bodyweight|antiext
+Dragon Flag|Core||Bodyweight|antiext
+Side Plank|Core||Bodyweight|antilat
+Copenhagen Plank|Core||Bodyweight|antilat
+Suitcase Carry|Core||Dumbbell|antilat
+Side Bend|Core||Dumbbell|antilat
+Pallof Press|Core||Cable|antirot
+Band Pallof Press|Core||Band|antirot
+Cable Woodchop|Core||Cable|rot
+Landmine Rotation|Core||Barbell|rot
+Russian Twist|Core||Dumbbell|rot
+Bicycle Crunch|Core||Bodyweight|rot
+Hanging Leg Raise|Core||Bodyweight|flex
+Hanging Knee Raise|Core||Bodyweight|flex
+Toes-to-Bar|Core||Bodyweight|flex
+Captain's Chair Leg Raise|Core||Machine|flex
+Lying Leg Raise|Core||Bodyweight|flex
+Reverse Crunch|Core||Bodyweight|flex
+L-Sit|Core||Bodyweight|flex
+Crunch|Core||Bodyweight|flex
+Cable Crunch|Core||Cable|flex
+Machine Crunch|Core||Machine|flex
+Decline Sit-Up|Core||Bodyweight|flex
+Weighted Sit-Up|Core||Dumbbell|flex
+Mountain Climber|Core||Bodyweight|cond
+Power Clean|Full body|L|Barbell|power
+Hang Clean|Full body|L|Barbell|power
+Hang Power Clean|Full body|L|Barbell|power
+Clean Pull|Full body|L|Barbell|power
+Clean and Jerk|Full body|L|Barbell|power
+Snatch|Full body|L|Barbell|power
+Power Snatch|Full body|L|Barbell|power
+Thruster|Full body|C|Barbell|power
+Dumbbell Thruster|Full body|C|Dumbbell|power
+Dumbbell Snatch|Full body|C|Dumbbell|power
+Kettlebell Clean|Full body|C|Kettlebell|power
+Kettlebell Snatch|Full body|C|Kettlebell|power
+Box Jump|Full body||Bodyweight|power
+Broad Jump|Full body||Bodyweight|power
+Depth Jump|Full body||Bodyweight|power
+Medicine Ball Slam|Full body||Other|power
+Medicine Ball Rotational Throw|Full body||Other|power
+Sled Push|Full body||Other|cond
+Sled Pull|Full body||Other|cond
+Sled Drag|Full body||Other|cond
+Sandbag Carry|Full body||Other|carry
+Yoke Carry|Full body||Other|carry
+Turkish Get-Up|Full body||Kettlebell|cond
+Devil Press|Full body|C|Dumbbell|cond
+Wall Ball|Full body||Other|cond
+Battle Ropes|Full body||Other|cond
+Burpee|Full body||Bodyweight|cond
+Bear Crawl|Full body||Bodyweight|cond
+Jump Rope|Full body||Other|cond
+Rowing Machine Sprint|Full body||Machine|cond
+Assault Bike Sprint|Full body||Machine|cond
+Ski Erg Sprint|Full body||Machine|cond`;
+// name|main muscle|L = big lower-body lift, C = compound|equipment|movement pattern (used to suggest swaps)
+const LIB = LIB_TXT.trim().split('\n').map(l => { const [name, muscle, f = '', equip = 'Other', pattern = ''] = l.split('|'); return { name, muscle, equip, pattern, lower: f.includes('L'), compound: /[LC]/.test(f) }; });
+const EQUIP = ['Barbell', 'Dumbbell', 'Cable', 'Machine', 'Bodyweight', 'Kettlebell', 'Band', 'Other'];
 const MUSCLES = ['Chest', 'Back', 'Shoulders', 'Traps', 'Biceps', 'Triceps', 'Forearms', 'Quads', 'Hamstrings', 'Glutes', 'Calves', 'Core', 'Full body'];
 const STRETCHES = ['Couch Stretch (hip flexor)', 'Half-Kneeling Hip Flexor Stretch', 'Pigeon Pose', 'Figure-4 Stretch', '90/90 Hip Switch', 'Frog Stretch', 'Butterfly Stretch', 'Adductor Rock-Back', 'Standing Hamstring Stretch', 'Seated Forward Fold', 'Quad Stretch', 'Calf Stretch (wall)', 'Ankle Dorsiflexion Rock', 'World\'s Greatest Stretch', 'Spiderman Lunge', 'Doorway Pec Stretch', 'Lat Stretch (bench)', 'Cross-Body Shoulder Stretch', 'Sleeper Stretch', 'Overhead Triceps Stretch', 'Thread the Needle', 'Thoracic Rotation', 'Cat-Cow', 'Child\'s Pose', 'Downward Dog', 'Cobra', 'Neck Side Stretch', 'Wrist Flexor Stretch'];
 const INTENSITY = ['Easy (Z2)', 'Recovery', 'Long', 'Tempo', 'Threshold', 'Intervals', 'Hills', 'Technique'];
@@ -569,7 +820,7 @@ const THEMES = [
   { id: 'espresso', name: 'Espresso', bg: '#16100D', card: '#221915', accent: '#FF7A45' },
   { id: 'chalk', name: 'Chalk (light)', bg: '#F2F3F5', card: '#FFFFFF', accent: '#2F6BFF' }
 ];
-const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true };
+const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null };
 const MAIN_LIFTS = { squat: 'Back Squat', bench: 'Barbell Bench Press', deadlift: 'Deadlift', ohp: 'Overhead Press' };
 const MATURITY = [
   { key: 'novice', label: 'Novice', rate: 0.04, text: 'Lifts can still climb quickly, often several percent a month.' },
@@ -684,7 +935,13 @@ const allB = () => mm('allB', () => [...S.blocks.entries()].map(([id, b]) => ({ 
 const bodyList = () => mm('body', () => [...S.body.entries()].map(([id, b]) => ({ ...b, date: b.date || id })).sort((a, b) => a.date.localeCompare(b.date)));
 const customEx = () => mm('cex', () => [...S.exercises.entries()].map(([id, e]) => ({ ...e, id, custom: true })));
 const library = () => mm('lib', () => { const c = customEx(); const names = new Set(c.map(e => e.name)); return [...c, ...LIB.filter(e => !names.has(e.name))].sort((a, b) => a.name.localeCompare(b.name)); });
-const exInfo = name => library().find(e => e.name === name) || { name, muscle: 'Other', equip: 'Other', lower: false, compound: false };
+const exInfo = name => mm('libmap', () => new Map(library().map(e => [e.name, e]))).get(name) || { name, muscle: 'Other', equip: 'Other', pattern: '', lower: false, compound: false };
+// Swap candidates: same movement first, then same muscle; common lifts get a nudge and lifts you've logged before win ties.
+function similarTo(name, n = 8) {
+  const b = exInfo(name), used = new Map(topLifts().map(l => [l.name, l.n]));
+  return library().filter(e => e.name !== name).map(e => ({ e, sc: (b.pattern && e.pattern === b.pattern ? 4 : 0) + (e.muscle === b.muscle ? 2 : 0) + (e.compound === b.compound ? 0.5 : 0) + (e.equip === b.equip ? 0.25 : 0) + ((SUG_DEF[e.pattern] || []).includes(e.name) ? 0.3 : 0) }))
+    .filter(x => x.sc >= 2).sort((x, y) => y.sc - x.sc || (used.get(y.e.name) || 0) - (used.get(x.e.name) || 0) || x.e.name.localeCompare(y.e.name)).slice(0, n).map(x => x.e);
+}
 const allT = () => mm('allT', () => [...S.templates.entries()].map(([id, t]) => ({ ...t, id })).sort((a, b) => (a.name || '').localeCompare(b.name || '')));
 const allF = () => mm('allF', () => [...S.folders.entries()].map(([id, f]) => ({ ...f, id })).sort((a, b) => (a.name || '').localeCompare(b.name || '')));
 const activeBlock = () => allB().find(b => b.active) || null;
@@ -1040,7 +1297,11 @@ const IC = {
   timer: '<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V9.8M9.5 3h5M18.3 7.2l1.3-1.3"/>',
   cloud: '<path d="M7 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.9 9.6 4.5 4.5 0 0 1 17.5 18.5z"/>',
   trophy: '<path d="M8 4h8v6a4 4 0 0 1-8 0z"/><path d="M8 6H5v1.5a3 3 0 0 0 3 3M16 6h3v1.5a3 3 0 0 1-3 3M12 14v3M8.5 20.5h7M10 17h4"/>',
-  link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'
+  link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+  gear: '<circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.6 7.6 0 0 0 7 6.5l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.4z"/>',
+  bell: '<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  heart: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>',
+  bolt: '<path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/>'
 };
 const ic = (k, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
 
@@ -1060,23 +1321,33 @@ function render() {
     return;
   }
   $('#hdr').hidden = false;
-  const v = curView();
+  const v = curView(), anim = viewAnim(v);
   document.body.classList.toggle('logging', v.v === 'log');
   $('#hdr').innerHTML = header(v);
   $('#main').innerHTML = view(v);
+  if (anim) { const m = $('#main'); m.classList.remove('a-push', 'a-pop', 'a-fade', 'a-up'); void m.offsetWidth; m.classList.add('a-' + anim); }
   const nav = $('#nav'); nav.hidden = v.v === 'log'; nav.innerHTML = navBar();
   const sh = $('#sheet'); sh.hidden = !S.ui.sheet; sh.innerHTML = S.ui.sheet ? sheet() : '';
   if (aid) { const el = document.getElementById(aid); if (el && el !== document.activeElement) { el.focus({ preventScroll: true }); try { if (ss != null) el.setSelectionRange(ss, se); } catch (e) {} } }
   tick();
 }
+// Screens slide in when you go deeper, back out when you return, rise for a workout, and fade between tabs.
+let lastKey = null, lastDepth = 0;
+function viewAnim(v) {
+  const depth = S.ui.stack.length, key = v.v === 'log' ? 'log' : depth ? depth + ':' + v.v : 'tab:' + S.ui.tab + (S.ui.tab === 'prog' ? ':' + S.ui.prog : '');
+  const a = !lastKey || key === lastKey ? '' : v.v === 'log' ? 'up' : lastKey === 'log' ? 'fade' : depth > lastDepth ? 'push' : depth < lastDepth ? 'pop' : 'fade';
+  lastKey = key; lastDepth = depth;
+  return a;
+}
 function header(v) {
   const titles = { today: 'Today', train: 'Train', prog: 'Progression', profile: 'Profile', block: v.p && v.p.isNew ? 'New block' : 'Edit block', tpl: v.p && v.p.isNew ? 'New saved workout' : 'Edit saved workout', cal: 'Calendar', library: 'Exercise library', history: 'History', exercise: v.p && v.p.name, session: 'Session', prs: 'Personal records' };
   let t = titles[v.v] || '';
-  const pp = PROF_PAGES.find(x => x[0] === v.v); if (pp) t = pp[1];
+  if (PAGE_TITLES[v.v]) t = PAGE_TITLES[v.v];
   if (v.v === 'log') t = S.active.editingId ? 'Edit session' : (S.active.title || TYPES[S.active.type]);
   if (v.v === 'session') { const w = S.workouts.get(v.p.id); t = w ? (w.title || TYPES[w.type]) : 'Session'; }
   const back = v.v === 'log' ? `<button class="icon" data-act="minimize" aria-label="Back to app (workout keeps running)">${ic('back')}</button>` : (S.ui.stack.length ? `<button class="icon" data-act="back" aria-label="Back">${ic('back')}</button>` : '');
   let right = statusChip();
+  if (v.v === 'profile') right += `<button class="icon" data-act="profpage" data-k="settings" aria-label="Settings" style="margin-right:-8px">${ic('gear')}</button>`;
   if (v.v === 'log') right = `<button class="btn sm primary" data-act="ask" data-k="finish">${S.active.editingId ? 'Save' : 'Finish'}</button>`;
   return `${back}<h1>${esc(t)}</h1>${right}`;
 }
@@ -1106,7 +1377,8 @@ function view(v) {
     case 'session': return vSession(v.p.id, v.p.fresh);
     case 'prs': return vPRs();
   }
-  if (PROF_PAGES.some(x => x[0] === v.v)) return vProfPage(v.v);
+  if (v.v === 'settings') return vSettings();
+  if (PAGE_TITLES[v.v]) return vProfPage(v.v);
   return '';
 }
 const go = (v, p = {}) => { S.ui.stack.push({ v, p }); S.ui.confirm = null; S.ui.exMenu = null; window.scrollTo(0, 0); render(); };
@@ -1122,7 +1394,12 @@ function prAlert(name, pr) {
   if (!actx || !settings().sound) return;
   try { const t = actx.currentTime; [523, 659, 784, 1047].forEach((f, i) => { const o = actx.createOscillator(), g = actx.createGain(), at = t + i * 0.09; o.frequency.value = f; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.3, at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, at + (i === 3 ? 0.4 : 0.12)); o.connect(g); g.connect(actx.destination); o.start(at); o.stop(at + 0.42); }); } catch (e) {}
 }
-function toast(msg, ms = 3200) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, ms); }
+let undoFn = null;
+function toast(msg, ms = 3200, undo) {
+  const t = $('#toast'); undoFn = undo || null;
+  if (undo) t.innerHTML = `<span>${esc(msg)}</span><button data-act="undo">Undo</button>`; else t.textContent = msg;
+  t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; undoFn = null; }, ms);
+}
 function confirmBox(key, q, yesAct, yesLabel, data = '', danger = false) {
   if (S.ui.confirm !== key) return '';
   return `<div class="confirm"><div>${q}</div><div class="btnrow"><button class="btn ${danger ? 'danger' : 'primary'}" data-act="${yesAct}" ${data}>${yesLabel}</button><button class="btn ghost" data-act="cancel">Cancel</button></div></div>`;
@@ -1150,7 +1427,7 @@ function vToday() {
   } else {
   // today's sessions
   const ses = sessionsOn(today);
-  if (!b && !S.net.loading) h += `<div class="empty"><b>No active training block.</b><span>Build a multi-week block in Train and today's session will show up here.</span><button class="btn primary" data-act="newblock">Build a block</button></div>`;
+  if (!b && !S.net.loading) h += `<div class="empty"><b>No active training block.</b><span>Build a multi-week block and today's session will show up here.${settings().suggestBlocks ? ' Engine can suggest one from your training history.' : ''}</span><button class="btn primary" data-act="newblock">Build a block</button></div>`;
   else if (b && wk < 1) h += `<div class="empty"><b>${esc(b.name)} starts ${fmtD(b.startDate)}.</b><span>Until then you can start any session from Train.</span></div>`;
   else if (b && wk > b.weeks) h += `<div class="card"><div class="eyebrow">Block complete</div><div class="h2">${esc(b.name)} is done</div><span class="sub">Repeat it (weights carry forward from your last sessions) or build a new block.</span><div class="btnrow"><button class="btn primary" data-act="repeatblock" data-id="${b.id}">Repeat block</button><button class="btn" data-act="newblock">New block</button></div></div>`;
   else if (!ses.length && b) h += `<div class="card flat"><div class="eyebrow">Rest day</div><span class="sub">Nothing planned today. Recover, or start a saved workout from Train.</span></div>`;
@@ -1320,11 +1597,89 @@ function newBlockDraft() {
   const start = mondayOf(addDays(ymd(), (pd(ymd()).getDay() === 1 ? 0 : 7)));
   return { id: uid('b'), name: '', focus: 'strength', weeks: 6, deloadWeek: 6, startDate: start, active: true, rampPct: 5, days: [] };
 }
+// Block suggestions: a ready-made week from the focus, how often you've trained lately and the lifts you log most.
+// Each slot is [movement, role, choice]: choice 0 takes the top lift for that movement, 1 the next (for variety).
+const SUG_DEF = {
+  squat: ['Back Squat', 'Front Squat', 'Leg Press', 'Hack Squat', 'Goblet Squat'], hinge: ['Deadlift', 'Romanian Deadlift', 'Trap Bar Deadlift', 'Dumbbell Romanian Deadlift'],
+  hpress: ['Barbell Bench Press', 'Dumbbell Bench Press', 'Machine Chest Press'], ipress: ['Incline Dumbbell Press', 'Incline Barbell Bench Press', 'Incline Machine Press'],
+  vpress: ['Overhead Press', 'Seated Dumbbell Press', 'Machine Shoulder Press'], hpull: ['Barbell Row', 'Chest-Supported Row', 'Seated Cable Row', 'Dumbbell Row'],
+  vpull: ['Pull-Up', 'Lat Pulldown', 'Chin-Up', 'Neutral-Grip Lat Pulldown'], lunge: ['Bulgarian Split Squat', 'Walking Lunge', 'Reverse Lunge'],
+  legcurl: ['Lying Leg Curl', 'Seated Leg Curl'], legext: ['Leg Extension'], bridge: ['Hip Thrust', 'Barbell Glute Bridge'], calf: ['Standing Calf Raise', 'Seated Calf Raise'],
+  lateral: ['Lateral Raise', 'Cable Lateral Raise'], reardelt: ['Face Pull', 'Rear Delt Fly', 'Reverse Pec Deck'], fly: ['Cable Fly', 'Pec Deck'],
+  curl: ['Dumbbell Curl', 'Barbell Curl', 'Hammer Curl', 'Incline Dumbbell Curl'], triext: ['Rope Pushdown', 'Overhead Triceps Extension', 'Skull Crusher'],
+  antiext: ['Ab Wheel Rollout', 'Plank', 'Dead Bug'], antirot: ['Pallof Press', 'Band Pallof Press'], flex: ['Hanging Leg Raise', 'Cable Crunch']
+};
+const SUG_DAYS = {
+  full1: ['Full Body A', [['squat', 'm', 0], ['hpress', 'm', 0], ['hpull', 's', 0], ['hinge', 's', 1], ['lateral', 'a', 0], ['antiext', 'a', 0]]],
+  full2: ['Full Body B', [['hinge', 'm', 0], ['vpress', 'm', 0], ['vpull', 's', 0], ['lunge', 's', 0], ['curl', 'a', 0], ['triext', 'a', 0]]],
+  full3: ['Full Body C', [['squat', 's', 1], ['ipress', 's', 0], ['hpull', 's', 1], ['legcurl', 'a', 0], ['reardelt', 'a', 0], ['antirot', 'a', 0]]],
+  up1: ['Upper A', [['hpress', 'm', 0], ['hpull', 'm', 0], ['vpress', 's', 1], ['vpull', 's', 1], ['lateral', 'a', 0], ['curl', 'a', 0], ['triext', 'a', 0]]],
+  up2: ['Upper B', [['vpress', 'm', 0], ['vpull', 'm', 0], ['ipress', 's', 0], ['hpull', 's', 1], ['reardelt', 'a', 0], ['triext', 'a', 1], ['curl', 'a', 1]]],
+  lo1: ['Lower A', [['squat', 'm', 0], ['hinge', 's', 1], ['lunge', 's', 0], ['legcurl', 'a', 0], ['calf', 'a', 0], ['antiext', 'a', 0]]],
+  lo2: ['Lower B', [['hinge', 'm', 0], ['squat', 's', 1], ['bridge', 's', 0], ['legext', 'a', 0], ['calf', 'a', 0], ['flex', 'a', 0]]],
+  push: ['Push', [['hpress', 'm', 0], ['vpress', 's', 0], ['ipress', 's', 0], ['lateral', 'a', 0], ['triext', 'a', 0], ['fly', 'a', 0]]],
+  pull: ['Pull', [['vpull', 'm', 0], ['hpull', 's', 0], ['hpull', 's', 1], ['reardelt', 'a', 0], ['curl', 'a', 0], ['curl', 'a', 1]]],
+  legs: ['Legs', [['squat', 'm', 0], ['hinge', 's', 1], ['lunge', 's', 0], ['legext', 'a', 0], ['legcurl', 'a', 0], ['calf', 'a', 0]]]
+};
+// Strength days per week → split name, days and weekdays (0 = Sunday).
+const SUG_SPLITS = { 2: ['Full Body', ['full1', 'full2'], [1, 4]], 3: ['Full Body', ['full1', 'full2', 'full3'], [1, 3, 5]], 4: ['Upper/Lower', ['up1', 'lo1', 'up2', 'lo2'], [1, 2, 4, 5]],
+  5: ['Upper/Lower + PPL', ['up1', 'lo1', 'push', 'pull', 'legs'], [1, 2, 4, 5, 6]], 6: ['Push/Pull/Legs', ['push', 'pull', 'legs', 'push', 'pull', 'legs'], [1, 2, 3, 4, 5, 6]] };
+// [sets, reps low, reps high, RPE] for main lifts, secondary lifts and accessories.
+const SUG_DOSE = { strength: { m: [4, 3, 5, 8], s: [3, 6, 8, 8], a: [3, 8, 12, 8.5] }, hypertrophy: { m: [4, 6, 8, 8], s: [3, 8, 12, 8.5], a: [3, 12, 15, 9] },
+  conditioning: { m: [3, 6, 8, 7.5], s: [3, 8, 12, 8], a: [2, 12, 15, 8.5] }, mixed: { m: [4, 4, 6, 8], s: [3, 8, 10, 8], a: [3, 10, 15, 8.5] } };
+function sugOpts() {
+  if (S.ui.sug) return S.ui.sug;
+  const ws = allW().filter(w => w.date >= addDays(ymd(), -42) && !w.sample), str = ws.filter(w => w.type === 'strength').length / 6, car = ws.filter(w => SPORT[w.type]).length / 6;
+  return (S.ui.sug = { basis: ws.length >= 4, strW: r1(str), carW: r1(car), str: ws.length >= 4 ? Math.min(6, Math.max(2, Math.round(str))) : 3, cardio: ws.length >= 4 ? Math.min(4, Math.round(car)) : 2, hidden: false });
+}
+function sugPick(pattern, choice, taken) {
+  const used = new Map(topLifts().map(l => [l.name, l.n])), def = SUG_DEF[pattern] || [], rank = n => { const i = def.indexOf(n); return i < 0 ? 99 : i; };
+  const c = library().filter(e => e.pattern === pattern && !taken.has(e.name)).sort((x, y) => (used.get(y.name) || 0) - (used.get(x.name) || 0) || rank(x.name) - rank(y.name) || x.name.localeCompare(y.name));
+  // Stick to lifts you've done or common defaults; a second choice never reaches for something obscure.
+  const ok = c.filter(e => used.has(e.name) || def.includes(e.name)), from = ok.length ? ok : c;
+  return from[Math.min(choice, from.length - 1)] || null;
+}
+function suggestBlock(focus, nStr, nCardio) {
+  const st = settings(), dose = SUG_DOSE[focus] || SUG_DOSE.strength, [split, keys, wds] = SUG_SPLITS[nStr], seen = {}, days = [];
+  keys.forEach((k, n) => {
+    const [title, slots] = SUG_DAYS[k], again = keys.indexOf(k) !== n, repeat = keys.filter(x => x === k).length > 1, taken = new Set(), items = [];
+    for (const [p, role, ch] of slots) {
+      const e = sugPick(p, ch + (again && role !== 'm' ? 1 : 0), taken); if (!e) continue;
+      taken.add(e.name);
+      const [sets, lo, hi, rpe] = dose[role];
+      items.push({ name: e.name, sets, repLow: lo, repHigh: hi, rpe, restSec: e.compound || e.lower ? st.restCompound + (role === 'm' && focus === 'strength' ? 30 : 0) : st.restAccessory });
+    }
+    // Conditioning blocks pair the last two accessories as a superset to keep the pace up.
+    if (focus === 'conditioning' && items.length >= 2) { const g = uid('g'); items.at(-1).group = g; items.at(-2).group = g; }
+    days.push({ key: uid('d'), weekday: wds[n], title: title + (repeat ? (again ? ' B' : ' A') : ''), type: 'strength', items });
+  });
+  // Cardio: the sports you've logged most lately (running if none), on free days first.
+  const since = addDays(ymd(), -60), cnt = {}; for (const w of allW()) if (SPORT[w.type] && w.date >= since && !w.sample) cnt[w.type] = (cnt[w.type] || 0) + 1;
+  const sports = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]); if (!sports.length) sports.push('run');
+  const free = [3, 6, 0, 2, 4, 5, 1].filter(d => !wds.includes(d)), busy = [3, 6, 0, 2, 4, 5, 1].filter(d => wds.includes(d)), kinds = focus === 'conditioning' ? ['Easy (Z2)', 'Intervals', 'Long', 'Tempo'] : ['Easy (Z2)', 'Long', 'Tempo', 'Easy (Z2)'];
+  for (let n = 0; n < nCardio; n++) {
+    const type = sports[n % sports.length], recent = allW().filter(w => w.type === type && w.date >= since && (w.durSec || w.durationMin)).map(w => (w.durSec || w.durationMin * 60) / 60).sort((a, b) => a - b);
+    const base = recent.length ? Math.round(recent[recent.length >> 1] / 5) * 5 : 30, kind = kinds[n], min = kind === 'Long' ? Math.round(base * 1.5 / 5) * 5 : kind === 'Intervals' ? Math.max(25, base - 5) : base;
+    days.push({ key: uid('d'), weekday: free[n] ?? busy[n - free.length] ?? 6, title: kind === 'Intervals' ? SPORT[type].label + ' intervals' : `${kind === 'Easy (Z2)' ? 'Easy' : kind} ${SPORT[type].label.toLowerCase()}`, type, cardio: { minutes: min, intensity: kind, notes: kind === 'Intervals' ? '6 × 3 min hard, 2 min easy' : '' } });
+  }
+  return { days, name: `${cap(focus)} ${split}`, split };
+}
+function sugCard(b) {
+  const o = sugOpts(), dose = SUG_DOSE[b.focus] || SUG_DOSE.strength, rr = d => `<span style="white-space:nowrap">${d[0]}×${d[1]}–${d[2]}</span>`;
+  const seg = (k, vals) => `<div class="seg">${vals.map(v => `<button data-act="sugset" data-k="${k}" data-v="${v}" aria-pressed="${o[k] === v}">${v}</button>`).join('')}</div>`;
+  return `<div class="card sug"><div class="sec-h"><span class="h3">${ic('bolt')}Suggested week</span><button class="link" data-act="sughide">Hide</button></div>
+    <span class="sub">${o.basis ? `Lately you've trained strength about ${fmtNum(o.strW, 1)} and cardio ${fmtNum(o.carW, 1)} times a week.` : 'Pick how often you want to train.'} Exercises are the ones you log most for each movement.</span>
+    <div class="field"><span>Strength days a week</span>${seg('str', [2, 3, 4, 5, 6])}</div>
+    <div class="field"><span>Cardio sessions a week</span>${seg('cardio', [0, 1, 2, 3, 4])}</div>
+    <span class="sub"><b>${SUG_SPLITS[o.str][0]}</b> for ${b.focus}: main lifts ${rr(dose.m)}, then ${rr(dose.s)}, accessories ${rr(dose.a)}. Change Focus below for hypertrophy, conditioning or mixed.</span>
+    <button class="btn primary" data-act="sugbuild">${b.days.length ? 'Replace schedule with this' : 'Build my week'}</button></div>`;
+}
 function vBlock() {
   const b = S.ui.draft; if (!b) return '';
-  let h = `<div class="card">
+  let h = S.ui.stack.at(-1).p.isNew && settings().suggestBlocks && !sugOpts().hidden ? sugCard(b) : '';
+  h += `<div class="card">
     <label class="field"><span>Block name</span><input id="b-name" class="in" data-root="draft" data-bind="name" value="${esc(b.name)}" placeholder="e.g. Strength Base"></label>
-    <div class="grid2"><label class="field"><span>Focus</span><select id="b-focus" class="in" data-root="draft" data-bind="focus">${['strength', 'hypertrophy', 'conditioning', 'mixed'].map(f => `<option value="${f}" ${b.focus === f ? 'selected' : ''}>${cap(f)}</option>`).join('')}</select></label>
+    <div class="grid2"><label class="field"><span>Focus</span><select id="b-focus" class="in" data-root="draft" data-bind="focus" data-rerender>${['strength', 'hypertrophy', 'conditioning', 'mixed'].map(f => `<option value="${f}" ${b.focus === f ? 'selected' : ''}>${cap(f)}</option>`).join('')}</select></label>
     <label class="field"><span>Start date</span><input id="b-start" type="date" class="in" data-root="draft" data-bind="startDate" value="${esc(b.startDate)}"></label></div>
     <div class="grid2"><div class="field"><span>Length</span><div class="pm"><button data-act="bweeks" data-d="-1" aria-label="Fewer weeks">−</button><b>${b.weeks} wk</b><button data-act="bweeks" data-d="1" aria-label="More weeks">+</button></div></div>
     <label class="field"><span>Deload week</span><select id="b-deload" class="in" data-root="draft" data-bind="deloadWeek" data-num data-rerender>${['<option value="">None</option>', ...Array.from({ length: b.weeks }, (_, i) => `<option value="${i + 1}" ${b.deloadWeek === i + 1 ? 'selected' : ''}>Week ${i + 1}</option>`)].join('')}</select></label></div>
@@ -1484,7 +1839,7 @@ function startEmpty(type) {
 }
 function vLog() {
   const a = S.active;
-  let h = `<div class="logmeta">${a.editingId ? '' : '<b id="elapsed">0:00</b>'}<span>${fmtD(a.date)}</span>${a.week ? `<span>· Week ${a.week}</span>` : ''}</div>`;
+  let h = `<div class="logmeta">${a.editingId ? '' : '<b id="elapsed">0:00</b>'}<span>${fmtD(a.date)}</span>${a.week ? `<span>· Week ${a.week}</span>` : ''}${a.editingId ? '' : hrChip()}</div>`;
   if (a.editingId) h += `<div class="grid2"><label class="field"><span>Date</span><input id="a-date" type="date" class="in" data-root="active" data-bind="date" value="${esc(a.date)}"></label>${a.type === 'strength' || a.type === 'stretch' ? `<label class="field"><span>Duration (min)</span><input id="a-dur" class="in" inputmode="numeric" data-root="active" data-bind="durationMin" data-num value="${a.durationMin ?? ''}"></label>` : ''}</div>`;
   if (a.type === 'strength') h += logStrength(a);
   else if (a.type === 'stretch') h += logStretch(a);
@@ -1538,12 +1893,12 @@ function exCard(ex, i, g) {
     if (s.kind !== 'W') n++;
     const sel = S.ui.sel.e === i && S.ui.sel.s === j;
     const pfx = `exercises.${i}.sets.${j}`;
-    h += `<div class="set ${s.done ? 'done' : ''} ${sel ? 'sel' : ''}" data-act="sel" data-i="${i}" data-j="${j}">
+    h += `<div class="swr ${S.ui.swipe === i + '-' + j ? 'open' : ''}" data-k="${i}-${j}"><button class="sdel" data-act="setdel" data-i="${i}" data-j="${j}" tabindex="-1">Delete</button><div class="set ${s.done ? 'done' : ''} ${sel ? 'sel' : ''}" data-act="sel" data-i="${i}" data-j="${j}">
       <button class="kind ${s.kind === 'W' ? 'w' : ''}" data-act="kind" data-i="${i}" data-j="${j}" aria-label="${s.kind === 'W' ? 'Warm-up set, tap to make working' : 'Working set ' + n + ', tap to make warm-up'}">${s.kind === 'W' ? 'W' : n}</button>
       <input id="s${i}-${j}-lb" inputmode="decimal" data-root="active" data-bind="${pfx}.lb" data-num value="${s.lb ?? ''}" placeholder="lb" aria-label="Weight in pounds">
       <input id="s${i}-${j}-r" inputmode="numeric" data-root="active" data-bind="${pfx}.reps" data-num value="${s.reps ?? ''}" placeholder="reps" aria-label="Reps">
       <input id="s${i}-${j}-p" inputmode="decimal" data-root="active" data-bind="${pfx}.rpe" data-num value="${s.rpe ?? ''}" placeholder="${ex.plan && ex.plan.rpe && s.kind !== 'W' ? ex.plan.rpe : '–'}" aria-label="RPE">
-      <button class="chk ${s.done && s.pr ? 'pr' : ''}" data-act="done" data-i="${i}" data-j="${j}" aria-pressed="${!!s.done}" aria-label="${s.done && s.pr ? 'Set done, new PR (' + s.pr + ')' : 'Mark set done'}">${ic(s.done && s.pr ? 'trophy' : 'check')}</button></div>`;
+      <button class="chk ${s.done && s.pr ? 'pr' : ''}" data-act="done" data-i="${i}" data-j="${j}" aria-pressed="${!!s.done}" aria-label="${s.done && s.pr ? 'Set done, new PR (' + s.pr + ')' : 'Mark set done'}">${ic(s.done && s.pr ? 'trophy' : 'check')}</button></div></div>`;
     if (s.note && !(sel && S.ui.noteOpen === `s${i}-${j}`)) h += `<div class="setnote">${esc(s.note)}</div>`;
     if (sel && S.ui.noteOpen === `s${i}-${j}`) h += `<input id="sn-${i}-${j}" class="in" data-root="active" data-bind="${pfx}.note" value="${esc(s.note || '')}" placeholder="Note for set ${s.kind === 'W' ? '(warm-up)' : n}">`;
   });
@@ -1597,6 +1952,7 @@ function finishActive() {
     Object.assign(doc, f, { km: a.type === 'swim' ? null : a.km, meters: a.type === 'swim' ? a.meters : null, avgHr: a.avgHr ?? null, plan: a.plan || null, h: undefined });
     if (!f.durSec) { toast('Enter the duration first'); S.ui.confirm = null; render(); return; }
   }
+  const hs = !a.editingId && hrStats(a.hr); if (hs) { doc.hr = hs; if (SPORT[a.type] && doc.avgHr == null) doc.avgHr = hs.avg; } else if (prev && prev.hr) doc.hr = prev.hr;
   if (prev) { if (prev.evaluation) doc.evaluation = prev.evaluation; if (prev.sample) doc.sample = true; }
   doc.summary = computeSummary(doc, id);
   write('workouts', id, doc);
@@ -1658,6 +2014,7 @@ function vSession(id, fresh) {
     const nextW = (w.week || 1) + 1, nDl = isDeload(b, nextW);
     if (nextW <= b.weeks) h += `<div class="sec"><span class="label">Next ${esc(day.title)} · week ${nextW}${nDl ? ' (deload)' : ''}</span><div>${(day.items || []).map(it => { const sg = suggest(it, { deload: nDl }); return `<div class="cmp" style="flex-direction:column;gap:2px"><div style="display:flex;justify-content:space-between;gap:12px"><span>${esc(it.name)}</span><span>${sg.sets}×${sg.reps}${sg.lb ? ' · ' + fmtNum(sg.lb) + ' lb' : ''}</span></div><span class="sub">${esc(sg.reason)}</span></div>`; }).join('')}</div></div>`;
   }
+  h += hrSection(w);
   // evaluation
   h += evalBlock(wx, fresh);
   // details
@@ -1929,19 +2286,39 @@ function profForms() {
   if (!F.prof) { const p = profile(); F.prof = { age: p.age ?? null, ft: p.heightIn ? Math.floor(p.heightIn / 12) : null, inch: p.heightIn ? p.heightIn % 12 : null, trainingYears: p.trainingYears ?? null, goal: p.goal || '', prevBests: { ...(p.prevBests || {}) } }; }
   return F;
 }
-const PROF_PAGES = [
-  ['pmeas', 'Measurements', 'ruler'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard'],
-  ['pappear', 'Appearance', 'palette'], ['pworkout', 'Workout settings', 'timer'], ['pdata', 'Data & account', 'cloud']
-];
+const PROF_PAGES = [['pmeas', 'Measurements', 'ruler'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
+const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account' };
 function profSummary(k) {
   const bl = bodyList(), st = settings();
   if (k === 'pmeas') { const m = bl.filter(b => b.meas && Object.keys(b.meas).length).at(-1); return m ? `Last measured ${fmtShort(m.date)}` : 'Not measured yet'; }
   if (k === 'pphotos') { const ds = bl.filter(b => b.photos && Object.keys(b.photos).length); return ds.length ? `${ds.length} date${ds.length === 1 ? '' : 's'} · last ${fmtShort(ds.at(-1).date)}` : 'None yet · private to you'; }
   if (k === 'pbg') { const p = profile(), bits = [maturity().label]; if (!p.age && !p.heightIn && p.trainingYears == null) return 'Add your age, height and past bests'; if (p.age) bits.push(`age ${p.age}`); if (p.heightIn) bits.push(`${Math.floor(p.heightIn / 12)}′${p.heightIn % 12}″`); return bits.join(' · '); }
   if (k === 'pappear') { const t = THEMES.find(x => x.id === st.theme), a = ACCENTS.find(x => x[1].toLowerCase() === st.accent.toLowerCase()); return `${t ? t.name : 'Custom'} · ${a ? a[0] : 'Custom accent'}`; }
-  if (k === 'pworkout') return `Rest ${fmtClock(st.restCompound)} / ${fmtClock(st.restAccessory)} · ${st.stepLb} lb steps`;
+  if (k === 'pnotif') return notifSummary();
+  if (k === 'phr') return hrSummary();
   if (k === 'pdata') { if (S.net.dbFailed || S.net.lastErr) return `<span class="warn">Sync issue</span>`; return window.engine && engine.signedIn() ? esc(engine.email() || 'Signed in') : 'Export, account'; }
   return '';
+}
+// Settings rows: a title and note on the left, a control on the right.
+const swc = (k, on, label) => `<label class="sw2"><input id="sw-${k}" type="checkbox" data-act-change="setbool" data-k="${k}" ${on ? 'checked' : ''} aria-label="${esc(label)}"><i></i></label>`;
+const srow = (title, sub, ctrl) => `<div class="srow"><span class="grow"><span class="t">${title}</span>${sub ? `<span class="sub">${sub}</span>` : ''}</span>${ctrl}</div>`;
+const slink = (k, title, icon) => `<button class="srow" data-act="profpage" data-k="${k}"><span class="mi">${ic(icon)}</span><span class="grow"><span class="t">${title}</span><span class="sub ell">${profSummary(k)}</span></span>${ic('chev', 'chev')}</button>`;
+const restPm = k => `<div class="pm"><button data-act="restdef" data-k="${k}" data-d="-5" aria-label="5 seconds less">−</button><b>${fmtClock(settings()[k])}</b><button data-act="restdef" data-k="${k}" data-d="5" aria-label="5 seconds more">+</button></div>`;
+function vSettings() {
+  const st = settings();
+  let h = `<div class="sec"><span class="label">Appearance</span><div class="card slist">${slink('pappear', 'Theme and accent', 'palette')}</div></div>`;
+  h += `<div class="sec"><span class="label">Workouts</span><div class="card slist">
+    ${srow('Rest, compound lifts', '', restPm('restCompound'))}
+    ${srow('Rest, accessories', 'Each exercise can override these', restPm('restAccessory'))}
+    ${srow('Weight steps', 'Big lower-body lifts use double', `<div class="seg mini-seg">${[2.5, 5].map(v => `<button data-act="stepdef" data-v="${v}" aria-pressed="${st.stepLb === v}">${v} lb</button>`).join('')}</div>`)}
+    ${srow('Sound when rest ends', 'Vibrates too', swc('sound', st.sound, 'Sound when rest ends'))}
+    ${srow('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'))}</div></div>`;
+  h += `<div class="sec"><span class="label">Coaching</span><div class="card slist">
+    ${srow('Block suggestions', 'Offer a ready-made block when you start a new one', swc('suggestBlocks', st.suggestBlocks, 'Block suggestions'))}</div></div>`;
+  h += `<div class="sec"><span class="label">Alerts and devices</span><div class="card slist">${slink('pnotif', 'Notifications', 'bell')}${slink('phr', 'Heart rate monitor', 'heart')}</div></div>`;
+  h += `<div class="sec"><span class="label">Account</span><div class="card slist">${slink('pdata', 'Data and account', 'cloud')}</div></div>`;
+  h += `<span class="sub" style="text-align:center">Units: pounds, kilometres, pool metres, inches.</span><div class="brand">${ic('fibre')}<span>Engine</span></div>`;
+  return h;
 }
 function vProfile() {
   const F = profForms(), bl = bodyList(), wa = weightAvg();
@@ -1954,7 +2331,7 @@ function vProfile() {
     <div class="btnrow"><button class="btn primary" data-act="savebody">Save</button><button class="btn ghost" data-act="weigh">Cancel</button></div>`;
   else h += `<div class="btnrow"><button class="btn primary" data-act="weigh">Log weigh-in</button>${bl.length ? `<button class="btn" data-act="bodytrends">See trends</button>` : ''}</div>`;
   h += `</div>`;
-  h += `<div class="card menu" style="padding-block:4px"><div class="rows">${PROF_PAGES.map(([k, l, i]) => `<button class="rowi" data-act="profpage" data-k="${k}"><span class="mi">${ic(i)}</span><span class="grow"><span class="t" style="display:block">${l}</span><span class="sub ell">${profSummary(k)}</span></span>${ic('chev', 'chev')}</button>`).join('')}</div></div>`;
+  h += `<div class="card menu" style="padding-block:4px"><div class="rows">${PROF_PAGES.map(([k, l, i]) => `<button class="rowi" data-act="profpage" data-k="${k}"><span class="mi">${ic(i)}</span><span class="grow"><span class="t" style="display:block">${l}</span><span class="sub ell">${profSummary(k)}</span></span>${ic('chev', 'chev')}</button>`).join('')}<button class="rowi" data-act="profpage" data-k="settings"><span class="mi">${ic('gear')}</span><span class="grow"><span class="t" style="display:block">Settings</span><span class="sub ell">Appearance, workouts, notifications, heart rate, account</span></span>${ic('chev', 'chev')}</button></div></div>`;
   h += installCard(false);
   h += `<div class="brand">${ic('fibre')}<span>Engine</span></div>`;
   return h;
@@ -1983,12 +2360,26 @@ function vProfPage(k) {
     ${st.theme === 'custom' ? `<div class="grid2"><label class="field"><span>Background</span><input id="th-bg" type="color" class="in" value="${esc(st.customBg)}" data-theme-color="customBg"></label><label class="field"><span>Cards</span><input id="th-card" type="color" class="in" value="${esc(st.customCard)}" data-theme-color="customCard"></label></div><span class="sub">Text and borders adjust automatically so everything stays readable. Pick the accent below.</span>` : `<span class="sub">Picking a theme also sets its accent. You can change the accent below.</span>`}</div>
     <div class="card"><span class="h3">Accent colour</span><div class="swatches">${ACCENTS.map(([n, c]) => `<button class="sw" style="background:${c}" data-act="accent" data-c="${c}" aria-label="${n}" aria-pressed="${st.accent.toLowerCase() === c.toLowerCase()}"></button>`).join('')}<label class="sw" style="background:conic-gradient(#f66,#fd6,#6f9,#6cf,#a7f,#f6c,#f66);position:relative;overflow:hidden" aria-pressed="${custom}" title="Custom colour"><input id="st-color" type="color" value="${esc(st.accent)}" data-color style="position:absolute;inset:0;opacity:0;cursor:pointer" aria-label="Custom accent colour"></label></div></div>`;
   }
-  if (k === 'pworkout') return `<div class="card"><span class="h3">Rest timer</span>
-      <div class="sec-h"><span>Compound lifts</span><div class="pm"><button data-act="restdef" data-k="restCompound" data-d="-5" aria-label="5 seconds less">−</button><b>${fmtClock(st.restCompound)}</b><button data-act="restdef" data-k="restCompound" data-d="5" aria-label="5 seconds more">+</button></div></div>
-      <div class="sec-h"><span>Accessories</span><div class="pm"><button data-act="restdef" data-k="restAccessory" data-d="-5" aria-label="5 seconds less">−</button><b>${fmtClock(st.restAccessory)}</b><button data-act="restdef" data-k="restAccessory" data-d="5" aria-label="5 seconds more">+</button></div></div>
-      <label class="toggle"><input id="st-sound" type="checkbox" data-act-change="sound" ${st.sound ? 'checked' : ''}> Beep when rest ends (vibrates too where the phone allows)</label>
-      <span class="sub">Each exercise can also have its own rest time, set in your block or during a workout. Supersets rest once after each round.</span></div>
-    <div class="card"><span class="h3">Weight steps</span><div class="seg">${[2.5, 5].map(v => `<button data-act="stepdef" data-v="${v}" aria-pressed="${st.stepLb === v}">${v} lb</button>`).join('')}</div><span class="sub">Used by the +/− buttons. Big lower-body lifts progress by double this.</span><span class="sub">Units: pounds, kilometres, pool metres, inches.</span></div>`;
+  if (k === 'phr') {
+    if (!hrOk()) return `<div class="empty">Live heart rate uses Bluetooth, which needs Engine installed through Chrome on Android. Open Engine there and this page will let you connect.</div>`;
+    const on = HR.status === 'on', ageMax = profile().age ? 220 - profile().age : null;
+    return `<div class="card hrcard"><div class="hrbig">${ic('heart')}<b id="hrbig">${HR.bpm || '–'}</b><span>bpm</span></div>
+      <span class="sub" style="text-align:center">${on ? `Connected to ${esc(HR.name)}` : HR.status === 'connecting' ? 'Connecting…' : HR.status === 'lost' ? `Lost ${esc(HR.name)}. Reconnecting…` : HR.name ? `Not connected. Last used: ${esc(HR.name)}` : 'No monitor connected'}</span>
+      ${on ? `<button class="btn" data-act="hrdisconnect">Disconnect</button>` : `<button class="btn primary" data-act="hrconnect">Connect</button>`}</div>
+    <div class="card"><span class="h3">Pair your Garmin</span><ol class="steps"><li>On the watch, turn on <b>Broadcast Heart Rate</b>. It's in the controls menu (hold the light button), or under Settings › Wrist Heart Rate.</li><li>Tap Connect and pick your watch from the list.</li><li>Keep Engine open while you train. It keeps the screen on, which keeps the connection alive.</li></ol><span class="sub">A Bluetooth chest strap works the same way: put it on, tap Connect and pick it. Your heart rate shows at the top of every workout and is saved with the session.</span></div>
+    <div class="card slist">${srow('Max heart rate', `Sets your 5 zones. ${ageMax ? `From your age: ${ageMax}` : 'Default: 190 (add your age in Training background)'}`, `<input id="hr-max" class="in mini" inputmode="numeric" data-act-change="hrmax" value="${settings().hrMax ?? ''}" placeholder="${hrMax()}" aria-label="Max heart rate">`)}</div>`;
+  }
+  if (k === 'pnotif') {
+    if (!pushOk()) return `<div class="empty">Notifications need Engine installed on your home screen through Chrome or Samsung Internet${window.ENGINE_CONFIG && !ENGINE_CONFIG.vapidKey ? ', and the notification service switched on' : ''}.</div>`;
+    const st = settings(), perm = Notification.permission, here = LS.get('ft.push', null);
+    let h = perm === 'denied' ? `<div class="card"><span class="warn"><b>Notifications are blocked for Engine.</b></span><span class="sub">Turn them on in your phone's Settings › Apps › Engine › Notifications, then come back here.</span></div>` : '';
+    h += `<div class="card slist">${srow('Workout reminders', 'On days your active block has a session', swc('remind', st.remind, 'Workout reminders'))}
+      ${st.remind ? srow('Reminder time', '', `<input id="rm-time" type="time" class="in mini time" data-act-change="remindtime" value="${esc(st.remindTime)}" aria-label="Reminder time">`) : ''}
+      ${srow('Rest timer alerts', 'When a rest ends while you\'re in another app', swc('restAlerts', st.restAlerts, 'Rest timer alerts'))}</div>`;
+    if (here && perm === 'granted') h += `<button class="btn" data-act="pushtest">Send a test notification</button>`;
+    h += `<span class="sub">${here ? 'This phone is set up to get notifications.' : 'Turning one on asks your phone for permission once.'} Reminders cover the next two weeks of your active block and refresh whenever you open Engine. Rest alerts can arrive a few seconds late.</span>`;
+    return h;
+  }
   if (k === 'pdata') {
     let h = `<div class="card"><span class="h3">Your data</span><span class="sub">${S.net.dbFailed ? 'Engine can\'t reach your synced data right now, so changes stay on this phone until it reconnects.' : 'Saved to your private database. Claude reads it for coaching when you ask, and at the Sunday check-in.'}${S.net.lastErr ? `<br><span class="warn">${esc(S.net.lastErr)}</span>` : ''}</span>
       ${downloads ? `<button class="btn" data-act="export">Export all data (JSON)</button>` : ''}
@@ -2090,7 +2481,11 @@ function pickList() {
   const lib = library().filter(match);
   const right = e => esc(e.muscle) + ' · ' + esc(e.equip || 'Other');
   let h = '';
-  if (!q && !sh.fm && !sh.fe) { const recent = topLifts().slice(0, 8).map(l => exInfo(l.name)); if (recent.length) h += `<span class="label">Your usual lifts</span>` + recent.map(e => pickRow('pickex', e.name, right(e))).join('') + `<span class="label" style="margin-top:12px;display:block">All exercises</span>`; }
+  const swapOf = sh.mode === 'swap' ? (S.active.exercises[sh.i] || {}).name : sh.mode === 'blockswap' ? ((S.ui.draft.days[sh.i].items || [])[sh.j] || {}).name : null;
+  if (!q && !sh.fm && !sh.fe) {
+    const top = swapOf ? similarTo(swapOf) : topLifts().slice(0, 8).map(l => exInfo(l.name));
+    if (top.length) h += `<span class="label">${swapOf ? 'Similar to ' + esc(swapOf) : 'Your usual lifts'}</span>` + top.map(e => pickRow('pickex', e.name, right(e))).join('') + `<span class="label" style="margin-top:12px;display:block">All exercises</span>`;
+  }
   h += lib.map(e => pickRow('pickex', e.name, right(e))).join('');
   if (!lib.length) h += `<div class="sub" style="padding:12px 0">No exercises match${sh.fm || sh.fe ? ' these filters' : ''}.</div>`;
   if (q && !lib.some(e => e.name.toLowerCase() === q)) h += S.ui.customForm ? customFormHtml('pick') : `<button class="btn" style="margin-top:12px" data-act="customform">Create “${esc(sh.q.trim())}”</button>`;
@@ -2152,6 +2547,37 @@ document.addEventListener('focusin', e => {
   const row = e.target.closest('.set'); if (!row) return;
   selectRow(+row.dataset.i, +row.dataset.j);
 });
+// Swiping a set row: a mostly-sideways drag moves the row; let go past halfway and it stays open on Delete.
+const SW_W = 88;
+let sw = null, swEnd = 0;
+function swClose() { S.ui.swipe = null; document.querySelectorAll('.swr.open').forEach(r => r.classList.remove('open')); }
+document.addEventListener('pointerdown', e => {
+  const row = e.target.closest('.swr');
+  if (S.ui.swipe && !(row && row.dataset.k === S.ui.swipe)) swClose();
+  if (!row || e.target.closest('.sdel') || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  sw = { row, set: row.querySelector('.set'), id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, base: row.classList.contains('open') ? -SW_W : 0, on: false };
+}, { passive: true });
+document.addEventListener('pointermove', e => {
+  if (!sw || e.pointerId !== sw.id) return;
+  const dx = e.clientX - sw.x, dy = e.clientY - sw.y;
+  if (!sw.on) {
+    if (Math.abs(dy) > 10 && Math.abs(dy) >= Math.abs(dx)) { sw = null; return; }
+    if (Math.abs(dx) < 12) return;
+    sw.on = true; sw.row.classList.add('drag');
+  }
+  sw.dx = dx; sw.set.style.transform = `translateX(${Math.max(-SW_W - 30, Math.min(0, sw.base + dx))}px)`;
+}, { passive: true });
+function swUp(e) {
+  if (!sw || e.pointerId !== sw.id) return;
+  const g = sw; sw = null; if (!g.on) return;
+  const open = e.type === 'pointerup' ? g.base + g.dx < -SW_W / 2 : g.base < 0;
+  g.row.classList.remove('drag'); g.set.style.transform = '';
+  swClose(); if (open) { S.ui.swipe = g.row.dataset.k; g.row.classList.add('open'); }
+  swEnd = Date.now();
+}
+document.addEventListener('pointerup', swUp); document.addEventListener('pointercancel', swUp);
+// The click that ends a drag shouldn't also select the set or tick it.
+document.addEventListener('click', e => { if (Date.now() - swEnd < 350) { swEnd = 0; e.stopPropagation(); e.preventDefault(); } }, true);
 // Selecting a set only moves the highlight and the stepper; no re-render, so the keyboard stays open.
 function selectRow(i, j) {
   if (S.ui.sel.e === i && S.ui.sel.s === j) return;
@@ -2177,6 +2603,15 @@ const C = {
   cmpa(t) { S.ui.cmpA = t.value; render(); },
   cmpb(t) { S.ui.cmpB = t.value; render(); },
   sound(t) { saveSetting({ sound: t.checked }); },
+  setbool(t) {
+    const k = t.dataset.k;
+    if ((k === 'remind' || k === 'restAlerts') && t.checked) { pushEnable().then(() => { saveSetting({ [k]: true }); syncReminders(true); }).catch(e => { t.checked = false; toast(e === 'denied' ? 'Notifications are blocked for Engine on this phone' : 'Couldn\'t turn on notifications (' + ((e && e.message) || e) + ')'); render(); }); return; }
+    // Saving re-renders the page, so let the switch finish sliding first.
+    const on = t.checked;
+    setTimeout(() => { saveSetting({ [k]: on }); if (k === 'remind') syncReminders(true); if (k === 'screenOn') { if (on) wake(); else release(); } }, 200);
+  },
+  hrmax(t) { const v = parseInt(t.value, 10); saveSetting({ hrMax: v >= 120 && v <= 230 ? v : null }); },
+  remindtime(t) { if (t.value) { saveSetting({ remindTime: t.value }); syncReminders(true); } },
   pickfm(t) { S.ui.sheet.fm = t.value; S.ui.customForm = false; refreshPick(); },
   pickfe(t) { S.ui.sheet.fe = t.value; S.ui.customForm = false; refreshPick(); }
 };
@@ -2184,6 +2619,19 @@ Object.assign(A, {
   tab(d) { S.ui.tab = d.tab; S.ui.stack = []; S.ui.inLog = false; S.ui.confirm = null; S.ui.form = {}; S.ui.weighOpen = false; S.ui.newFolder = false; S.ui.foldMenu = null; S.ui.day = null; window.scrollTo(0, 0); render(); },
   go(d) { go(d.v); },
   back() { back(); },
+  setdel(d) {
+    const a = S.active, i = +d.i, j = +d.j, ex = a && a.exercises[i]; if (!ex || !ex.sets[j]) return;
+    const row = document.querySelector(`.swr[data-k="${i}-${j}"]`);
+    const go = () => {
+      const [gone] = ex.sets.splice(j, 1); S.ui.swipe = null;
+      if (S.ui.sel.e === i && S.ui.sel.s >= j) S.ui.sel.s = Math.max(0, S.ui.sel.s - 1);
+      saveActive(); render();
+      toast('Set deleted', 5000, () => { if (S.active !== a || a.exercises[i] !== ex) return; ex.sets.splice(Math.min(j, ex.sets.length), 0, gone); saveActive(); render(); });
+    };
+    if (row && row.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) row.animate([{ height: row.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 180, easing: 'ease-in', fill: 'forwards' }).finished.then(go, go);
+    else go();
+  },
+  undo() { const f = undoFn; undoFn = null; $('#toast').hidden = true; if (f) f(); },
   cancel() { S.ui.confirm = null; render(); },
   ask(d) { S.ui.confirm = d.k; render(); if (d.k === 'finish') setTimeout(() => { const el = $('#finishbox'); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 30); },
   statusinfo() { toast(!S.net.online ? 'You\'re offline. Everything is saved on this phone and syncs when you reconnect.' : outbox.length ? 'Sending your latest changes…' : S.net.lastErr || (S.net.dbFailed ? 'Engine can\'t reach your synced data right now. Changes stay on this phone.' : 'All changes saved.')); },
@@ -2237,6 +2685,7 @@ Object.assign(A, {
     if (midRound) { S.rest = null; tick(); toast(`Next: ${nextName}`, 1800); }
     else if (xs.some(e2 => e2.sets.some(x => !x.done))) { $('#toast').hidden = true; startRest(s.kind === 'W' ? Math.min(60, restSec) : restSec, `Next: ${nextName}`); }
     saveActive(); render();
+    const ck = $(`.set[data-i="${i}"][data-j="${j}"] .chk`); if (ck) ck.classList.add('pop');
     if (g && ni >= 0 && ni !== i) setTimeout(() => { const el = $(`#ex-${ni} .set.sel`); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 30);
   },
   step(d) {
@@ -2280,9 +2729,18 @@ Object.assign(A, {
     if (d.ctx === 'pick') { if (isMultiPick(S.ui.sheet)) { S.ui.sheet.q = ''; render(); } pickEx(name); } else { toast('Exercise added'); render(); }
   },
   // blocks
-  newblock() { S.ui.draft = newBlockDraft(); S.ui.tab = 'train'; S.ui.stack = [{ v: 'block', p: { isNew: true } }]; window.scrollTo(0, 0); render(); },
+  newblock() { S.ui.draft = newBlockDraft(); S.ui.sug = null; S.ui.tab = 'train'; S.ui.stack = [{ v: 'block', p: { isNew: true } }]; window.scrollTo(0, 0); render(); },
   editblock(d) { const b = S.blocks.get(d.id); if (!b) return; S.ui.draft = clone({ ...b, id: d.id }); go('block', { id: d.id }); },
   bweeks(d) { const b = S.ui.draft; const wasLast = b.deloadWeek === b.weeks; b.weeks = clamp(b.weeks + +d.d, 1, 16); if (wasLast) b.deloadWeek = b.weeks; if (b.deloadWeek > b.weeks) b.deloadWeek = b.weeks; render(); },
+  sugset(d) { sugOpts()[d.k] = +d.v; render(); },
+  sughide() { sugOpts().hidden = true; render(); },
+  sugbuild() {
+    const b = S.ui.draft, o = sugOpts(), prev = { days: b.days, name: b.name }, r = suggestBlock(b.focus, o.str, o.cardio);
+    b.days = r.days; if (!b.name.trim() || b.name === o.autoName) b.name = o.autoName = r.name;
+    render();
+    const el = $('.daycard'); if (el) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    if (prev.days.length) toast('Schedule replaced', 6000, () => { if (S.ui.draft !== b) return; b.days = prev.days; b.name = prev.name; render(); });
+  },
   addday() { const b = S.ui.draft; const used = new Set(b.days.map(x => x.weekday)); const wd = [1, 2, 3, 4, 5, 6, 0].find(x => !used.has(x)) ?? 1; b.days.push({ key: uid('d'), weekday: wd, title: 'Strength', type: 'strength', items: [] }); render(); },
   delday(d) { S.ui.draft.days.splice(+d.i, 1); render(); },
   itemmove(d) { const it = S.ui.draft.days[+d.i].items, j = +d.j, k = j + +d.d; if (k < 0 || k >= it.length) return; [it[j], it[k]] = [it[k], it[j]]; normGroups(it); render(); },
@@ -2352,6 +2810,10 @@ Object.assign(A, {
   weigh() { S.ui.weighOpen = !S.ui.weighOpen; delete S.ui.form.body; render(); if (S.ui.weighOpen) { const el = $('#bd-w'); if (el) el.focus(); } },
   profpage(d) { go(d.k); },
   prs() { go('prs'); },
+  hrchip() { if (HR.status === 'on') go('phr'); else hrConnect(); },
+  pushtest() { const ep = LS.get('ft.push', ''); if (!ep) return; engine.push.restAlert(ep, new Date().toISOString(), 'Engine', 'Notifications are working on this phone.'); toast('Sent. It should arrive within about 10 seconds'); },
+  hrconnect() { hrConnect(); },
+  hrdisconnect() { hrDisconnect(); },
   prlift(d) { S.ui.prLift = d.name; render(); },
   prhide() { $('#prb').hidden = true; },
   bodytrends() { S.ui.tab = 'prog'; S.ui.prog = 'body'; S.ui.stack = []; S.ui.weighOpen = false; window.scrollTo(0, 0); render(); },
@@ -2365,7 +2827,7 @@ Object.assign(A, {
     const data = { exportedAt: new Date().toISOString() }; for (const c of COLS) data[c] = Object.fromEntries(S[c]);
     try { await downloads.save({ filename: `training-data-${ymd()}.json`, data: JSON.stringify(data, null, 2) }); } catch (e) { if (e && e.code !== 'cancelled' && e.code !== 'declined') toast('Export didn\'t complete (' + (e.code || 'error') + ')'); }
   },
-  async signout() { S.ui.confirm = null; await engine.signOut(); for (const k of ['ft.cache', 'ft.outbox', 'ft.active', 'ft.uid']) LS.del(k); location.replace(location.pathname); },
+  async signout() { S.ui.confirm = null; const ep = LS.get('ft.push', ''); if (ep && pushOk()) try { await engine.push.forget(ep); } catch (e) {} await engine.signOut(); for (const k of ['ft.cache', 'ft.outbox', 'ft.active', 'ft.uid', 'ft.push', 'ft.remindKey']) LS.del(k); location.replace(location.pathname); },
   authmode() { const a = S.ui.auth; a.mode = a.mode === 'up' ? 'in' : 'up'; a.err = null; const el = $('#au-email'); if (el) a.email = el.value; render(); },
   authback() { S.ui.auth = { mode: 'in', email: S.ui.auth.email }; render(); },
   async install() { if (!installEvt) return; const ev = installEvt; installEvt = null; try { ev.prompt(); await ev.userChoice; } catch (e) {} render(); },
@@ -2437,9 +2899,152 @@ function buzz() {
   } catch (e) {}
 }
 let wl = null;
-async function wake() { try { if (S.active && 'wakeLock' in navigator && document.visibilityState === 'visible' && !wl) { wl = await navigator.wakeLock.request('screen'); wl.addEventListener('release', () => { wl = null; }); } } catch (e) { wl = null; } }
+async function wake() { try { if (S.active && settings().screenOn && 'wakeLock' in navigator && document.visibilityState === 'visible' && !wl) { wl = await navigator.wakeLock.request('screen'); wl.addEventListener('release', () => { wl = null; }); } } catch (e) { wl = null; } }
 function release() { try { if (wl) wl.release(); } catch (e) {} wl = null; }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { if (S.ui.inLog) wake(); tick(); if (navigator.onLine) flush(); } });
+
+/* ================= heart rate (Bluetooth) ================= */
+// Reads the standard Bluetooth heart-rate service: a chest strap, or a Garmin watch with Broadcast Heart Rate on.
+// The connection lives on this phone only; a workout keeps one reading every 5 seconds.
+const HR = { dev: null, bpm: null, status: 'off', name: LS.get('ft.hrName', ''), tries: 0 };
+const HR_STEP = 5;
+const hrOk = () => !!(navigator.bluetooth && window.isSecureContext);
+const hrMax = () => settings().hrMax || (profile().age ? 220 - profile().age : 190);
+const hrZone = bpm => { const p = bpm / hrMax(); return p < 0.6 ? 1 : p < 0.7 ? 2 : p < 0.8 ? 3 : p < 0.9 ? 4 : 5; };
+function hrSummary() { if (!hrOk()) return 'Needs Engine installed through Chrome'; if (HR.status === 'on') return `Connected · ${esc(HR.name)}`; return HR.name ? `Last used: ${esc(HR.name)}` : 'Not set up'; }
+async function hrConnect() {
+  if (!hrOk()) { toast('Heart rate needs Engine installed through Chrome'); return; }
+  const was = HR.status; HR.status = 'connecting'; render();
+  try { await hrAttach(await navigator.bluetooth.requestDevice({ filters: [{ services: ['heart_rate'] }] })); }
+  catch (e) { HR.status = was === 'on' ? 'on' : HR.dev ? 'lost' : 'off'; if (e && e.name !== 'NotFoundError') toast('Couldn\'t connect (' + (e.message || e.name) + ')'); render(); }
+}
+async function hrAttach(dev) {
+  if (HR.dev !== dev) { if (HR.dev) try { HR.dev.gatt.disconnect(); } catch (e) {} HR.dev = dev; dev.addEventListener('gattserverdisconnected', hrLost); }
+  HR.name = dev.name || 'Heart rate monitor'; LS.set('ft.hrName', HR.name);
+  const srv = await dev.gatt.connect();
+  const ch = await (await srv.getPrimaryService('heart_rate')).getCharacteristic('heart_rate_measurement');
+  ch.addEventListener('characteristicvaluechanged', hrOnValue);
+  await ch.startNotifications();
+  HR.status = 'on'; HR.tries = 0; render();
+}
+function hrOnValue(e) {
+  const v = e.target.value, bpm = v.getUint8(0) & 1 ? v.getUint16(1, true) : v.getUint8(1);
+  if (!bpm) return;
+  HR.bpm = bpm;
+  const a = S.active;
+  if (a && !a.editingId) {
+    const hr = a.hr || (a.hr = { step: HR_STEP, bpm: [] }), k = Math.floor((Date.now() - a.startedAt) / 1000 / HR_STEP);
+    if (k >= 0 && k < 4320 && hr.bpm[k] == null) { for (let m = hr.bpm.length; m < k; m++) hr.bpm[m] = null; hr.bpm[k] = bpm; saveActive(); }
+  }
+  hrPaint();
+}
+function hrLost() {
+  if (HR.status === 'off') return;
+  HR.status = 'lost'; HR.bpm = null; render();
+  if (HR.tries++ < 6) setTimeout(() => { if (HR.dev && HR.status === 'lost') hrAttach(HR.dev).catch(hrLost); }, 1500 * HR.tries);
+}
+function hrDisconnect() { HR.status = 'off'; const d = HR.dev; HR.dev = null; HR.bpm = null; try { d && d.gatt.disconnect(); } catch (e) {} render(); }
+// The live chip is redrawn in place every beat, so typing in a set isn't disturbed.
+function hrChip() {
+  if (!hrOk() || (!HR.name && HR.status === 'off')) return '';
+  const on = HR.status === 'on' && HR.bpm;
+  return `<button class="hrchip ${on ? 'z' + hrZone(HR.bpm) : 'off'}" data-act="hrchip" data-hr aria-label="${on ? `Heart rate ${HR.bpm}, zone ${hrZone(HR.bpm)}` : 'Connect heart rate monitor'}">${hrChipIn()}</button>`;
+}
+function hrChipIn() {
+  if (HR.status === 'on' && HR.bpm) return `${ic('heart')}<b>${HR.bpm}</b><span>Z${hrZone(HR.bpm)}</span>`;
+  return `${ic('heart')}<span>${HR.status === 'connecting' ? 'Connecting…' : HR.status === 'lost' ? 'Reconnecting…' : HR.status === 'on' ? 'Waiting…' : 'Connect'}</span>`;
+}
+function hrPaint() {
+  document.querySelectorAll('[data-hr]').forEach(el => { el.innerHTML = hrChipIn(); el.className = `hrchip ${HR.status === 'on' && HR.bpm ? 'z' + hrZone(HR.bpm) : 'off'}`; });
+  const big = $('#hrbig'); if (big) big.textContent = HR.bpm || '–';
+}
+// Summary saved with a workout: average, max, time in each zone and the 5-second trace.
+function hrStats(hr) {
+  const v = (hr && hr.bpm || []).filter(x => x > 0); if (v.length < 6) return null;
+  const zones = [0, 0, 0, 0, 0]; for (const b of v) zones[hrZone(b) - 1] += hr.step;
+  return { avg: Math.round(v.reduce((a, b) => a + b, 0) / v.length), max: Math.max(...v), zones, step: hr.step, bpm: hr.bpm };
+}
+function hrSection(w) {
+  const hr = w.hr; if (!hr || !hr.bpm) return '';
+  const W = 340, H = 140, L = 32, R = 8, T = 8, B = 20, n = hr.bpm.length, pts = hr.bpm.map((b, i) => [i * hr.step / 60, b]).filter(p => p[1] > 0);
+  if (pts.length < 2) return '';
+  const tk = ticks(Math.min(...pts.map(p => p[1])), Math.max(...pts.map(p => p[1])), 3), xMax = Math.max(1, (n - 1) * hr.step / 60);
+  const X = x => L + x / xMax * (W - L - R), Y = y => H - B - (y - tk.lo) / (tk.hi - tk.lo) * (H - T - B);
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Heart rate over the session, average ${hr.avg}, max ${hr.max} bpm">`;
+  for (const v of tk.t) s += `<line class="gl" x1="${L}" x2="${W - R}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="tx" x="${L - 6}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end">${v}</text>`;
+  const xt = xMax > 60 ? 15 : xMax > 20 ? 10 : 5; for (let m = 0; m <= xMax; m += xt) s += `<text class="tx" x="${X(m).toFixed(1)}" y="${H - 5}" text-anchor="middle">${m}′</text>`;
+  let d = '', prev = -9; for (const [x, y] of pts) { d += `${x - prev > hr.step / 60 * 3 ? 'M' : 'L'}${X(x).toFixed(1)},${Y(y).toFixed(1)}`; prev = x; }
+  s += `<path class="ln" d="${d}"/></svg>`;
+  const tot = hr.zones.reduce((a, b) => a + b, 0) || 1;
+  const zbar = `<div class="zbar">${hr.zones.map((z, i) => z ? `<i class="z${i + 1}" style="flex:${z}" title="Zone ${i + 1}"></i>` : '').join('')}</div><div class="zlab">${hr.zones.map((z, i) => `<span><b>Z${i + 1}</b> ${Math.round(z / 60)}′</span>`).join('')}</div>`;
+  return `<div class="sec"><span class="label">Heart rate</span><div class="stats"><div class="stat"><b>${hr.avg}</b><span>Average (bpm)</span></div><div class="stat"><b>${hr.max}</b><span>Max (bpm)</span></div><div class="stat"><b>${Math.round(hr.zones.slice(3).reduce((a, b) => a + b, 0) / tot * 100)}%</b><span>In zones 4–5</span></div></div>${s}${zbar}</div>`;
+}
+
+/* ================= notifications (Web Push) ================= */
+// Reminders and rest alerts are sent by the "push" function on the server, so they arrive with Engine closed.
+// Reminders belong to the account and go to every phone that has notifications on; rest alerts go only to this phone.
+const pushOk = () => !!(window.engine && engine.push && engine.push.ready() && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window);
+const pushDenied = () => 'Notification' in window && Notification.permission === 'denied';
+const fmtTime = hm => { const [h, m] = (hm || '17:00').split(':').map(Number); return new Date(2000, 0, 1, h, m).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); };
+function notifSummary() {
+  if (!pushOk()) return 'Not available on this device';
+  if (pushDenied()) return 'Blocked in phone settings';
+  const st = settings(), on = [st.remind ? 'Reminders at ' + fmtTime(st.remindTime) : '', st.restAlerts ? 'rest alerts' : ''].filter(Boolean).join(' · ');
+  return on ? on[0].toUpperCase() + on.slice(1) : 'Off';
+}
+const b64uBytes = s => { const b = atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4)); return Uint8Array.from(b, c => c.charCodeAt(0)); };
+async function pushEnable() {
+  if (!pushOk()) throw new Error('not available on this device');
+  const perm = await Notification.requestPermission();
+  if (perm !== 'granted') throw perm === 'denied' ? 'denied' : new Error('permission wasn\'t given');
+  const reg = await navigator.serviceWorker.ready, key = b64uBytes(engine.push.vapidKey);
+  let sub = await reg.pushManager.getSubscription();
+  // A subscription made with an older server key can't be reused.
+  if (sub && sub.options.applicationServerKey && new Uint8Array(sub.options.applicationServerKey).join() !== key.join()) { await sub.unsubscribe(); sub = null; }
+  if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+  await engine.push.savePushSub(sub.toJSON());
+  LS.set('ft.push', sub.endpoint);
+}
+// The next two weeks of planned sessions that aren't done yet, one reminder per day at the chosen time.
+function planReminders() {
+  const st = settings(); if (!st.remind) return [];
+  const [hh, mi] = (st.remindTime || '17:00').split(':').map(Number), soon = Date.now() + 60000, out = [];
+  for (let i = 0; i < 14; i++) {
+    const date = addDays(ymd(), i), ses = sessionsOn(date).filter(({ d }) => !doneFor(date, d.key));
+    const at = pd(date); at.setHours(hh, mi, 0, 0);
+    if (!ses.length || at.getTime() < soon) continue;
+    const { b, w } = ses[0], one = ses.length === 1 && ses[0].d.type === 'strength' ? (ses[0].d.items || []).length : 0;
+    out.push({ send_at: at.toISOString(), tag: 'remind-' + date,
+      title: ('Today: ' + ses.map(({ d }) => d.title || TYPES[d.type]).join(' + ')).slice(0, 120),
+      body: [b.name, `week ${w} of ${b.weeks}${isDeload(b, w) ? ' (deload)' : ''}`, one ? one + ' exercises' : ''].filter(Boolean).join(' · ').slice(0, 300) });
+  }
+  return out;
+}
+// Phones sometimes renew their push address; re-save it at launch so alerts keep arriving.
+function pushRefresh() {
+  const st = settings();
+  if (!pushOk() || !(st.remind || st.restAlerts) || Notification.permission !== 'granted') return;
+  pushEnable().catch(() => {});
+}
+let remindBusy = false;
+function syncReminders(force) {
+  if (!pushOk() || !engine.signedIn() || !navigator.onLine || remindBusy || (S.net && S.net.loading)) return;
+  const jobs = planReminders(), key = JSON.stringify(jobs);
+  if (!force && key === LS.get('ft.remindKey', '')) return;
+  remindBusy = true;
+  engine.push.setPushJobs('remind', jobs).then(() => LS.set('ft.remindKey', key)).catch(() => LS.del('ft.remindKey')).finally(() => { remindBusy = false; });
+}
+setInterval(syncReminders, 60000);
+// Leaving Engine mid-rest asks the server to buzz this phone when the rest ends; coming back cancels it.
+let restPushed = false;
+document.addEventListener('visibilitychange', () => {
+  const ep = LS.get('ft.push', '');
+  if (!ep || !settings().restAlerts || !pushOk()) return;
+  if (document.visibilityState === 'hidden') {
+    const left = S.rest && !S.rest.fired && S.active ? S.rest.end - Date.now() : 0;
+    if (left > 5000) { const hold = /^Hold/.test(S.rest.label || ''); engine.push.restAlert(ep, new Date(S.rest.end - 1500).toISOString(), hold ? 'Hold done' : 'Rest is over', S.rest.label || 'Time for your next set'); restPushed = true; }
+  } else if (restPushed) { restPushed = false; engine.push.restCancel(ep); }
+});
 
 /* ================= account ================= */
 function vAuth() {
@@ -2513,12 +3118,12 @@ function startApp() {
   S.ui.auth = null;
   // Another account's cached data never carries over.
   const id = window.engine && engine.uid && engine.uid();
-  if (id && LS.get('ft.uid', id) !== id) { for (const col of COLS) S[col].clear(); outbox = []; S.active = null; for (const k of ['ft.cache', 'ft.outbox', 'ft.active']) LS.del(k); memo.clear(); }
+  if (id && LS.get('ft.uid', id) !== id) { for (const col of COLS) S[col].clear(); outbox = []; S.active = null; for (const k of ['ft.cache', 'ft.outbox', 'ft.active', 'ft.push', 'ft.remindKey']) LS.del(k); memo.clear(); }
   if (id) LS.set('ft.uid', id);
   render();
   if (started) { flush(); return; }
   started = true;
-  connect().then(() => { const st = settings(); if (st.accent) applyAccent(st.accent); applyTheme(st); render(); });
+  connect().then(() => { const st = settings(); if (st.accent) applyAccent(st.accent); applyTheme(st); render(); pushRefresh(); syncReminders(); });
 }
 if (window.engine && !engine.signedIn()) { S.ui.auth = { mode: 'in' }; render(); } else startApp();
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {

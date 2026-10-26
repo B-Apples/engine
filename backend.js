@@ -178,6 +178,37 @@
     }
   };
 
+  /* ---------- push notifications (tables push_subs and push_jobs; the "push" function sends what's due) ---------- */
+  async function savePushSub(sub) {
+    if (!uid()) throw err('unavailable', 'signed out');
+    const { error } = await sb.from('push_subs').upsert({ endpoint: sub.endpoint, user_id: uid(), p256dh: sub.keys.p256dh, auth: sub.keys.auth, updated_at: new Date().toISOString() });
+    if (error) throw mapErr(error);
+  }
+  // Replaces every scheduled notification of one kind for this account.
+  async function setPushJobs(kind, jobs) {
+    if (!uid()) throw err('unavailable', 'signed out');
+    const { error } = await sb.from('push_jobs').delete().match({ user_id: uid(), kind });
+    if (error) throw mapErr(error);
+    if (!jobs.length) return;
+    const { error: e2 } = await sb.from('push_jobs').insert(jobs.map(j => ({ ...j, kind, user_id: uid() })));
+    if (e2) throw mapErr(e2);
+  }
+  // Called as the app goes to the background, so it uses a keepalive request that outlives the page.
+  function rpcKeepalive(fn, args) {
+    if (!session || !session.access_token || !navigator.onLine) return;
+    try { fetch(cfg.url + '/rest/v1/rpc/' + fn, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', apikey: cfg.anonKey, Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify(args) }).catch(() => {}); } catch (e) {}
+  }
+  const push = {
+    ready: () => !!(sb && cfg.vapidKey),
+    vapidKey: cfg.vapidKey,
+    savePushSub,
+    setPushJobs,
+    restAlert: (endpoint, sendAt, title, body) => rpcKeepalive('engine_rest_alert', { p_endpoint: endpoint, p_send_at: sendAt, p_title: title, p_body: body }),
+    restCancel: endpoint => rpcKeepalive('engine_rest_cancel', { p_endpoint: endpoint }),
+    // Before signing out, so this phone stops getting the account's reminders.
+    async forget(endpoint) { if (uid()) await sb.from('push_subs').delete().eq('endpoint', endpoint); }
+  };
+
   if (sb) sb.auth.onAuthStateChange((ev, s) => {
     const was = uid();
     if (s || ev === 'SIGNED_OUT') session = s;
@@ -204,6 +235,7 @@
     async signIn(email, password) { const { error } = await sb.auth.signInWithPassword({ email, password }); if (error) throw error; await ready; },
     async signUp(email, password) { const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin + location.pathname } }); if (error) throw error; return { needsConfirm: !data.session }; },
     async signOut() { try { await sb.auth.signOut(); } catch (e) {} session = null; },
-    photoUrl
+    photoUrl,
+    push
   };
 })();
