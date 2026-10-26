@@ -28,7 +28,8 @@ language sql stable security definer set search_path = '' as $$
       case when d.data->>'checkinTime' ~ '^([01][0-9]|2[0-3]):[0-5][0-9]$' then (d.data->>'checkinTime')::time else time '19:00' end as at
     from public.docs d
     where d.col = 'meta' and d.id = 'settings' and coalesce(d.data->>'checkin', 'true') <> 'false'
-  ), z as (
+  ), z as materialized (
+    -- Materialized so the zone check runs before any "at time zone", which errors on an unknown zone.
     select s.*, (now() at time zone s.tz) as local_now
     from s where s.tz in (select name from pg_catalog.pg_timezone_names)
   ), w as (
