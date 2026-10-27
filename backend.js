@@ -40,7 +40,8 @@
     const p = (async () => {
       const all = []; const page = 1000;
       for (let from = 0; ; from += page) {
-        const { data, error } = await sb.from('docs').select('id,data').eq('col', col).range(from, from + page - 1);
+        // Ordered so pages can't skip or repeat rows once a collection passes one page.
+        const { data, error } = await sb.from('docs').select('id,data').eq('col', col).order('id').range(from, from + page - 1);
         if (error) throw error;
         all.push(...data); if (data.length < page) break;
       }
@@ -60,12 +61,22 @@
       .on('postgres_changes', { event: '*', schema: 'public', table: 'docs' }, p => {
         const r = (p.new && p.new.col) ? p.new : (p.old || {});
         if (r.user_id && r.user_id !== uid()) return;
-        reloadSoon(r.col);
+        // Apply the change itself rather than reloading the whole collection; reload only when the event is missing
+        // its row (very large rows arrive without data) or the collection hasn't loaded yet.
+        const m = cache.get(r.col);
+        if (m && p.eventType === 'DELETE' && r.id) { m.delete(r.id); emit(r.col); }
+        else if (m && p.new && p.new.id && p.new.data && typeof p.new.data === 'object') { m.set(p.new.id, p.new.data); emit(r.col); }
+        else reloadSoon(r.col);
       })
       .subscribe(st => { if (st === 'SUBSCRIBED') reloadSoon(); });
   }
   window.addEventListener('online', reloadAll);
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && navigator.onLine) reloadAll(); });
+  // Live sync covers short switches between apps; after a longer break the phone may have dropped the connection, so reload.
+  let hiddenAt = 0;
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') hiddenAt = Date.now();
+    else if (navigator.onLine && Date.now() - hiddenAt > 60000) reloadAll();
+  });
 
   function query(q) {
     return {
@@ -194,9 +205,13 @@
     if (e2) throw mapErr(e2);
   }
   // Called as the app goes to the background, so it uses a keepalive request that outlives the page.
-  function rpcKeepalive(fn, args) {
-    if (!session || !session.access_token || !navigator.onLine) return;
-    try { fetch(cfg.url + '/rest/v1/rpc/' + fn, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', apikey: cfg.anonKey, Authorization: 'Bearer ' + session.access_token }, body: JSON.stringify(args) }).catch(() => {}); } catch (e) {}
+  // The sign-in token may have expired while Engine sat in the background, so get a current one first.
+  async function rpcKeepalive(fn, args) {
+    if (!sb || !navigator.onLine) return;
+    let token = session && session.access_token;
+    try { const { data } = await sb.auth.getSession(); if (data && data.session) token = data.session.access_token; } catch (e) {}
+    if (!token) return;
+    try { fetch(cfg.url + '/rest/v1/rpc/' + fn, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', apikey: cfg.anonKey, Authorization: 'Bearer ' + token }, body: JSON.stringify(args) }).catch(() => {}); } catch (e) {}
   }
   const push = {
     ready: () => !!(sb && cfg.vapidKey),
@@ -234,7 +249,7 @@
     email: () => session && session.user && session.user.email,
     async signIn(email, password) { const { error } = await sb.auth.signInWithPassword({ email, password }); if (error) throw error; await ready; },
     async signUp(email, password) { const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin + location.pathname } }); if (error) throw error; return { needsConfirm: !data.session }; },
-    async signOut() { try { await sb.auth.signOut(); } catch (e) {} session = null; },
+    async signOut() { try { await sb.auth.signOut(); } catch (e) {} session = null; urls = {}; try { localStorage.removeItem(URLS_KEY); } catch (e) {} },
     photoUrl,
     push
   };

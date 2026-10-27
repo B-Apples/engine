@@ -1,7 +1,7 @@
 /* Engine service worker. The app shell is cached per version so Engine opens with no signal; tools/stamp.py
    rewrites VERSION from the shell files' contents before each publish, which is what makes phones pick up an update.
    Supabase data, auth and evaluations always go to the network (the app keeps its own offline copy and outbox). */
-const VERSION = '2de4d5f059f4';
+const VERSION = 'edf1c860cd5a';
 const SHELL = 'engine-shell-' + VERSION;
 const RUNTIME = 'engine-runtime';
 const FILES = ['./', 'index.html', 'config.js', 'backend.js', 'vendor/supabase.js', 'manifest.webmanifest',
@@ -17,14 +17,26 @@ self.addEventListener('activate', e => {
     .then(() => self.clients.claim()));
 });
 
+// Files outside the shell (the other themes' icons and manifests) are kept after their first load so they work offline too.
 async function fromShell(req) {
   const hit = await caches.match(req, { cacheName: SHELL, ignoreSearch: true });
-  return hit || fetch(req);
-}
-// Fonts and signed photo links never change for a given URL, so the first copy is kept.
-async function cacheFirst(req) {
+  if (hit) return hit;
   const c = await caches.open(RUNTIME);
-  const hit = await c.match(req);
+  try {
+    const res = await fetch(req);
+    if (res.ok) c.put(req, res.clone());
+    return res;
+  } catch (e) {
+    const old = await c.match(req, { ignoreSearch: true });
+    if (old) return old;
+    throw e;
+  }
+}
+// Fonts and photos never change for a given URL, so the first copy is kept. Photo links are re-signed every few weeks
+// with a new token in the query, so photos match on their path alone and keep one cached copy each.
+async function cacheFirst(req, ignoreSearch = false) {
+  const c = await caches.open(RUNTIME);
+  const hit = await c.match(req, { ignoreSearch });
   if (hit) return hit;
   const res = await fetch(req);
   if (res.ok || res.type === 'opaque') c.put(req, res.clone());
@@ -48,7 +60,7 @@ self.addEventListener('fetch', e => {
   }
   if (url.hostname === 'fonts.googleapis.com') return e.respondWith(staleWhileRevalidate(req));
   if (url.hostname === 'fonts.gstatic.com') return e.respondWith(cacheFirst(req));
-  if (url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/sign/')) return e.respondWith(cacheFirst(req));
+  if (url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/sign/')) return e.respondWith(cacheFirst(req, true));
 });
 
 // Workout reminders and rest alerts, sent by the "push" Edge Function. A newer alert with the same tag replaces the old one.
