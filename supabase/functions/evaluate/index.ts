@@ -1,5 +1,6 @@
 // Runs Engine's post-workout evaluation with Claude. The app sends the prompt it builds from the session; this function
-// checks the caller is signed in and streams Claude's answer back. The Anthropic API key stays in the project's secrets.
+// checks the caller is signed in and within their daily allowance, and streams Claude's answer back. The Anthropic API
+// key stays in the project's secrets.
 import Anthropic from "npm:@anthropic-ai/sdk@1.3.0";
 import { createClient } from "npm:@supabase/supabase-js@2.118.0";
 
@@ -21,6 +22,28 @@ function publishableKey(): string {
   } catch { /* fall back to the legacy key */ }
   return Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 }
+function serviceKey(): string {
+  try {
+    const keys = JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS") ?? "{}");
+    if (keys.default) return keys.default;
+  } catch { /* fall back to the legacy key */ }
+  return Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+}
+const asUser = (token: string) =>
+  createClient(Deno.env.get("SUPABASE_URL")!, publishableKey(), { auth: { persistSession: false }, global: { headers: { Authorization: `Bearer ${token}` } } });
+
+// Daily allowance (migration 006): each account gets a set number of requests per rolling 24 hours; the owner has no limit.
+// A request Claude never answered is given back.
+async function takeRequest(token: string): Promise<{ ok: boolean; used?: number; limit?: number | null; freeAt?: string | null }> {
+  const { data, error } = await asUser(token).rpc("engine_ai_take");
+  if (error) throw error;
+  return data;
+}
+async function refund(userId: string) {
+  try {
+    await createClient(Deno.env.get("SUPABASE_URL")!, serviceKey(), { auth: { persistSession: false } }).rpc("engine_ai_refund", { p_user: userId });
+  } catch { /* the request stays counted */ }
+}
 
 // Coach style from the account's Settings (meta/settings.coachStyle). It applies to every request through this
 // function: post-workout evaluations and coach chat. The checkin function carries the same wording.
@@ -30,8 +53,7 @@ const STYLE: Record<string, string> = {
 };
 async function coachStyle(token: string): Promise<string> {
   try {
-    const db = createClient(Deno.env.get("SUPABASE_URL")!, publishableKey(), { auth: { persistSession: false }, global: { headers: { Authorization: `Bearer ${token}` } } });
-    const { data } = await db.from("docs").select("data").eq("col", "meta").eq("id", "settings").maybeSingle();
+    const { data } = await asUser(token).from("docs").select("data").eq("col", "meta").eq("id", "settings").maybeSingle();
     return String(data?.data?.coachStyle ?? "balanced");
   } catch {
     return "balanced";
@@ -59,6 +81,16 @@ Deno.serve(async (req) => {
     return json(400, { error: "The evaluation request was empty or too large.", code: "invalid_argument" });
   }
 
+  let quota;
+  try {
+    quota = await takeRequest(token);
+  } catch {
+    return json(503, { error: "Engine couldn't check your daily Claude allowance. Try again in a minute.", code: "upstream_error" });
+  }
+  if (!quota.ok) {
+    return json(429, { error: `You've used all ${quota.limit} Claude requests for today.`, code: "limit_reached", limit: quota.limit, freeAt: quota.freeAt ?? null });
+  }
+
   const system = STYLE[await coachStyle(token)];
   const client = new Anthropic({ apiKey });
   const encoder = new TextEncoder();
@@ -66,6 +98,7 @@ Deno.serve(async (req) => {
   const body = new ReadableStream({
     async start(controller) {
       const send = (event: Record<string, unknown>) => controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
+      let answered = false;
       try {
         const stream = client.beta.messages.stream({
           model: MODEL,
@@ -78,7 +111,7 @@ Deno.serve(async (req) => {
         });
         for await (const event of stream) {
           if (event.type === "content_block_start" && event.content_block.type === "fallback") send({ reset: true });
-          else if (event.type === "content_block_delta" && event.delta.type === "text_delta") send({ t: event.delta.text });
+          else if (event.type === "content_block_delta" && event.delta.type === "text_delta") { answered = true; send({ t: event.delta.text }); }
         }
         const message = await stream.finalMessage();
         if (message.stop_reason === "refusal") {
@@ -92,6 +125,7 @@ Deno.serve(async (req) => {
           send({ done: true, text, stop: message.stop_reason });
         }
       } catch (e) {
+        if (!answered) await refund(user.id);
         if (e instanceof Anthropic.AuthenticationError) {
           send({ error: "The Anthropic API key in Supabase isn't valid.", code: "not_configured" });
         } else if (e instanceof Anthropic.RateLimitError) {

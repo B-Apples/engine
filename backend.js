@@ -130,7 +130,9 @@
     } catch (e) { throw err('upstream_error', e && e.message); }
     if (!res.ok) {
       let b = {}; try { b = await res.json(); } catch (e) {}
-      throw err(b.code || (res.status === 429 ? 'rate_limited' : 'upstream_error'), b.error || 'HTTP ' + res.status);
+      const e = err(b.code || (res.status === 429 ? 'rate_limited' : 'upstream_error'), b.error || 'HTTP ' + res.status);
+      if (b.code === 'limit_reached') Object.assign(e, { limit: b.limit, freeAt: b.freeAt });
+      throw e;
     }
     const reader = res.body.getReader(), dec = new TextDecoder();
     let buf = '', text = '', fin = null;
@@ -224,6 +226,32 @@
     async forget(endpoint) { if (uid()) await sb.from('push_subs').delete().eq('endpoint', endpoint); }
   };
 
+  /* ---------- daily Claude allowance and friends (migration 006) ---------- */
+  // {used, limit, freeAt}: requests in the last 24 hours; limit null means no limit.
+  async function aiUsage() {
+    if (!sb || !uid()) return null;
+    const { data, error } = await sb.rpc('engine_ai_usage');
+    if (error) throw mapErr(error);
+    return data;
+  }
+  // Every account that chose to share, including this one: [{ uid, name, data, at, me }].
+  async function friendList() {
+    if (!sb || !uid()) return [];
+    const { data, error } = await sb.from('friend_shares').select('user_id,name,data,updated_at').order('name');
+    if (error) throw mapErr(error);
+    return data.map(r => ({ uid: r.user_id, name: r.name, data: r.data || {}, at: r.updated_at, me: r.user_id === uid() }));
+  }
+  async function friendShare(name, data) {
+    if (!uid()) throw err('unavailable', 'signed out');
+    const { error } = await sb.from('friend_shares').upsert({ user_id: uid(), name, data, updated_at: new Date().toISOString() });
+    if (error) throw mapErr(error);
+  }
+  async function friendStop() {
+    if (!uid()) throw err('unavailable', 'signed out');
+    const { error } = await sb.from('friend_shares').delete().eq('user_id', uid());
+    if (error) throw mapErr(error);
+  }
+
   if (sb) sb.auth.onAuthStateChange((ev, s) => {
     const was = uid();
     if (s || ev === 'SIGNED_OUT') session = s;
@@ -251,6 +279,8 @@
     async signUp(email, password) { const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: location.origin + location.pathname } }); if (error) throw error; return { needsConfirm: !data.session }; },
     async signOut() { try { await sb.auth.signOut(); } catch (e) {} session = null; urls = {}; try { localStorage.removeItem(URLS_KEY); } catch (e) {} },
     photoUrl,
-    push
+    push,
+    aiUsage,
+    friends: { list: friendList, share: friendShare, stop: friendStop }
   };
 })();
