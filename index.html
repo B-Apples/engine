@@ -48,7 +48,7 @@ p{margin:0}
 .hdr .icon{margin-left:-8px}
 main{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:4px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:22px}
 body.logging main{padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 .nav button{height:var(--nav-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--faint);font-size:11.5px;font-weight:600;letter-spacing:.02em}
 .nav button[aria-current="page"]{color:var(--fg)}
 .nav button[aria-current="page"] svg{color:var(--accent)}
@@ -233,6 +233,36 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .fb{gap:0;padding-block:6px}
 .fbr{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .fbr:last-child{border-bottom:0}
+.fbr{width:100%;text-align:left}
+/* social */
+.navi{position:relative;display:inline-flex}.ndot{position:absolute;top:-2px;right:-4px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--bg)}
+.bellb{position:relative}.bcount{position:absolute;top:4px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:10.5px;font-weight:750;font-style:normal;display:grid;place-items:center}
+.av{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:720;font-size:15px;color:#0B0D10;letter-spacing:.02em}
+.av.sm{width:30px;height:30px;font-size:12px}.av.lg{width:64px;height:64px;font-size:24px}
+.post{gap:12px}.post-h{display:flex;align-items:center;gap:8px;min-width:0}
+.post-a,.srow .post-a{display:flex;flex-direction:row;align-items:center;gap:12px;text-align:left;min-width:0;flex:1}.post-a .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.post-t{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;margin:0}.clamp6{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.pgrid{display:grid;gap:4px;border-radius:12px;overflow:hidden;margin-inline:-2px}.pgrid.n1{grid-template-columns:1fr}.pgrid.n2,.pgrid.n4{grid-template-columns:1fr 1fr}.pgrid.n3{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr}.pgrid.n3 .pph:first-child{grid-row:span 2}
+.pph{position:relative;aspect-ratio:1;background:var(--surface-2);overflow:hidden;padding:0}.pgrid.n1 .pph{aspect-ratio:4/3}.pgrid.n3 .pph:first-child{aspect-ratio:auto}.pph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.att{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface-2)}.att .stat b{font-size:19px}.att .btn.sm{align-self:flex-start}.att .link{align-self:flex-start;color:var(--accent);font-size:13.5px;font-weight:600}
+.exl{display:flex;flex-direction:column}.exl .cmp{padding:6px 0;font-size:14px}
+.post-f{display:flex;align-items:center;gap:6px;margin:0 -6px -4px;min-width:0}
+.pbtn{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 10px;border-radius:999px;color:var(--muted);font-weight:650;font-size:14px}.pbtn:active{background:var(--surface-2)}.pbtn.on{color:var(--accent)}.pbtn svg.ic{width:20px;height:20px}
+.badges{display:flex;flex-wrap:wrap;gap:6px}.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 7px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:12.5px;font-weight:650}.badge svg.ic{width:15px;height:15px;color:var(--accent)}
+.streak{display:inline-flex;align-items:center;gap:3px;font-weight:700;font-size:14px;color:var(--accent)}.streak svg.ic{width:17px;height:17px}
+.chip.live{color:var(--fg);gap:8px;border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}.chip.live .lb-dot{width:8px;height:8px;color:var(--accent)}
+.vis{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:none;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.prof-h{display:flex;align-items:center;gap:14px;min-width:0}.prof-h .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.prof p{margin:0;line-height:1.45;overflow-wrap:anywhere}
+.avs{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.avs .av{width:30px;height:30px;font-size:12px}
+.h2h-head{display:flex;align-items:center;justify-content:space-around;gap:10px}.h2h-head>span{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}.h2h-head b{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.h2h{display:flex;flex-direction:column;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}.h2h:last-child{border-bottom:0}.h2h-l{display:flex;justify-content:space-between;gap:10px;align-items:baseline;min-width:0}.h2h-l .t{font-weight:620;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.h2h-l .sub{font-size:12px;white-space:nowrap}
+.h2h-r{display:flex;flex-direction:column;gap:4px}.h2h-b{display:flex;align-items:center;gap:8px}.h2h-b i{display:block;height:8px;border-radius:4px;background:var(--muted);min-width:3px}.h2h-b.me i{background:var(--accent)}.h2h-b b{font-size:13px;white-space:nowrap}
+.cms{display:flex;flex-direction:column}.cm{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}.cm:last-child{border-bottom:0}.cm .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.cm-t{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.4}.cm .icon{width:32px;height:32px;margin:-4px -6px 0 0}
+.cphotos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.cph{aspect-ratio:1}.cpx{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;display:grid;place-items:center}.cpx svg.ic{width:15px;height:15px}
+.pend{flex-direction:row;align-items:center;gap:10px;color:var(--muted);font-size:14px}.pend svg.ic{color:var(--accent)}
+.ntext{line-height:1.35}.srow.unread .ntext b{color:var(--accent)}.srow.unread{background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 8%,transparent),transparent)}
+.seg.mini3{align-self:stretch}.seg.mini3 button{min-height:32px;font-size:13px}
+.pview{display:flex;justify-content:center;margin:-4px -4px 0}.pview img{max-width:100%;max-height:70vh;border-radius:12px;object-fit:contain}
 .gbb{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:color-mix(in srgb,var(--accent) calc(var(--gb,1) * 1%),var(--surface-2));color:var(--fg)}
 .gbb[data-l="1"]{--gb:12}.gbb[data-l="2"]{--gb:24}.gbb[data-l="3"]{--gb:38}.gbb[data-l="4"]{--gb:52}.gbb[data-l="5"]{--gb:66}.gbb[data-l="6"]{--gb:82}.gbb[data-l="7"]{--gb:100;color:var(--accent-ink)}
 .gbhero{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}.gbhero .gbb{width:72px;height:72px;font-size:32px}.gbhero .grow{align-self:stretch;display:flex;flex-direction:column;gap:6px;align-items:center}.gbhero .gbbar{align-self:stretch}
@@ -1080,13 +1110,13 @@ const THEMES = [
 ];
 const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null, checkin: true, checkinDay: 0, checkinTime: '19:00', checkinPush: false, tz: null, tzPhone: null,
   todayCards: null, tabs: null, startTab: 'today', coachStyle: 'balanced', incUpper: null, incLower: null, incEx: {}, missCount: 2, missDropPct: 5, deloadLoadPct: 10, deloadSetsPct: 40, blockWeeks: 6, deloadLast: true,
-  favEx: [], metrics: [], fontScale: 1, density: 'default', prKinds: {}, prAlerts: {}, iconTheme: 'match', haptics: true, autoWarm: false, share: null };
+  favEx: [], metrics: [], fontScale: 1, density: 'default', prKinds: {}, prAlerts: {}, iconTheme: 'match', haptics: true, autoWarm: false, privacy: null, autoPost: null, streakGoal: 3, badgesSeen: null };
 const MAIN_LIFTS = { squat: 'Back Squat', bench: 'Barbell Bench Press', deadlift: 'Deadlift', ohp: 'Overhead Press' };
 // Personalization: the Today cards and their default order (custom metrics and recent PRs start hidden), the tabs,
 // coach styles (applied on the server by the evaluate and checkin functions), PR types, text sizes and layout density.
 const TODAY_CARDS = [['strip', 'Week strip', 'This week at a glance; tap a day to see it'], ['plan', 'Today\'s sessions', 'What your block has planned today'], ['coach', 'Coach', 'Claude\'s latest note or check-in, and Ask the coach'], ['last', 'Last session', 'Your most recent workout'], ['week', 'This week', 'Sessions, working sets and cardio so far'], ['metrics', 'Custom metrics', 'Latest values of the metrics you track'], ['prs', 'Recent PRs', 'Your newest personal records']];
 const TODAY_DEF = ['strip', 'plan', 'coach', 'last', 'week'];
-const TABS = [['today', 'Today'], ['train', 'Train'], ['prog', 'Progression'], ['profile', 'Profile']];
+const TABS = [['today', 'Today'], ['train', 'Train'], ['prog', 'Progression'], ['social', 'Social'], ['profile', 'Profile']];
 const COACH_STYLES = [['blunt', 'Short and blunt', 'A few lines. Just the numbers and what to do next.'], ['balanced', 'Balanced', 'Clear sections with the key numbers. The default.'], ['detailed', 'Detailed and encouraging', 'More explanation and more credit for what went well.']];
 const PRK = [['heaviest', 'Heaviest', 'Heaviest weight', 'More weight than you have ever lifted on it'], ['e1rm', 'Est. 1RM', 'Estimated max', 'A better estimated 1-rep max from weight, reps and RPE'], ['reps', 'Rep PR', 'Rep PR', 'More reps than ever at a given weight'], ['volume', 'Volume', 'Session volume', 'More total weight × reps for the lift in one session']];
 const PRK_BY_KIND = Object.fromEntries(PRK.map(p => [p[1], p[0]]));
@@ -1218,7 +1248,13 @@ function todayLayout() {
   for (const [k] of TODAY_CARDS) if (!out.some(c => c.k === k)) out.push({ k, on: false });
   return out;
 }
-const tabOrder = () => { const t = settings().tabs; return Array.isArray(t) && t.length === TABS.length && TABS.every(x => t.includes(x[0])) ? t : TABS.map(x => x[0]); };
+// A saved order from before a tab existed gets the new tab added just before Profile.
+const tabOrder = () => {
+  const t = settings().tabs; if (!Array.isArray(t)) return TABS.map(x => x[0]);
+  const out = t.filter((k, i) => TABS.some(x => x[0] === k) && t.indexOf(k) === i);
+  for (const [k] of TABS) if (!out.includes(k)) { const at = out.indexOf('profile'); out.splice(at < 0 ? out.length : at, 0, k); }
+  return out;
+};
 const startTab = () => { const t = settings().startTab; return TABS.some(x => x[0] === t) ? t : tabOrder()[0]; };
 const isFav = name => (settings().favEx || []).includes(name);
 const prOn = k => { const v = (settings().prKinds || {})[k]; return v == null ? k !== 'volume' : !!v; };
@@ -1770,6 +1806,7 @@ const IC = {
   people: '<circle cx="9" cy="8.5" r="3.3"/><path d="M2.8 19.5c1-3.2 3.4-4.8 6.2-4.8s5.2 1.6 6.2 4.8"/><path d="M15.5 5.5a3.2 3.2 0 0 1 0 6.2M17.6 14.9c1.8.6 3 2.1 3.6 4.6"/>',
   flame: '<path d="M12 21c-3.6 0-6-2.5-6-5.8 0-3.3 2.4-5 3.6-8.2.4 1.9 1.4 3 2.6 3.4-.2-2.6.9-5.2 3-6.9-.1 3.3 4.8 5.6 4.8 11.4 0 3.5-2.8 6.1-8 6.1z"/>'
 };
+IC.social = IC.people;
 const ic = (k, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
 
 /* ================= render loop ================= */
@@ -1793,6 +1830,7 @@ function render() {
   $('#hdr').innerHTML = header(v);
   dlgNext = null;
   $('#main').innerHTML = view(v);
+  if (S.ui.photoView) dlgNext = photoDlg();
   if (anim) { const m = $('#main'); m.classList.remove('a-push', 'a-pop', 'a-fade', 'a-up'); void m.offsetWidth; m.classList.add('a-' + anim); }
   const nav = $('#nav'); nav.hidden = v.v === 'log'; nav.innerHTML = navBar();
   const lb = $('#livebar'), live = !!S.active && v.v !== 'log';
@@ -1816,7 +1854,7 @@ function viewAnim(v) {
   return a;
 }
 function header(v) {
-  const titles = { today: 'Today', train: 'Train', prog: 'Progression', profile: 'Profile', block: v.p && v.p.isNew ? 'New block' : 'Edit block', tpl: v.p && v.p.isNew ? 'New saved workout' : 'Edit saved workout', cal: 'Calendar', library: 'Exercise library', history: 'History', exercise: v.p && v.p.name, session: 'Session', prs: 'Personal records', photocmp: 'Compare photos', coach: 'Ask the coach' };
+  const titles = { today: 'Today', train: 'Train', prog: 'Progression', profile: 'Profile', block: v.p && v.p.isNew ? 'New block' : 'Edit block', tpl: v.p && v.p.isNew ? 'New saved workout' : 'Edit saved workout', cal: 'Calendar', library: 'Exercise library', history: 'History', exercise: v.p && v.p.name, session: 'Session', prs: 'Personal records', photocmp: 'Compare photos', coach: 'Ask the coach', social: 'Social', user: 'Profile', group: 'Group', post: 'Post', notifs: 'Notifications', compare: 'Head to head' };
   let t = titles[v.v] || '';
   if (PAGE_TITLES[v.v]) t = PAGE_TITLES[v.v];
   if (v.v === 'log') t = S.active.editingId ? 'Edit session' : (S.active.title || TYPES[S.active.type]);
@@ -1824,6 +1862,8 @@ function header(v) {
   const back = v.v === 'log' ? `<button class="icon" data-act="minimize" aria-label="Back to app (workout keeps running)">${ic('back')}</button>` : (S.ui.stack.length ? `<button class="icon" data-act="back" aria-label="Back">${ic('back')}</button>` : '');
   let right = statusChip();
   if (v.v === 'profile') right += `<button class="icon" data-act="profpage" data-k="settings" aria-label="Settings" style="margin-right:-8px">${ic('gear')}</button>`;
+  if (v.v === 'social' && soMe()) { const n = soUnread(); right += `<button class="icon bellb" data-act="notifs" aria-label="Notifications${n ? `, ${n} new` : ''}">${ic('bell')}${n ? `<i class="bcount">${n > 9 ? '9+' : n}</i>` : ''}</button><button class="icon" data-act="souser" data-id="${soMe().user_id}" aria-label="Your profile" style="margin-right:-8px">${av(soMe().name, soMe().user_id, 'sm')}</button>`; }
+  if (v.v === 'user' && v.p.id === myId()) right += `<button class="icon" data-act="profpage" data-k="psocial" aria-label="Social settings" style="margin-right:-8px">${ic('gear')}</button>`;
   if (v.v === 'log') right = statusChip(true) + `<button class="btn sm primary" data-act="ask" data-k="finish">${S.active.editingId ? 'Save' : 'Finish'}</button>`;
   return `${back}<h1>${esc(t)}</h1>${right}`;
 }
@@ -1837,7 +1877,7 @@ function statusChip(compact) {
   return c('ok', 'cloudok', Date.now() - (S.net.savedAt || 0) < 3000 ? 'Saved' : '', 'All changes saved');
 }
 function navBar() {
-  return tabOrder().map(k => [k, TABS.find(t => t[0] === k)[1]]).map(([k, l]) => `<button data-act="tab" data-tab="${k}" ${S.ui.tab === k ? 'aria-current="page"' : ''}>${ic(k === 'prog' ? 'prog' : k)}<span>${l}</span></button>`).join('');
+  return tabOrder().map(k => [k, TABS.find(t => t[0] === k)[1]]).map(([k, l]) => { const dot = k === 'social' && soUnread() > 0; return `<button data-act="tab" data-tab="${k}" ${S.ui.tab === k ? 'aria-current="page"' : ''} ${dot ? `aria-label="${l}, ${soUnread()} new"` : ''}><span class="navi">${ic(k)}${dot ? '<i class="ndot"></i>' : ''}</span><span>${l}</span></button>`; }).join('');
 }
 function view(v) {
   switch (v.v) {
@@ -1856,6 +1896,12 @@ function view(v) {
     case 'prs': return vPRs();
     case 'photocmp': return vPhotoCmp();
     case 'coach': return vCoach();
+    case 'social': return vSocial();
+    case 'user': return vUser(v.p.id);
+    case 'group': return vGroup(v.p.id);
+    case 'post': return vPost(v.p.id);
+    case 'notifs': return vNotifs();
+    case 'compare': return vCompare(v.p.id);
   }
   if (v.v === 'settings') return vSettings();
   if (PAGE_TITLES[v.v]) return vProfPage(v.v);
@@ -2030,7 +2076,7 @@ function vTrain() {
     h += `<div class="card"><div class="sec-h"><div><div class="eyebrow ${b.active ? 'acc' : ''}">${b.active ? 'Active · ' : ''}${esc(cap(b.focus || 'mixed'))}${b.sample ? ' · example' : ''}</div><div class="h2">${esc(b.name)}</div></div></div>
       <span class="sub">${status}${b.deloadWeek ? ` · deload week ${b.deloadWeek}` : ''}</span>
       ${b.active ? '' : `<span class="sub">${days.map(d => DOW[d.weekday] + ' ' + esc(d.title)).join(' · ')}</span>`}<div class="rows" ${b.active ? '' : 'hidden'}>${days.map(d => `<div class="rowi" style="padding:6px 0"><span class="faint" style="width:34px">${DOW[d.weekday]}</span><span class="grow t">${esc(d.title)}</span><span class="faint" style="font-size:13px">${TYPES[d.type]}</span></div>`).join('')}</div>
-      <div class="btnrow"><button class="btn sm" data-act="editblock" data-id="${b.id}">Edit</button>${b.active ? '' : `<button class="btn sm" data-act="activate" data-id="${b.id}">Make active</button>`}<button class="btn sm" data-act="repeatblock" data-id="${b.id}">Repeat</button></div></div>`;
+      <div class="btnrow"><button class="btn sm" data-act="editblock" data-id="${b.id}">Edit</button>${b.active ? '' : `<button class="btn sm" data-act="activate" data-id="${b.id}">Make active</button>`}<button class="btn sm" data-act="repeatblock" data-id="${b.id}">Repeat</button>${soMe() ? `<button class="btn sm" data-act="shareblock" data-id="${b.id}">Share</button>` : ''}</div></div>`;
   }
   h += `</div>`;
   const ws = allW().slice(0, 5);
@@ -2379,7 +2425,7 @@ function begin(a) {
   if (S.active) { S.ui.pendingStart = a; S.ui.confirm = 'replace'; S.ui.sheet = { mode: 'replace' }; render(); return; }
   undoStack = []; undoField = null;
   S.active = a; saveActive(); S.ui.inLog = true; S.ui.sel = { e: 0, s: 0 }; S.ui.exMenu = null; S.ui.confirm = null;
-  window.scrollTo(0, 0); wake(); render();
+  window.scrollTo(0, 0); wake(); render(); soLive(true);
 }
 function startPlanned(key) {
   const b = activeBlock(); if (!b) return;
@@ -2423,7 +2469,7 @@ function finishBox(a) {
   let h = '';
   if (S.ui.confirm === 'finish') {
     const warn = a.type === 'strength' && !nDone ? '<div class="warn">No sets are ticked yet. Only ticked sets are saved.</div>' : '';
-    dlgNext = { close: 'cancel', html: `<div class="dlg-q" id="dlg-t" tabindex="-1">${a.editingId ? 'Save changes?' : 'Finish and save this workout?'}${nDone != null ? `<div class="sub">${nDone} sets ticked.</div>` : ''}</div>${warn}<div class="dlg-btns"><button class="btn primary" data-act="finish">${a.editingId ? 'Save' : 'Finish workout'}</button><button class="btn ghost" data-act="cancel">Keep going</button></div>` };
+    dlgNext = { close: 'cancel', html: `<div class="dlg-q" id="dlg-t" tabindex="-1">${a.editingId ? 'Save changes?' : 'Finish and save this workout?'}${nDone != null ? `<div class="sub">${nDone} sets ticked.</div>` : ''}</div>${warn}<div class="dlg-btns">${a.editingId ? `<button class="btn primary" data-act="finish">Save</button>` : soMe() ? `<button class="btn primary" data-act="finishpost">${ic('people')}Post workout</button><button class="btn" data-act="finish">Save workout</button>` : `<button class="btn primary" data-act="finish">Save workout</button>`}<button class="btn ghost" data-act="cancel">Keep going</button></div>${a.editingId || soMe() ? '' : `<span class="sub" style="text-align:center">Set up your profile in Social to post workouts.</span>`}${!a.editingId && soMe() ? `<span class="sub" style="text-align:center">Post shares it with friends. Save keeps it to yourself.</span>` : ''}` };
   }
   h += `<button class="btn primary wide" data-act="ask" data-k="finish">${a.editingId ? 'Save changes' : 'Finish workout'}</button>`;
   h += confirmBox('discard', a.editingId ? 'Discard your edits?' : 'Discard this workout? Nothing will be saved.', 'discard', 'Discard', '', true) || `<button class="btn ghost danger" data-act="ask" data-k="discard">${a.editingId ? 'Discard edits' : 'Discard workout'}</button>`;
@@ -2548,8 +2594,8 @@ function logStretch(a) {
   h += `</div><button class="btn sm" data-act="pick" data-mode="logstretch">+ Add stretch</button></div>`;
   return h;
 }
-function finishActive() {
-  const a = S.active; if (!a) return;
+// The saved workout built from the one being logged; null when a cardio session has no duration yet.
+function buildDoc(a) {
   const id = a.editingId || a.id;
   const doc = { type: a.type, title: a.title || TYPES[a.type], date: a.date, startedAt: a.startedAt, blockId: a.blockId || null, week: a.week || null, dayKey: a.dayKey || null, templateId: a.templateId || null, notes: a.notes || '', rpe: a.rpe ?? null };
   const prev = a.editingId ? S.workouts.get(a.editingId) : null;
@@ -2565,15 +2611,26 @@ function finishActive() {
     Object.assign(doc, f, { km: a.type === 'swim' ? null : a.km, meters: a.type === 'swim' ? a.meters : null, avgHr: a.avgHr ?? null, plan: a.plan || null, h: undefined });
     const zm = [0, 1, 2, 3, 4].map(i => Math.max(0, num((a.zoneMin || [])[i]) || 0));
     doc.zoneMin = zm.some(Boolean) ? zm : null;
-    if (!f.durSec) { toast('Enter the duration first'); S.ui.confirm = null; render(); return; }
+    if (!f.durSec) return null;
   }
   const hs = !a.editingId && hrStats(a.hr); if (hs) { doc.hr = hs; if (SPORT[a.type] && doc.avgHr == null) doc.avgHr = hs.avg; } else if (prev && prev.hr) doc.hr = prev.hr;
   if (prev) { if (prev.evaluation) doc.evaluation = prev.evaluation; if (prev.sample) doc.sample = true; }
   doc.summary = computeSummary(doc, id);
+  return doc;
+}
+// opts.post: { body, photos, group } when finishing with "Post workout".
+function finishActive(opts = {}) {
+  const a = S.active; if (!a) return;
+  const id = a.editingId || a.id, prev = a.editingId ? S.workouts.get(a.editingId) : null;
+  const doc = buildDoc(a);
+  if (!doc) { toast('Enter the duration first'); S.ui.confirm = null; render(); return; }
+  if (prev && prev.posted) doc.posted = true;
+  if (opts.post && !prev) { doc.posted = true; queuePost({ kind: 'workout', body: opts.post.body || '', data: wPost({ ...doc, id }), photos: opts.post.photos || [], group: opts.post.group || null }); }
   write('workouts', id, doc);
   if (!prev) haptic('finish');
   undoStack = [];
-  shareSoon();
+  if (!prev) { soLive(false); soAfterFinish(doc, !!opts.post); }
+  setTimeout(() => syncStats(), 3000);
   syncPlan();
   S.active = null; saveActive(); S.ui.inLog = false; S.rest = null; S.ui.confirm = null; release(); $('#prb').hidden = true; $('#toast').hidden = true;
   S.ui.stack = [{ v: 'session', p: { id, fresh: !prev } }];
@@ -2641,7 +2698,7 @@ function vSession(id, fresh) {
   if (w.type === 'strength') h += `<div class="sec"><span class="label">Sets</span>${(w.exercises || []).map((ex, k) => `<div class="card flat" style="padding:10px 12px;gap:4px"><b>${groupTag(wgi[k])}${esc(ex.name)}</b><span class="sub">${ex.sets.map(x => `${x.kind === 'W' ? 'W ' : ''}${fmtNum(x.lb || 0)}×${x.reps}${x.rpe != null ? ' @' + x.rpe : ''}`).join(' · ')}</span>${ex.note ? `<span class="sub">${esc(ex.note)}</span>` : ''}${ex.sets.filter(x => x.note).map(x => `<span class="sub">${fmtNum(x.lb || 0)}×${x.reps}: ${esc(x.note)}</span>`).join('')}</div>`).join('')}</div>`;
   if (w.type === 'stretch') h += `<div class="rows">${(w.stretches || []).map(x => `<div class="rowi"><span class="grow t">${esc(x.name)}</span><span class="sub">${x.holdSec}s${x.sides ? ' each side' : ''}</span>${x.done ? ic('check', 'acc') : ''}</div>`).join('')}</div>`;
   if (w.notes) h += `<div class="sec"><span class="label">Notes</span><p>${esc(w.notes)}</p></div>`;
-  h += `<div class="btnrow"><button class="btn" data-act="editw" data-id="${id}">Edit</button><button class="btn" data-act="savefromw" data-id="${id}">Save as workout</button>${S.ui.confirm === 'delw' ? '' : `<button class="btn ghost danger" data-act="ask" data-k="delw">Delete</button>`}</div>`;
+  h += `<div class="btnrow"><button class="btn" data-act="editw" data-id="${id}">Edit</button><button class="btn" data-act="savefromw" data-id="${id}">Save as workout</button>${soMe() && !w.posted && !w.sample ? `<button class="btn" data-act="sharew" data-id="${id}">${ic('people')}Post</button>` : ''}${S.ui.confirm === 'delw' ? '' : `<button class="btn ghost danger" data-act="ask" data-k="delw">Delete</button>`}</div>`;
   h += confirmBox('delw', 'Delete this session for good?', 'delw', 'Delete session', `data-id="${id}"`, true);
   return h;
 }
@@ -3076,8 +3133,8 @@ function profForms() {
   if (!F.prof) { const p = profile(); F.prof = { age: p.age ?? null, ft: p.heightIn ? Math.floor(p.heightIn / 12) : null, inch: p.heightIn ? p.heightIn % 12 : null, trainingYears: p.trainingYears ?? null, goal: p.goal || '', prevBests: { ...(p.prevBests || {}) } }; }
   return F;
 }
-const PROF_PAGES = [['plevel', 'Gym bro level', 'flame'], ['pfriends', 'Friends', 'people'], ['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
-const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics', pfriends: 'Friends', plevel: 'Gym bro level' };
+const PROF_PAGES = [['plevel', 'Gym bro level', 'flame'], ['psocial', 'Social and privacy', 'people'], ['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
+const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics', psocial: 'Social and privacy', plevel: 'Gym bro level' };
 function profSummary(k) {
   const bl = bodyList(), st = settings();
   if (k === 'pmeas') { const m = bl.filter(b => b.meas && Object.keys(b.meas).length).at(-1); return m ? `Last measured ${fmtShort(m.date)}` : 'Not measured yet'; }
@@ -3089,8 +3146,8 @@ function profSummary(k) {
   if (k === 'ptabs') { const n = k => TABS.find(t => t[0] === k)[1]; return `${tabOrder().map(n).join(', ')} · opens on ${n(startTab())}`; }
   if (k === 'pprog') { const ov = Object.keys(st.incEx || {}).length; return `+${fmtNum(st.incUpper ?? st.stepLb, 1)} lb upper, +${fmtNum(st.incLower ?? st.stepLb * 2, 1)} lb lower${ov ? ` · ${ov} custom lift${ov === 1 ? '' : 's'}` : ''}`; }
   if (k === 'ppr') return PRK.filter(p => prOn(p[0])).map(p => p[2]).join(', ') || 'None counted';
-  if (k === 'pfriends') { const c = shareCfg(); return c.on && c.name.trim() ? `Sharing as ${esc(c.name.trim())}` : 'Leaderboard and PRs with friends · sharing is off'; }
   if (k === 'plevel') { const g = gymLevel(); return g.lvl != null ? `${GB_LEVELS[g.lvl]} · level ${g.lvl + 1} of 7` : g.bw ? 'Log a squat, bench, deadlift, press or pull-up' : 'Log your body weight to get a level'; }
+  if (k === 'psocial') { const me = soMe(); return me ? `@${esc(me.username)} · ${PRIV.filter(([x]) => privOf(x) !== 'me').length} of ${PRIV.length} stats shared` : 'Set up your profile in the Social tab'; }
   if (k === 'pnotif') return notifSummary();
   if (k === 'phr') return hrSummary();
   if (k === 'pdata') { if (S.net.dbFailed || S.net.lastErr) return `<span class="warn">Sync issue</span>`; return window.engine && engine.signedIn() ? esc(engine.email() || 'Signed in') : 'Export, account'; }
@@ -3158,7 +3215,7 @@ function vProfile() {
   return h;
 }
 function vProfPage(k) {
-  if (k === 'pfriends') return vFriends();
+  if (k === 'psocial') return vSocialSettings();
   if (k === 'plevel') return vLevel();
   const F = profForms(), st = settings();
   if (k === 'pmeas') {
@@ -3332,14 +3389,14 @@ async function uploadPhoto(input) {
     toast('Photo saved');
   } catch (err) { toast('Upload failed (' + ((err && err.code) || 'error') + ')'); }
 }
-function shrink(file) {
+function shrink(file, max = 1600, q = 0.85) {
   return new Promise(resolve => {
     const img = new Image(), url = URL.createObjectURL(file);
     img.onload = () => {
-      const max = 1600, sc = Math.min(1, max / Math.max(img.width, img.height));
+      const sc = Math.min(1, max / Math.max(img.width, img.height));
       const c = document.createElement('canvas'); c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
-      c.toBlob(b => resolve(b || file), 'image/jpeg', 0.85);
+      c.toBlob(b => resolve(b || file), 'image/jpeg', q);
     };
     img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
     img.src = url;
@@ -3349,6 +3406,8 @@ function shrink(file) {
 /* ================= picker sheet ================= */
 function sheet() {
   const sh = S.ui.sheet;
+  if (sh.mode === 'compose') return composeSheet();
+  if (sh.mode === 'gadd') return groupAddSheet();
   if (sh.mode === 'replace') {
     return `<div class="sheet-h"><h2 id="sheet-t" tabindex="-1">Workout in progress</h2></div><div class="sheet-b"><p>You already have <b>${esc(S.active.title || TYPES[S.active.type])}</b> running. What do you want to do?</p><div class="btnrow"><button class="btn primary" data-act="resume">Resume it</button></div><button class="btn danger" data-act="replaceactive">Discard it and start the new one</button><button class="btn ghost" data-act="closesheet">Cancel</button></div>`;
   }
@@ -3532,7 +3591,7 @@ document.addEventListener('pointerup', swUp); document.addEventListener('pointer
 // Pull to refresh on Today and Progression: drag down from the top of the page to fetch the latest from your account.
 const PTR_GO = 64;
 let ptr = null, ptrBusy = false;
-const ptrOn = () => !S.ui.auth && !S.ui.sheet && $('#dlg').hidden && !S.ui.stack.length && !(S.ui.inLog && S.active) && (S.ui.tab === 'today' || S.ui.tab === 'prog');
+const ptrOn = () => !S.ui.auth && !S.ui.sheet && $('#dlg').hidden && !S.ui.stack.length && !(S.ui.inLog && S.active) && (S.ui.tab === 'today' || S.ui.tab === 'prog' || S.ui.tab === 'social');
 function ptrShow(d, cls) { const el = $('#ptr'); if (!el.firstChild) el.innerHTML = ic('refresh'); el.className = 'ptr ' + (cls || ''); el.style.transform = `translateY(${d - 60}px)`; el.style.opacity = Math.min(1, d / 40); el.firstChild.style.transform = cls === 'busy' ? '' : `rotate(${d * 4}deg)`; }
 document.addEventListener('touchstart', e => {
   ptr = null; if (ptrBusy || !ptrOn() || window.scrollY > 2 || e.touches.length > 1 || e.target.closest('svg.chart, .wipe, input, textarea, select, .swr')) return;
@@ -3597,20 +3656,6 @@ function bindInput(t) {
   if (t.hasAttribute('data-rerender')) render();
 }
 const C = {
-  shareon(t) {
-    const on = t.checked, c = shareCfg();
-    setTimeout(async () => {
-      saveSetting({ share: { ...c, on } });
-      if (on) { LS.del('ft.shareStop'); syncShare(true); return; }
-      LS.del('ft.shareSent'); S.friends = null;
-      try { await engine.friends.stop(); toast('Sharing is off. Your shared copy was deleted.'); }
-      catch (e) { LS.set('ft.shareStop', true); toast('Sharing is off. Engine deletes your shared copy as soon as it\'s back online.'); }
-      render();
-    }, 200);
-  },
-  sharename(t) { saveSetting({ share: { ...shareCfg(), name: t.value.trim().slice(0, 30) } }); syncShare(true); },
-  shareopt(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => { saveSetting({ share: { ...shareCfg(), [k]: on } }); syncShare(true); }, 200); },
-  fblift(t) { S.ui.fbLift = t.value; render(); },
   tcshow(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => saveSetting({ todayCards: todayLayout().map(c => c.k === k ? { ...c, on } : c) }), 200); },
   prkind(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => saveSetting({ prKinds: { ...(settings().prKinds || {}), [k]: on } }), 200); },
   pralert(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => saveSetting({ prAlerts: { ...(settings().prAlerts || {}), [k]: on } }), 200); },
@@ -3693,14 +3738,14 @@ Object.assign(A, {
   replaceactive() { S.active = null; S.rest = null; S.ui.sheet = null; const a = S.ui.pendingStart; S.ui.pendingStart = null; begin(a); },
   minimize() { S.ui.inLog = false; S.ui.confirm = null; render(); },
   finish() { finishActive(); },
-  discard() { undoStack = []; S.active = null; saveActive(); S.ui.inLog = false; S.rest = null; S.ui.confirm = null; release(); render(); toast('Workout discarded'); },
+  finishpost() { if (!buildDoc(S.active)) { toast('Enter the duration first'); S.ui.confirm = null; render(); return; } S.ui.confirm = null; openCompose({ finishing: true }); },
+  discard() { undoStack = []; soLive(false); S.active = null; saveActive(); S.ui.inLog = false; S.rest = null; S.ui.confirm = null; release(); render(); toast('Workout discarded'); },
   arpe(d) { S.active.rpe = S.active.rpe === +d.v ? null : +d.v; saveActive(); render(); },
   sel(d) { selectRow(+d.i, +d.j); },
   wundo() { undoLast(); },
   fbweek(d) { S.ui.fbWeek = d.v; render(); },
   levelstd(d) { saveSetting({ levelStd: d.v }); },
   fbmetric(d) { S.ui.fbMetric = d.v; render(); },
-  friendsreload() { loadFriends(); render(); },
   kind(d) { snap('set type'); const s = S.active.exercises[+d.i].sets[+d.j]; s.kind = s.kind === 'W' ? 'N' : 'W'; saveActive(); render(); },
   done(d) {
     const xs = S.active.exercises, i = +d.i, ex = xs[i], j = +d.j, s = ex.sets[j];
@@ -3925,7 +3970,7 @@ Object.assign(A, {
     const data = { exportedAt: new Date().toISOString() }; for (const c of COLS) data[c] = Object.fromEntries(S[c]);
     try { await downloads.save({ filename: `training-data-${ymd()}.json`, data: JSON.stringify(data, null, 2) }); } catch (e) { if (e && e.code !== 'cancelled' && e.code !== 'declined') toast('Export didn\'t complete (' + (e.code || 'error') + ')'); }
   },
-  async signout() { S.ui.confirm = null; const ep = LS.get('ft.push', ''); if (ep && pushOk()) try { await engine.push.forget(ep); } catch (e) {} await engine.signOut(); for (const k of ['ft.cache', 'ft.outbox', 'ft.active', 'ft.uid', 'ft.push', 'ft.remindKey']) LS.del(k); location.replace(location.pathname); },
+  async signout() { S.ui.confirm = null; const ep = LS.get('ft.push', ''); if (ep && pushOk()) try { await engine.push.forget(ep); } catch (e) {} await engine.signOut(); for (const k of ['ft.cache', 'ft.outbox', 'ft.active', 'ft.uid', 'ft.push', 'ft.remindKey', ...SO_LS]) LS.del(k); location.replace(location.pathname); },
   authmode() { const a = S.ui.auth; a.mode = a.mode === 'up' ? 'in' : 'up'; a.err = null; const el = $('#au-email'); if (el) a.email = el.value; render(); },
   authback() { S.ui.auth = { mode: 'in', email: S.ui.auth.email }; render(); },
   async install() { if (!installEvt) return; const ev = installEvt; installEvt = null; try { ev.prompt(); await ev.userChoice; } catch (e) {} render(); },
@@ -4308,65 +4353,52 @@ document.addEventListener('visibilitychange', () => {
   } else if (restPushed) { restPushed = false; engine.push.restCancel(ep); }
 });
 
-/* ================= friends ================= */
-// Sharing is opt-in: settings.share = {on, name, prs, week}. The app sends a small summary of only the ticked parts to
-// friend_shares (readable by every Engine account, which are all invited people); turning sharing off deletes it.
-// Notes, body data, measurements, photos and coach chats are never part of it.
-const shareCfg = () => ({ on: false, name: '', prs: true, week: true, level: true, ...(settings().share || {}) });
-function shareBlob() {
-  const c = shareCfg(), out = {};
-  if (c.prs) {
-    const names = new Set(), best = [];
-    for (const w of allW()) if (w.type === 'strength') for (const ex of w.exercises || []) names.add(ex.name);
-    for (const n of names) {
-      let b = null;
-      for (const h of exHist(n)) for (const x of h.ws) { const v = e1(x.lb || 0, x.reps, x.rpe); if (x.lb > 0 && (!b || v > b.e1)) b = { ex: n, e1: Math.round(v), lb: x.lb, reps: x.reps, date: h.date }; }
-      if (b) best.push(b);
-    }
-    best.sort((a, b) => b.e1 - a.e1);
-    const since = addDays(ymd(), -30);
-    out.prs = { best: best.slice(0, 40), recent: prLog().filter(p => p.date >= since).slice(0, 12).map(p => ({ ex: p.ex, kind: p.kind, val: p.val, date: p.date })) };
-  }
-  if (c.level) { const g = gymLevel(); if (g.lvl != null) out.level = { lvl: g.lvl + 1, name: GB_LEVELS[g.lvl], score: Math.round(g.score * 100) / 100, std: g.std }; }
-  if (c.week) {
-    const wk = m => { const w = weekStats(m); return { weekOf: m, n: w.n, sets: w.sets, vol: Math.round(w.vol), cardioMin: Math.round(w.cardioMin) }; };
-    const m = mondayOf(ymd()); out.week = wk(m); out.last = wk(addDays(m, -7));
-  }
-  return out;
-}
-let shareT = null;
-function shareSoon() { clearTimeout(shareT); shareT = setTimeout(() => syncShare(), 3000); }
-// Sends the summary when it changed. Waits until every collection has loaded, so a half-loaded start can't share zeros.
-async function syncShare(force) {
-  if (!window.engine || !engine.signedIn() || !engine.friends || !navigator.onLine) return;
-  const c = shareCfg();
-  if (!c.on) { if (LS.get('ft.shareStop', false)) try { await engine.friends.stop(); LS.del('ft.shareStop'); } catch (e) {} return; }
-  if (!c.name.trim() || S.net.synced.size < COLS.length) return;
-  const name = c.name.trim().slice(0, 30), data = shareBlob(), key = JSON.stringify([name, data]);
-  if (!force && key === LS.get('ft.shareSent', '')) return;
-  try { await engine.friends.share(name, data); LS.set('ft.shareSent', key); S.friends = null; if (curPage() === 'pfriends') render(); } catch (e) {}
-}
-setInterval(() => syncShare(), 60000);
-setTimeout(() => syncShare(), 8000);
 const curPage = () => { const v = S.ui.stack.at(-1); return v && v.v; };
-function loadFriends() {
-  if (!window.engine || !engine.friends) return;
-  if (!navigator.onLine) { S.friends = { off: true, list: [] }; return; }
-  S.friends = { loading: true, list: [] };
-  engine.friends.list().then(list => { S.friends = { list, at: Date.now() }; render(); }).catch(() => { S.friends = { err: true, list: [] }; render(); });
+/* ================= social ================= */
+// Social lives on the server (migration 007): a profile with a username, friends by request, posts with photos, props and
+// comments, groups, and the stats each person chooses to show. Every screen keeps its last copy on the phone so Social
+// opens straight away and offline; posts written offline wait in a queue and go up once there's a connection.
+const SOC = () => !!(window.engine && engine.social && engine.signedIn());
+const myId = () => window.engine && engine.uid && engine.uid();
+// Screen data by key: { data, at, busy, err }. The keys in SC_KEEP are also kept on the phone.
+const SC = new Map(), SC_KEEP = ['me', 'friends', 'feed', 'groups', 'fstats', 'unread'];
+for (const [k, v] of Object.entries(LS.get('ft.so', {}) || {})) SC.set(k, { data: v, at: 0 });
+let scSaveT = null;
+function scSave() { clearTimeout(scSaveT); scSaveT = setTimeout(() => { const o = {}; for (const k of SC_KEEP) { const e = SC.get(k); if (e && e.data !== undefined) o[k] = e.data; } LS.set('ft.so', o); }, 800); }
+// The cached value for a key, fetched again in the background once it's older than maxAge. Re-renders when it lands.
+function sget(key, fn, maxAge = 60000) {
+  let e = SC.get(key);
+  if (!e) SC.set(key, e = { data: undefined, at: 0 });
+  if (!e.busy && SOC() && navigator.onLine && Date.now() - e.at > maxAge) {
+    e.busy = true;
+    Promise.resolve().then(fn).then(d => { e.data = d; e.err = null; e.at = Date.now(); if (SC_KEEP.includes(key)) scSave(); },
+      x => { e.err = x; e.at = Date.now() - maxAge + 15000; }).finally(() => { e.busy = false; schedule(); });
+  }
+  return e;
 }
-// A friend's totals for the week starting on monday: their summary may be from before this week started.
-function friendWeek(d, mon) {
-  for (const w of [d.week, d.last]) if (w && w.weekOf === mon) return w;
-  return { weekOf: mon, n: 0, sets: 0, vol: 0, cardioMin: 0 };
+const sset = (key, data) => { const e = SC.get(key) || {}; SC.set(key, { ...e, data, at: e.at || 0 }); if (SC_KEEP.includes(key)) scSave(); };
+const sdrop = (...keys) => { for (const k of keys) { const e = SC.get(k); if (e) e.at = 0; } };
+const sdropAll = () => { for (const e of SC.values()) e.at = 0; };
+const soMeE = () => sget('me', () => engine.social.me(), 300000);
+const soMe = () => soMeE().data;
+const soFriendsE = () => sget('friends', () => engine.social.friends(), 60000);
+const soFriendsList = () => soFriendsE().data || [];
+const soRel = id => { const f = soFriendsList().find(x => x.user_id === id); return f ? f.status : id === myId() ? 'me' : 'none'; };
+const soFriendIds = () => soFriendsList().filter(f => f.status === 'friends').map(f => f.user_id);
+// Week totals, "training now" and streaks for everyone on your friends list.
+function friendStats() {
+  if (soFriendsE().data === undefined) return (SC.get('fstats') || {}).data || {};
+  return sget('fstats', () => { const ids = soFriendIds(); return ids.length ? engine.social.stats(ids, ['week', 'live', 'streak', 'level']) : {}; }, 60000).data || {};
 }
-const FB_METRICS = [['n', 'Sessions', v => fmtNum(v)], ['vol', 'Volume', v => `${fmtNum(v)} lb`], ['sets', 'Sets', v => fmtNum(v)], ['cardioMin', 'Cardio', v => `${fmtNum(v)} min`]];
-function boardRows(rows, fmt) {
-  if (!rows.length) return '';
-  const max = Math.max(1, ...rows.map(r => r.v));
-  let rank = 0, prev = null;
-  return rows.map((r, i) => { if (r.v !== prev) { rank = i + 1; prev = r.v; } return `<div class="fbr ${r.me ? 'me' : ''}"><span class="fbn">${rank}</span><span class="grow"><span class="fbt"><b>${esc(r.name)}${r.me ? ' <span class="faint">(you)</span>' : ''}</b><span>${fmt(r.v)}</span></span>${r.sub ? `<span class="sub">${r.sub}</span>` : ''}<span class="fbbar"><i style="width:${Math.round(100 * r.v / max)}%"></i></span></span></div>`; }).join('');
+const soUnread = () => SOC() && soMe() ? sget('unread', () => engine.social.unread(), 60000).data || 0 : 0;
+// Phone storage Social uses; cleared when you sign out or another account signs in.
+const SO_LS = ['ft.so', 'ft.postq', 'ft.statSent', 'ft.live'];
+function photoDlg() {
+  const v = S.ui.photoView, src = soPhoto(v.paths[v.i]);
+  return { close: 'photoclose', html: `<div class="pview" id="dlg-t" tabindex="-1">${src ? `<img src="${esc(src)}" alt="Photo ${v.i + 1} of ${v.paths.length}">` : '<span class="skel" style="height:60vh"></span>'}</div><div class="dlg-btns">${v.paths.length > 1 ? `<button class="btn" data-act="photonext" data-d="-1" aria-label="Previous photo">${ic('back')}</button><span class="faint" style="align-self:center">${v.i + 1} / ${v.paths.length}</span><button class="btn" data-act="photonext" data-d="1" aria-label="Next photo"><span style="display:inline-flex;transform:scaleX(-1)">${ic('back')}</span></button>` : ''}<button class="btn ghost" data-act="photoclose">Close</button></div>` };
 }
+const soErr = e => !navigator.onLine ? 'You\'re offline' : (e && e.message) || 'Something went wrong';
+
 const gbBadge = l => `<span class="gbb" data-l="${l + 1}">${l + 1}</span>`;
 function vLevel() {
   const g = gymLevel(), stdSeg = `<div class="sec"><span class="label">Standards</span>${segOf('levelstd', [['m', 'Men'], ['f', 'Women']], g.std)}</div>`;
@@ -4384,51 +4416,598 @@ function vLevel() {
     <span class="sub">Each lift uses your best estimated 1-rep max from sets of 12 reps or fewer, divided by your body weight (${fmtNum(g.bw, 1)} lb, 7-day average). Your level is the average of the lifts you've logged.</span></div>`;
   return h + stdSeg + ladder(g.lvl ?? -1);
 }
-function vFriends() {
-  const c = shareCfg();
-  if (!S.friends || (S.friends.at && Date.now() - S.friends.at > 120000)) loadFriends();
-  const F = S.friends || { loading: true, list: [] };
-  const sw = (k, on, label) => `<label class="sw2"><input id="sh-${k}" type="checkbox" data-act-change="${k === 'on' ? 'shareon' : 'shareopt'}" data-k="${k}" ${on ? 'checked' : ''} aria-label="${esc(label)}"><i></i></label>`;
-  let h = `<div class="sec"><span class="label">Your sharing</span><div class="card slist">${srow('Share with friends', c.on ? (c.name.trim() ? 'On. Friends see only what\'s ticked below' : '<span class="warn">Add the name friends will see to start sharing</span>') : 'Off. Nothing about you is shared', sw('on', c.on, 'Share with friends'))}`;
-  if (c.on) h += `<div class="srow col"><span class="grow"><span class="t">Name friends see</span></span><input id="sh-name" class="in" maxlength="30" autocomplete="nickname" data-act-change="sharename" value="${esc(c.name)}" placeholder="e.g. Braden"></div>
-    ${srow('My lifts and PRs', 'Best set for each lift, and PRs from the last 30 days', sw('prs', c.prs, 'Share my lifts and PRs'))}
-    ${srow('My gym bro level', 'Your level only, not your body weight', sw('level', c.level, 'Share my gym bro level'))}
-    ${srow('My weekly totals', 'Sessions, working sets, volume and cardio minutes', sw('week', c.week, 'Share my weekly totals'))}`;
-  h += `</div><span class="sub">Anyone with an Engine account (only people you've invited) can see what you share. Notes, body weight, measurements, photos and coach chats are never shared. Turning sharing off deletes your shared copy right away.</span></div>`;
-  if (F.loading) return h + `<div class="empty">Loading friends…</div>`;
-  if (F.off) return h + `<div class="empty">You're offline. Friends' boards load when you're back online.</div>`;
-  if (F.err) return h + `<div class="empty">Couldn't load friends right now. <button class="link" data-act="friendsreload">Try again</button></div>`;
-  // Your own row uses this phone's numbers; you appear only while you share.
-  const mine = c.on && c.name.trim() ? { me: true, name: c.name.trim(), data: shareBlob() } : null;
-  const people = [...F.list.filter(f => !f.me), ...(mine ? [mine] : [])];
-  if (!F.list.some(f => !f.me)) h += `<div class="empty">No friends are sharing yet. When an invited friend turns on sharing in Profile › Friends, they show up here.</div>`;
-  if (!people.length) return h;
-  const lvPeople = people.filter(p => p.data.level && p.data.level.lvl >= 1 && p.data.level.lvl <= 7).sort((a, b) => b.data.level.score - a.data.level.score || a.name.localeCompare(b.name));
-  if (lvPeople.length) h += `<div class="sec"><span class="label">Gym bro levels</span><div class="card"><div class="rows">${lvPeople.map(p => `<div class="rowi">${gbBadge(p.data.level.lvl - 1)}<span class="grow t"><b>${esc(p.name)}</b>${p.me ? ' <span class="faint">(you)</span>' : ''}</span><span class="sub">${GB_LEVELS[p.data.level.lvl - 1]}</span></div>`).join('')}</div></div></div>`;
-  // weekly leaderboard
-  const wkPeople = people.filter(p => p.data.week);
-  if (wkPeople.length) {
-    const mk = FB_METRICS.find(m => m[0] === S.ui.fbMetric) || FB_METRICS[0], last = S.ui.fbWeek === 'last', mon = addDays(mondayOf(ymd()), last ? -7 : 0);
-    const rows = wkPeople.map(p => ({ name: p.name, me: p.me, v: friendWeek(p.data, mon)[mk[0]] || 0 })).sort((a, b) => b.v - a.v || a.name.localeCompare(b.name));
-    h += `<div class="sec"><div class="sec-h"><span class="label">Leaderboard · ${last ? 'last week' : 'this week'}</span><button class="link" data-act="fbweek" data-v="${last ? 'this' : 'last'}">${last ? 'This week' : 'Last week'}</button></div>
-      ${segOf('fbmetric', FB_METRICS.map(m => [m[0], m[1]]), mk[0])}<div class="card fb">${boardRows(rows, mk[2])}</div></div>`;
+
+/* ---------- privacy, streaks and badges ---------- */
+// Each stat is Everyone, Friends (which includes people in your groups) or Only me. Only me sends nothing.
+const PRIV = [['streak', 'Streak and badges', 'Weekly streak, total sessions and badges'], ['week', 'Weekly totals', 'Sessions, working sets, volume and cardio for the last 8 weeks'], ['prs', 'Lifts and PRs', 'Best set for each lift, and PRs from the last 30 days'], ['level', 'Gym bro level', 'Your level only, not your body weight'], ['history', 'Recent sessions', 'Your last 12 sessions with their totals (no notes)'], ['program', 'Current block', 'Its name, week and weekly schedule'], ['live', 'Training now', 'Shows friends when you\'re mid-workout'], ['body', 'Weight and body fat', 'Your 7-day average weight, body fat and 30-day change'], ['meas', 'Measurements', 'Your latest tape measurements']];
+const PRIV_DEF = { level: 'friends', streak: 'friends', week: 'friends', prs: 'friends', history: 'friends', program: 'friends', live: 'friends', body: 'me', meas: 'me' };
+const VIS = [['everyone', 'Everyone'], ['friends', 'Friends'], ['me', 'Only me']];
+const privOf = k => { const p = (settings().privacy || {})[k]; return ['everyone', 'friends', 'me'].includes(p) ? p : PRIV_DEF[k]; };
+const visName = v => v === 'everyone' ? 'Everyone' : v === 'friends' ? 'Friends' : 'Only you';
+const autoOn = k => (settings().autoPost || {})[k] !== false;
+const streakGoal = () => clamp(settings().streakGoal || 3, 1, 7);
+const weekCounts = () => mm('wkc', () => { const m = new Map(); for (const w of allW()) { const k = mondayOf(w.date); m.set(k, (m.get(k) || 0) + 1); } return m; });
+// Weeks in a row with at least the weekly goal of sessions. This week counts once it's reached; until then the streak runs to last week.
+function streakInfo() {
+  return mm('streak', () => {
+    const g = streakGoal(), wc = weekCounts(), mon = mondayOf(ymd()), ws = allW();
+    let weeks = 0, m = (wc.get(mon) || 0) >= g ? mon : addDays(mon, -7);
+    while ((wc.get(m) || 0) >= g) { weeks++; m = addDays(m, -7); }
+    let best = weeks, run = 0;
+    if (ws.length) for (let x = mondayOf(ws.at(-1).date); x <= mon; x = addDays(x, 7)) { if ((wc.get(x) || 0) >= g) best = Math.max(best, ++run); else if (x !== mon) run = 0; }
+    return { weeks, best, goal: g, thisWeek: wc.get(mon) || 0, total: ws.length };
+  });
+}
+const bestE1 = name => Math.max(0, ...exHist(name).map(h => h.best));
+function badgeStats() {
+  return mm('bstats', () => {
+    let vol = 0, km = 0;
+    for (const w of allW()) { if (w.type === 'strength') for (const ex of w.exercises || []) for (const s of ex.sets || []) if (s.kind !== 'W') vol += (s.lb || 0) * (s.reps || 0); if (SPORT[w.type]) km += SPORT[w.type].dist(w) || 0; }
+    const sq = bestE1(MAIN_LIFTS.squat), be = bestE1(MAIN_LIFTS.bench), dl = bestE1(MAIN_LIFTS.deadlift), bw = currentBW();
+    return { n: allW().length, best: streakInfo().best, club: sq && be && dl ? sq + be + dl : 0, rel: bw ? { squat: sq / bw, bench: be / bw, deadlift: dl / bw } : {}, vol, km, prs: prLog().length };
+  });
+}
+// [id, name, what it takes, icon, test]
+const BADGES = [
+  ...[[1, 'First session'], [10, '10 sessions'], [25, '25 sessions'], [50, '50 sessions'], [100, '100 sessions'], [250, '250 sessions'], [500, '500 sessions']].map(([n, t]) => ['w' + n, t, n === 1 ? 'Logged a first workout' : `Logged ${n} workouts`, 'train', s => s.n >= n]),
+  ...[4, 8, 12, 26, 52].map(n => ['s' + n, `${n}-week streak`, `${n} weeks in a row at your weekly goal`, 'flame', s => s.best >= n]),
+  ...[1000, 1200, 1500].map(n => ['c' + n, `${fmtNum(n)} lb club`, `Squat, bench and deadlift estimated maxes add up to ${fmtNum(n)} lb`, 'bolt', s => s.club >= n]),
+  ['bwbench', 'Bodyweight bench', 'Bench press estimated max at your body weight or more', 'trophy', s => s.rel.bench >= 1],
+  ['bwsquat', '1.5× bodyweight squat', 'Squat estimated max at 1.5 times your body weight', 'trophy', s => s.rel.squat >= 1.5],
+  ['bwdead', '2× bodyweight deadlift', 'Deadlift estimated max at twice your body weight', 'trophy', s => s.rel.deadlift >= 2],
+  ['v100k', '100,000 lb lifted', 'Weight × reps across every working set', 'chart', s => s.vol >= 1e5],
+  ['v1m', '1,000,000 lb lifted', 'Weight × reps across every working set', 'chart', s => s.vol >= 1e6],
+  ...[100, 500, 1000].map(n => ['k' + n, `${fmtNum(n)} km of cardio`, 'Runs, rides and swims added up', 'heart', s => s.km >= n]),
+  ...[10, 50, 100].map(n => ['p' + n, `${n} PRs`, `${n} personal records`, 'star', s => s.prs >= n])
+];
+const BADGE_BY = Object.fromEntries(BADGES.map(b => [b[0], b]));
+const earnedBadges = () => mm('badges', () => { const s = badgeStats(); return BADGES.filter(b => b[4](s)).map(b => b[0]); });
+const badgeChip = id => { const b = BADGE_BY[id]; return b ? `<span class="badge" title="${esc(b[2])}">${ic(b[3])}${esc(b[1])}</span>` : ''; };
+function bodyChange30() { const wa = weightAvg(), bw = currentBW(); const t = dix(ymd()) - 30, c = wa.filter(p => p.x <= t); return bw != null && c.length ? bw - c.at(-1).avg : null; }
+
+// What each stat section sends; null hides it (nothing to show yet).
+function statData(k) {
+  if (k === 'prs') {
+    const names = new Set(), best = [];
+    for (const w of allW()) if (w.type === 'strength') for (const ex of w.exercises || []) names.add(ex.name);
+    for (const n of names) {
+      let b = null;
+      for (const h of exHist(n)) for (const x of h.ws) { const v = e1(x.lb || 0, x.reps, x.rpe); if (x.lb > 0 && (!b || v > b.e1)) b = { ex: n, e1: Math.round(v), lb: x.lb, reps: x.reps, date: h.date }; }
+      if (b) best.push(b);
+    }
+    best.sort((a, b) => b.e1 - a.e1);
+    const since = addDays(ymd(), -30);
+    return best.length ? { best: best.slice(0, 40), recent: prLog().filter(p => p.date >= since).slice(0, 12).map(p => ({ ex: p.ex, kind: p.kind, val: p.val, date: p.date })) } : null;
   }
-  // lift board
-  const prPeople = people.filter(p => p.data.prs && (p.data.prs.best || []).length);
-  if (prPeople.length) {
-    const cnt = {};
-    for (const p of prPeople) for (const b of p.data.prs.best) cnt[b.ex] = (cnt[b.ex] || 0) + 1;
-    const lifts = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a] || a.localeCompare(b));
-    const lift = lifts.includes(S.ui.fbLift) ? S.ui.fbLift : lifts[0];
-    const rows = prPeople.map(p => { const b = p.data.prs.best.find(x => x.ex === lift); return b && { name: p.name, me: p.me, v: b.e1, sub: `${fmtNum(b.lb)} lb × ${b.reps} · ${fmtShort(b.date)}` }; }).filter(Boolean).sort((a, b) => b.v - a.v);
-    h += `<div class="sec"><span class="label">Lifts · estimated 1-rep max</span><select id="fb-lift" class="in" data-act-change="fblift" aria-label="Lift">${lifts.map(l => `<option ${l === lift ? 'selected' : ''} value="${esc(l)}">${esc(l)} (${cnt[l]})</option>`).join('')}</select><div class="card fb">${boardRows(rows, v => `${fmtNum(v)} lb`)}</div></div>`;
-    // Friends' PRs from the last two weeks (yours are on the PR history page).
-    const since = addDays(ymd(), -14), feed = prPeople.filter(p => !p.me).flatMap(p => (p.data.prs.recent || []).filter(r => r.date >= since).map(r => ({ ...r, who: p.name }))).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 12);
-    if (feed.length) h += `<div class="sec"><span class="label">Friends' recent PRs</span><div class="card"><div class="rows">${feed.map(r => `<div class="rowi">${ic('trophy', 'acc')}<span class="grow"><span class="t" style="display:block"><b>${esc(r.who)}</b> · ${esc(r.ex)}</span><span class="sub">${esc(r.kind)}: ${esc(r.val)}</span></span><span class="faint" style="font-size:13px">${fmtShort(r.date)}</span></div>`).join('')}</div></div></div>`;
+  if (k === 'week') { const m = mondayOf(ymd()); return { weeks: Array.from({ length: 8 }, (_, i) => { const mon = addDays(m, -7 * i), w = weekStats(mon); return { weekOf: mon, n: w.n, sets: w.sets, vol: Math.round(w.vol), cardioMin: Math.round(w.cardioMin), km: r1(w.km) }; }) }; }
+  if (k === 'history') { const l = allW().slice(0, 12); return l.length ? { list: l.map(w => ({ date: w.date, type: w.type, title: w.title || TYPES[w.type], stat: wStat(w), prs: ((w.summary || {}).prs || []).length, min: w.durationMin || null })) } : null; }
+  if (k === 'streak') return { ...streakInfo(), badges: earnedBadges() };
+  if (k === 'level') { const g = gymLevel(); return g.lvl == null ? null : { lvl: g.lvl + 1, name: GB_LEVELS[g.lvl], score: Math.round(g.score * 100) / 100, std: g.std }; }
+  if (k === 'program') { const b = activeBlock(); if (!b) return null; const w = blockWeek(b); return { name: b.name, focus: b.focus || '', week: w, weeks: b.weeks, deload: isDeload(b, w), days: (b.days || []).map(d => ({ wd: d.weekday, title: d.title, type: d.type })) }; }
+  if (k === 'body') { const bw = currentBW(), lbf = [...bodyList()].reverse().find(b => b.bodyFat != null), d30 = bodyChange30(); if (bw == null && !lbf) return null; return { weightLb: bw == null ? null : r1(bw), bodyFat: lbf ? lbf.bodyFat : null, d30: d30 == null ? null : r1(d30) }; }
+  if (k === 'meas') { const m = bodyList().filter(b => b.meas && Object.keys(b.meas).length).at(-1); return m ? { date: m.date, meas: m.meas } : null; }
+  return null;
+}
+// Sends each section that changed since last time, and removes the ones set to Only me.
+let statBusy = false;
+async function syncStats(force) {
+  if (!SOC() || !navigator.onLine || statBusy || S.net.synced.size < COLS.length || !soMe()) return;
+  statBusy = true;
+  const sent = LS.get('ft.statSent', {});
+  try {
+    for (const [k] of PRIV) {
+      if (k === 'live') continue;
+      const vis = privOf(k), data = vis === 'me' ? null : statData(k), key = data ? JSON.stringify([vis, data]) : '';
+      if (!force && (sent[k] || '') === key) continue;
+      if (data) await engine.social.putStat(k, vis, data); else await engine.social.hideStat(k);
+      sent[k] = key; LS.set('ft.statSent', sent);
+    }
+  } catch (e) {} finally { statBusy = false; }
+}
+// "Training now": set when a workout starts, cleared when it's finished or discarded.
+function soLive(on) {
+  if (!SOC() || !navigator.onLine || !soMe()) return;
+  const a = S.active;
+  if (on && a && !a.editingId && privOf('live') !== 'me') { LS.set('ft.live', true); engine.social.putStat('live', privOf('live'), { since: a.startedAt, title: a.title || TYPES[a.type], type: a.type }).catch(() => {}); }
+  else if (!on && LS.get('ft.live', false)) engine.social.hideStat('live').then(() => LS.del('ft.live')).catch(() => {});
+}
+const liveNowOf = st => { const l = st && st.live && st.live.data; return l && Date.now() - l.since < 4 * 3600000 ? l : null; };
+
+/* ---------- posting ---------- */
+// Posts go through a queue on the phone: offline ones wait (photos included) and go up when there's a connection.
+// Each has a client id, so a retry after a dropped connection can't post it twice.
+let postq = LS.get('ft.postq', []), postBusy = false;
+function queuePost(p) { postq.push({ clientId: uid('p'), at: Date.now(), ...p }); LS.set('ft.postq', postq); flushPosts(true); }
+async function flushPosts(say) {
+  if (postBusy || !postq.length || !SOC() || !navigator.onLine) return;
+  postBusy = true; let sent = 0;
+  try {
+    while (postq.length) {
+      const p = postq[0];
+      try {
+        for (const ph of p.photos || []) if (!ph.path) { ph.path = await engine.social.upload(await (await fetch(ph.data)).blob()); delete ph.data; LS.set('ft.postq', postq); }
+        await engine.social.post({ clientId: p.clientId, kind: p.kind, body: p.body, data: p.data, photos: (p.photos || []).map(x => x.path), group: p.group });
+        postq.shift(); LS.set('ft.postq', postq); sent++;
+        sdrop('feed', 'ufeed:' + myId(), p.group ? 'gfeed:' + p.group : '');
+      } catch (e) {
+        if (e && e.code === 'invalid_argument') { postq.shift(); LS.set('ft.postq', postq); toast('A post couldn\'t be sent: ' + e.message); continue; }
+        break;
+      }
+    }
+  } finally { postBusy = false; if (sent && say) toast(sent === 1 ? 'Posted' : `${sent} posts sent`, 1800); schedule(); }
+}
+// The workout as it appears in a post: working sets only, no notes.
+function wPost(w) {
+  const o = { type: w.type, title: w.title || TYPES[w.type], date: w.date, durationMin: w.durationMin || null, summary: { ...(w.summary || computeSummary(w, w.id)) } };
+  if (w.type === 'strength') o.exercises = (w.exercises || []).map(ex => ({ name: ex.name, ...(ex.group ? { group: ex.group } : {}), sets: ex.sets.filter(s => s.kind !== 'W').map(s => [s.lb || 0, s.reps, s.rpe ?? null]) })).filter(ex => ex.sets.length);
+  else if (w.type === 'stretch') o.stretches = (w.stretches || []).map(s => ({ name: s.name, holdSec: s.holdSec, sides: !!s.sides, done: !!s.done }));
+  else Object.assign(o, { durSec: w.durSec || (w.durationMin || 0) * 60, km: w.km || null, meters: w.meters || null, avgHr: w.avgHr || null });
+  return { w: o };
+}
+// A shared block: its schedule and settings, without dates.
+const bPost = b => ({ b: { name: b.name, focus: b.focus || 'mixed', weeks: b.weeks, deloadWeek: b.deloadWeek || null, rampPct: b.rampPct ?? 5, days: clone(b.days || []) } });
+// After a workout is saved: new badges, and (for a workout saved without posting) its PRs, if those automatic posts are on.
+function soAfterFinish(doc, posted) {
+  const me = soMe();
+  if (me && !posted && autoOn('prs') && doc.summary && (doc.summary.prs || []).length) queuePost({ kind: 'pr', body: '', data: { title: doc.title, date: doc.date, prs: doc.summary.prs } });
+  const now = earnedBadges(), seen = settings().badgesSeen;
+  if (!Array.isArray(seen)) { saveSetting({ badgesSeen: now }); return; }
+  const fresh = now.filter(b => !seen.includes(b));
+  if (!fresh.length) return;
+  saveSetting({ badgesSeen: [...seen, ...fresh] });
+  toast(`New badge: ${BADGE_BY[fresh[0]][1]}${fresh.length > 1 ? ` and ${fresh.length - 1} more` : ''}`, 4000);
+  if (me && autoOn('badges')) queuePost({ kind: 'milestone', body: '', data: { badges: fresh } });
+}
+
+/* ---------- small pieces ---------- */
+const AV_COL = ['#5B8CFF', '#FF7A45', '#3CCB9A', '#E2B53E', '#F0679A', '#9C7BFF', '#38BDF8', '#A3E635'];
+function av(name, id, cls = '') {
+  let h = 0; for (const c of String(id || name || '')) h = (h * 31 + c.charCodeAt(0)) | 0;
+  const ini = String(name || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '?';
+  return `<span class="av ${cls}" style="background:${AV_COL[Math.abs(h) % AV_COL.length]}" aria-hidden="true">${esc(ini)}</span>`;
+}
+function ago(ts) {
+  const t = typeof ts === 'number' ? ts : Date.parse(ts), s = (Date.now() - t) / 1000;
+  if (s < 60) return 'now'; if (s < 3600) return Math.floor(s / 60) + 'm'; if (s < 86400) return Math.floor(s / 3600) + 'h'; if (s < 7 * 86400) return Math.floor(s / 86400) + 'd';
+  return fmtShort(ymd(new Date(t)));
+}
+// Every cached copy of one post (feed, a group, a profile, a single post), so props and counts change everywhere at once.
+function postCopies(id) { const out = []; for (const [k, e] of SC) if (/^(feed|gfeed:|ufeed:|post:)/.test(k) && Array.isArray(e.data)) for (const p of e.data) if (p.id === id) out.push(p); return out; }
+const findPost = id => postCopies(id)[0] || null;
+const soPhoto = path => window.engine ? engine.social.photoUrl(path) : '';
+function photoGrid(paths, pid) {
+  return `<div class="pgrid n${Math.min(paths.length, 4)}">${paths.slice(0, 4).map((p, i) => { const src = soPhoto(p); return `<button class="pph" data-act="photoview" data-id="${pid}" data-i="${i}" aria-label="Open photo ${i + 1}">${src ? `<img src="${esc(src)}" alt="" loading="lazy">` : '<span class="skel" style="position:absolute;inset:0;border-radius:0"></span>'}</button>`; }).join('')}</div>`;
+}
+const stat3 = items => `<div class="stats">${items.map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('')}</div>`;
+// The attachment inside a post: a workout, PRs, badges or a training block. preview: inside the composer, no buttons.
+function attHtml(kind, d, pid, mine, preview) {
+  d = d || {};
+  if (kind === 'workout' && d.w) {
+    const w = d.w, s = w.summary || {};
+    let h = `<div class="att"><div class="eyebrow">${esc(TYPES[w.type] || 'Workout')} · ${fmtD(w.date)}</div><div class="h3">${esc(w.title)}</div>`;
+    if (w.type === 'strength') h += stat3([[fmtMin(w.durationMin), 'Duration'], [s.workingSets ?? '–', 'Working sets'], [fmtNum(s.volumeLb), 'Volume (lb)']]);
+    else if (SPORT[w.type]) { const sp = SPORT[w.type], m = cardioMetric(w); h += stat3([[w.type === 'swim' ? fmtNum(w.meters) + ' m' : fmtNum(w.km, 2) + ' km', 'Distance'], [fmtHMS(w.durSec), 'Time'], [m == null ? '–' : sp.fmt(m), `${sp.metric} (${sp.unit})`]]); }
+    else h += stat3([[fmtMin(w.durationMin), 'Duration'], [`${(w.stretches || []).filter(x => x.done).length}`, 'Stretches'], ['', '']]);
+    if ((s.prs || []).length) h += `<div class="prs">${s.prs.map(p => `<div class="pr"><span class="tag">${esc(p.kind)}</span><span><b>${esc(p.ex)}</b> ${esc(p.text)}</span></div>`).join('')}</div>`;
+    if (w.type === 'strength' && (w.exercises || []).length) {
+      const xs = w.exercises, open = S.ui.openAtt === pid, shown = open ? xs : xs.slice(0, 4);
+      h += `<div class="exl">${shown.map(ex => { const top = ex.sets.reduce((a, s) => !a || s[0] > a[0] || (s[0] === a[0] && s[1] > a[1]) ? s : a, null); return `<div class="cmp"><span>${esc(ex.name)}</span><span class="sub">${ex.sets.length} × ${top ? `${fmtNum(top[0])}×${top[1]}` : ''}</span></div>`; }).join('')}</div>`;
+      if (xs.length > 4 && !preview) h += `<button class="link" data-act="attmore" data-id="${pid}">${open ? 'Show less' : `Show all ${xs.length} exercises`}</button>`;
+    }
+    if (!preview && !mine) h += `<button class="btn sm" data-act="copyw" data-id="${pid}">${ic('plus')}Save to my workouts</button>`;
+    return h + `</div>`;
   }
-  if (!mine) h += `<span class="sub" style="text-align:center">Turn on sharing to appear on the boards.</span>`;
+  if (kind === 'pr' && d.prs) return `<div class="att"><div class="eyebrow">${ic('trophy', 'acc')} New PR${d.prs.length > 1 ? 's' : ''}${d.title ? ' · ' + esc(d.title) : ''}</div><div class="prs">${d.prs.map(p => `<div class="pr"><span class="tag">${esc(p.kind)}</span><span><b>${esc(p.ex)}</b> ${esc(p.text)}</span></div>`).join('')}</div></div>`;
+  if (kind === 'milestone' && d.badges) return `<div class="att"><div class="eyebrow">New badge${d.badges.length > 1 ? 's' : ''}</div><div class="badges">${d.badges.map(badgeChip).join('')}</div>${d.badges.map(b => BADGE_BY[b] ? `<span class="sub">${esc(BADGE_BY[b][1])}: ${esc(BADGE_BY[b][2])}</span>` : '').join('')}</div>`;
+  if (kind === 'block' && d.b) {
+    const b = d.b, days = (b.days || []).slice().sort((x, y) => ((x.weekday + 6) % 7) - ((y.weekday + 6) % 7));
+    return `<div class="att"><div class="eyebrow">Training block · ${esc(cap(b.focus))}</div><div class="h3">${esc(b.name)}</div><span class="sub">${b.weeks} weeks${b.deloadWeek ? ` · deload week ${b.deloadWeek}` : ''} · ${days.length} session${days.length === 1 ? '' : 's'} a week</span>
+      <div class="exl">${days.map(x => `<div class="cmp"><span><span class="faint">${DOW[x.weekday]}</span> ${esc(x.title)}</span><span class="sub">${x.type === 'strength' ? (x.items || []).length + ' exercises' : TYPES[x.type]}</span></div>`).join('')}</div>
+      ${!preview && !mine ? `<button class="btn sm" data-act="copyb" data-id="${pid}">${ic('plus')}Copy this block</button>` : ''}</div>`;
+  }
+  return '';
+}
+function postCard(p, full) {
+  const mine = p.user_id === myId(), names = p.prop_names || [];
+  let h = `<article class="card post">`;
+  h += `<div class="post-h"><button class="post-a" data-act="souser" data-id="${p.user_id}">${av(p.name, p.user_id)}<span class="grow"><b class="ell">${esc(p.name)}</b><span class="sub ell">@${esc(p.username)}${p.group_name ? ' · ' + esc(p.group_name) : ''} · ${ago(p.created_at)}</span></span></button>${mine ? `<button class="icon" data-act="ask" data-k="delpost:${p.id}" aria-label="Delete post">${ic('more')}</button>` : ''}</div>`;
+  if (S.ui.confirm === 'delpost:' + p.id) confirmBox('delpost:' + p.id, 'Delete this post? Its props, comments and photos go with it.', 'delpost', 'Delete post', `data-id="${p.id}"`, true);
+  if (p.body) h += `<p class="post-t ${full ? '' : 'clamp6'}">${esc(p.body)}</p>`;
+  if ((p.photos || []).length) h += photoGrid(p.photos, p.id);
+  h += attHtml(p.kind, p.data, p.id, mine);
+  const who = p.props ? (names.length ? esc(names[0]) + (p.props > 1 ? ` and ${p.props - 1} other${p.props > 2 ? 's' : ''}` : '') : p.props + ' props') : '';
+  h += `<div class="post-f"><button class="pbtn ${p.propped ? 'on' : ''}" data-act="prop" data-id="${p.id}" aria-pressed="${!!p.propped}" aria-label="Props">${ic('bolt', p.propped ? 'fill' : '')}<span>${p.props ? p.props : 'Props'}</span></button>
+    <button class="pbtn" data-act="sopost" data-id="${p.id}" aria-label="Comments">${ic('chat')}<span>${p.comments ? p.comments : 'Comment'}</span></button>${who ? `<span class="faint ell" style="font-size:12.5px;margin-left:auto">${who}</span>` : ''}</div>`;
+  return h + `</article>`;
+}
+function pendingPosts(group) {
+  const q = postq.filter(p => (p.group || null) === (group || null));
+  return q.length ? `<div class="card flat pend">${ic('cloudsync')}<span class="grow">${q.length} post${q.length === 1 ? '' : 's'} waiting to send${navigator.onLine ? '…' : '. They go up when you\'re back online.'}</span></div>` : '';
+}
+
+/* ---------- Social tab ---------- */
+function vSocial() {
+  if (!window.engine || !engine.social) return `<div class="empty">Social needs Engine connected to its database.</div>`;
+  const me = soMeE();
+  if (me.data === undefined) return me.err ? `<div class="empty"><span>${esc(soErr(me.err))}. Social loads once you're connected.</span><button class="btn" data-act="soreload">Try again</button></div>` : skeleton(5);
+  if (!me.data) return soSetup();
+  const t = S.ui.soTab || 'feed';
+  let h = segOf('sotab', [['feed', 'Feed'], ['friends', 'Friends'], ['groups', 'Groups']], t);
+  if (t === 'friends') h += soFriends(); else if (t === 'groups') h += soGroups(); else h += soFeed();
   return h;
 }
+function soSetup() {
+  const F = S.ui.form; if (!F.prof2) F.prof2 = { username: '', name: (settings().share && settings().share.name) || '', bio: '' };
+  return `<div class="card"><span class="h2">Set up your profile</span><span class="sub">Pick a username so friends can find you. Only people with an Engine account can see it.</span>
+    <label class="field"><span>Username</span><input id="sp-user" class="in" data-root="form" data-bind="prof2.username" value="${esc(F.prof2.username)}" placeholder="e.g. braden_lifts" autocapitalize="off" autocomplete="off" spellcheck="false" maxlength="20"></label>
+    <span class="sub" style="margin-top:-6px">3 to 20 letters, numbers or underscores.</span>
+    <label class="field"><span>Name friends see</span><input id="sp-name" class="in" data-root="form" data-bind="prof2.name" value="${esc(F.prof2.name)}" placeholder="e.g. Braden" maxlength="30" autocomplete="nickname"></label>
+    <label class="field"><span>Bio (optional)</span><input id="sp-bio" class="in" data-root="form" data-bind="prof2.bio" value="${esc(F.prof2.bio)}" placeholder="e.g. Getting strong again, running on the side" maxlength="160"></label>
+    <button class="btn primary" data-act="socreate">Create profile</button></div>
+    <div class="card flat"><span class="h3">What friends see</span><span class="sub">Your streak, weekly totals, lifts, recent sessions, current block and "training now" go to friends. Weight, body fat and measurements stay private. You can change each one in Social settings.</span></div>`;
+}
+function soFeed() {
+  const me = soMe(), f = sget('feed', () => engine.social.feed(), 60000);
+  let h = `<button class="card coachbtn" data-act="compose">${av(me.name, me.user_id)}<span class="grow"><b>Share something</b><span class="sub">A photo, an update or a training block</span></span>${ic('plus', 'acc')}</button>`;
+  h += trainingNow() + pendingPosts(null);
+  if (f.data === undefined) return h + (f.err ? `<div class="empty">${esc(soErr(f.err))}.</div>` : skeleton(4));
+  if (!f.data.length) return h + `<div class="empty"><b>Nothing here yet.</b><span>Posts from your friends and your groups show up here. Finish a workout with "Post workout" to share one.</span><button class="btn" data-act="sotab" data-v="friends">Find friends</button></div>`;
+  h += f.data.map(p => postCard(p)).join('');
+  if (f.data.length >= 20 && !S.ui.feedEnd) h += `<button class="btn ghost" data-act="feedmore">Load older posts</button>`;
+  return h;
+}
+function trainingNow() {
+  const fs = friendStats(), fr = soFriendsList().filter(f => f.status === 'friends' && liveNowOf(fs[f.user_id]));
+  if (!fr.length) return '';
+  return `<div class="sec"><span class="label">Training now</span><div class="chips">${fr.map(f => { const l = liveNowOf(fs[f.user_id]); return `<button class="chip live" data-act="souser" data-id="${f.user_id}"><i class="lb-dot"></i>${esc(f.name)} · ${esc(l.title)} · ${fmtMin((Date.now() - l.since) / 60000)}</button>`; }).join('')}</div></div>`;
+}
+const SO_METRICS = [['n', 'Sessions', v => fmtNum(v)], ['vol', 'Volume', v => `${fmtNum(v)} lb`], ['sets', 'Sets', v => fmtNum(v)], ['cardioMin', 'Cardio', v => `${fmtNum(v)} min`]];
+const weekOfStat = (st, mon) => ((st && st.week && st.week.data && st.week.data.weeks) || []).find(w => w.weekOf === mon) || null;
+function boardRows(rows, fmt) {
+  if (!rows.length) return '';
+  const max = Math.max(1, ...rows.map(r => r.v));
+  let rank = 0, prev = null;
+  return rows.map((r, i) => { if (r.v !== prev) { rank = i + 1; prev = r.v; } return `<button class="fbr ${r.me ? 'me' : ''}" data-act="souser" data-id="${r.id}"><span class="fbn">${rank}</span><span class="grow"><span class="fbt"><b>${esc(r.name)}${r.me ? ' <span class="faint">(you)</span>' : ''}</b><span>${fmt(r.v)}</span></span>${r.sub ? `<span class="sub">${r.sub}</span>` : ''}<span class="fbbar"><i style="width:${Math.round(100 * r.v / max)}%"></i></span></span></button>`; }).join('');
+}
+// Weekly leaderboard for a set of people (friends, or a group): your own row comes from this phone.
+function leaderboard(people, stats) {
+  const mk = SO_METRICS.find(m => m[0] === S.ui.fbMetric) || SO_METRICS[0], last = S.ui.fbWeek === 'last', mon = addDays(mondayOf(ymd()), last ? -7 : 0);
+  const mine = weekStats(mon), me = soMe();
+  const rows = [{ id: me.user_id, name: me.name, me: true, v: Math.round({ n: mine.n, vol: mine.vol, sets: mine.sets, cardioMin: mine.cardioMin }[mk[0]] || 0) }];
+  for (const p of people) { if (p.user_id === me.user_id) continue; const w = weekOfStat(stats[p.user_id], mon); if (w || (stats[p.user_id] && stats[p.user_id].week)) rows.push({ id: p.user_id, name: p.name, v: (w && w[mk[0]]) || 0 }); }
+  if (rows.length < 2) return '';
+  rows.sort((a, b) => b.v - a.v || a.name.localeCompare(b.name));
+  return `<div class="sec"><div class="sec-h"><span class="label">Leaderboard · ${last ? 'last week' : 'this week'}</span><button class="link" data-act="fbweek" data-v="${last ? 'this' : 'last'}">${last ? 'This week' : 'Last week'}</button></div>${segOf('fbmetric', SO_METRICS.map(m => [m[0], m[1]]), mk[0])}<div class="card fb">${boardRows(rows, mk[2])}</div></div>`;
+}
+function soFriends() {
+  const me = soMe(), list = soFriendsList(), fs = friendStats();
+  const inc = list.filter(f => f.status === 'incoming'), out = list.filter(f => f.status === 'outgoing'), fr = list.filter(f => f.status === 'friends');
+  let h = `<div class="sec"><span class="label">Add friends</span><input id="so-q" class="in" type="search" placeholder="Search by username" value="${esc(S.ui.soQ || '')}" data-soq autocomplete="off" autocapitalize="off" spellcheck="false"><div id="so-res">${soResults()}</div></div>`;
+  if (inc.length) h += `<div class="sec"><span class="label">Friend requests</span><div class="card slist">${inc.map(f => `<div class="srow"><button class="post-a grow" data-act="souser" data-id="${f.user_id}">${av(f.name, f.user_id)}<span class="grow"><span class="t ell">${esc(f.name)}</span><span class="sub ell">@${esc(f.username)}</span></span></button><button class="btn sm primary" data-act="soaccept" data-id="${f.user_id}">Accept</button><button class="btn sm ghost" data-act="sodecline" data-id="${f.user_id}">Decline</button></div>`).join('')}</div></div>`;
+  h += leaderboard(fr, fs);
+  const myLv = privOf('level') !== 'me' && statData('level'), lvs = [...fr.map(f => ({ id: f.user_id, name: f.name, l: fs[f.user_id] && fs[f.user_id].level && fs[f.user_id].level.data })).filter(x => x.l && x.l.lvl >= 1 && x.l.lvl <= 7), ...(myLv ? [{ id: me.user_id, name: me.name, me: true, l: myLv }] : [])].sort((a, b) => b.l.score - a.l.score || a.name.localeCompare(b.name));
+  if (lvs.length > 1) h += `<div class="sec"><span class="label">Gym bro levels</span><div class="card slist">${lvs.map(x => `<button class="srow" data-act="souser" data-id="${x.id}">${gbBadge(x.l.lvl - 1)}<span class="grow"><span class="t ell">${esc(x.name)}${x.me ? ' <span class="faint">(you)</span>' : ''}</span></span><span class="sub">${GB_LEVELS[x.l.lvl - 1]}</span></button>`).join('')}</div></div>`;
+  h += `<div class="sec"><div class="sec-h"><span class="label">Friends${fr.length ? ' · ' + fr.length : ''}</span><button class="link" data-act="souser" data-id="${me.user_id}">Your profile</button></div>`;
+  if (!fr.length) h += `<div class="empty">Search for a friend's username above to send a request. They need an Engine account first, so add their email to your invite list.</div>`;
+  else h += `<div class="card slist">${fr.map(f => { const st = fs[f.user_id] || {}, l = liveNowOf(st), sk = st.streak && st.streak.data; return `<button class="srow" data-act="souser" data-id="${f.user_id}">${av(f.name, f.user_id)}<span class="grow"><span class="t ell">${esc(f.name)}</span><span class="sub ell">${l ? `<span class="acc">Training now · ${esc(l.title)}</span>` : '@' + esc(f.username)}</span></span>${sk && sk.weeks ? `<span class="streak">${ic('flame')}${sk.weeks}</span>` : ''}${ic('chev', 'chev')}</button>`; }).join('')}</div>`;
+  h += `</div>`;
+  if (out.length) h += `<div class="sec"><span class="label">Requests you sent</span><div class="card slist">${out.map(f => `<div class="srow">${av(f.name, f.user_id)}<span class="grow"><span class="t ell">${esc(f.name)}</span><span class="sub ell">@${esc(f.username)} · sent ${ago(f.since)}</span></span><button class="btn sm ghost" data-act="sodecline" data-id="${f.user_id}">Cancel</button></div>`).join('')}</div></div>`;
+  return h;
+}
+function soResults() {
+  const q = (S.ui.soQ || '').trim().toLowerCase();
+  if (!q) return '';
+  const r = sget('search:' + q, () => engine.social.search(q), 30000);
+  if (r.data === undefined) return r.err ? `<div class="sub">${esc(soErr(r.err))}</div>` : `<div class="sub">Searching…</div>`;
+  if (!r.data.length) return `<div class="sub">No one with that username. Check the spelling, or ask them to set up their Social profile.</div>`;
+  return `<div class="card slist">${r.data.map(p => { const rel = soRel(p.user_id); return `<div class="srow"><button class="post-a grow" data-act="souser" data-id="${p.user_id}">${av(p.name, p.user_id)}<span class="grow"><span class="t ell">${esc(p.name)}</span><span class="sub ell">@${esc(p.username)}</span></span></button>${rel === 'friends' ? `<span class="faint" style="font-size:13px">Friends</span>` : rel === 'outgoing' ? `<span class="faint" style="font-size:13px">Requested</span>` : rel === 'incoming' ? `<button class="btn sm primary" data-act="soaccept" data-id="${p.user_id}">Accept</button>` : `<button class="btn sm primary" data-act="soadd" data-u="${esc(p.username)}">Add</button>`}</div>`; }).join('')}</div>`;
+}
+function soGroups() {
+  const g = sget('groups', () => engine.social.groups(), 60000);
+  let h = '';
+  if (S.ui.newGroup) h += `<div class="card"><span class="h3">New group</span><label class="field"><span>Name</span><input id="ng-name" class="in" data-root="form" data-bind="ng.name" value="${esc((S.ui.form.ng || {}).name || '')}" placeholder="e.g. 6 am crew" maxlength="40"></label><label class="field"><span>About (optional)</span><input id="ng-about" class="in" data-root="form" data-bind="ng.about" value="${esc((S.ui.form.ng || {}).about || '')}" placeholder="What it's for" maxlength="200"></label><div class="btnrow"><button class="btn primary" data-act="groupcreate">Create group</button><button class="btn ghost" data-act="groupnew">Cancel</button></div></div>`;
+  else h += `<button class="btn" data-act="groupnew">${ic('plus')}New group</button>`;
+  if (g.data === undefined) return h + (g.err ? `<div class="empty">${esc(soErr(g.err))}.</div>` : skeleton(3));
+  if (!g.data.length) return h + `<div class="empty">Groups share a feed and a weekly leaderboard, like a gym crew or a running club. Make one and add your friends to it.</div>`;
+  return h + `<div class="card slist">${g.data.map(x => `<button class="srow" data-act="sogroup" data-id="${x.id}"><span class="mi">${ic('people')}</span><span class="grow"><span class="t ell">${esc(x.name)}</span><span class="sub ell">${(x.members || []).length} member${(x.members || []).length === 1 ? '' : 's'}${x.about ? ' · ' + esc(x.about) : ''}</span></span>${ic('chev', 'chev')}</button>`).join('')}</div>`;
+}
+
+/* ---------- a person's profile ---------- */
+// Your own profile is drawn from this phone, with each section labelled with who can see it.
+function myStats() { const o = {}; for (const [k] of PRIV) if (k !== 'live') { const d = statData(k); if (d) o[k] = { vis: privOf(k), data: d }; } return o; }
+function vUser(id) {
+  if (!SOC()) return `<div class="empty">Sign in to see profiles.</div>`;
+  const mine = id === myId(), rel = soRel(id);
+  const pr = mine ? soMe() : (sget('prof:' + id, () => engine.social.profile(id), 120000).data || soFriendsList().find(f => f.user_id === id));
+  if (!pr) return skeleton(5);
+  const st = mine ? myStats() : ((sget('stats:' + id, () => engine.social.stats([id]), 60000).data || {})[id] || {});
+  const tag = k => mine ? `<span class="vis">${visName(st[k] ? st[k].vis : privOf(k))}</span>` : '';
+  const live = liveNowOf(st);
+  let h = `<div class="card prof"><div class="prof-h">${av(pr.name, id, 'lg')}<span class="grow"><span class="h2 ell">${esc(pr.name)}</span><span class="sub">@${esc(pr.username)}</span></span></div>${pr.bio ? `<p>${esc(pr.bio)}</p>` : ''}${live ? `<span class="acc" style="font-weight:650"><i class="lb-dot" style="display:inline-block;margin-right:6px"></i>Training now · ${esc(live.title)} · ${fmtMin((Date.now() - live.since) / 60000)}</span>` : ''}`;
+  if (mine) h += `<div class="btnrow"><button class="btn" data-act="profpage" data-k="psocial">Edit profile and privacy</button></div>`;
+  else if (rel === 'friends') h += `<div class="btnrow"><button class="btn primary" data-act="compare" data-id="${id}">${ic('chart')}Compare</button><button class="btn ghost" data-act="ask" data-k="unfriend">Friends ${ic('check')}</button></div>`;
+  else if (rel === 'incoming') h += `<div class="btnrow"><button class="btn primary" data-act="soaccept" data-id="${id}">Accept request</button><button class="btn ghost" data-act="sodecline" data-id="${id}">Decline</button></div>`;
+  else if (rel === 'outgoing') h += `<div class="btnrow"><button class="btn" data-act="sodecline" data-id="${id}">Requested · cancel</button></div>`;
+  else h += `<div class="btnrow"><button class="btn primary" data-act="soadd" data-u="${esc(pr.username)}">${ic('plus')}Add friend</button></div>`;
+  h += `</div>`;
+  confirmBox('unfriend', `Remove ${esc(pr.name)} from your friends? You'll stop seeing each other's posts and friends-only stats.`, 'sounfriend', 'Remove friend', `data-id="${id}"`, true);
+  const lv = st.level && st.level.data;
+  if (lv && lv.lvl >= 1 && lv.lvl <= 7) h += `<div class="sec"><span class="label">Gym bro level ${tag('level')}</span><button class="card coachbtn" ${mine ? 'data-act="profpage" data-k="plevel"' : ''}>${gbBadge(lv.lvl - 1)}<span class="grow"><b>${esc(GB_LEVELS[lv.lvl - 1])}</b><span class="sub">Level ${lv.lvl} of 7 · ${lv.std === 'f' ? 'women\'s' : 'men\'s'} standards</span></span></button></div>`;
+  const sk = st.streak && st.streak.data;
+  if (sk) h += `<div class="sec"><span class="label">Streak and badges ${tag('streak')}</span><div class="stats"><div class="stat"><b>${ic('flame', 'acc')} ${sk.weeks}</b><span>Week streak</span></div><div class="stat"><b>${sk.best}</b><span>Best streak</span></div><div class="stat"><b>${fmtNum(sk.total)}</b><span>Sessions</span></div></div><span class="sub">Goal: ${sk.goal} session${sk.goal === 1 ? '' : 's'} a week · ${sk.thisWeek} so far this week</span>${(sk.badges || []).length ? `<div class="badges">${(S.ui.allBadges === id ? sk.badges.slice().reverse() : sk.badges.slice().reverse().slice(0, 6)).map(badgeChip).join('')}${sk.badges.length > 6 && S.ui.allBadges !== id ? `<button class="badge" data-act="allbadges" data-id="${id}">+${sk.badges.length - 6} more</button>` : ''}</div>` : ''}</div>`;
+  const wk = weekOfStat(st, mondayOf(ymd()));
+  if (st.week) { const w = wk || { n: 0, sets: 0, vol: 0, cardioMin: 0 }; h += `<div class="sec"><span class="label">This week ${tag('week')}</span><div class="stats"><div class="stat"><b>${w.n}</b><span>Sessions</span></div><div class="stat"><b>${fmtNum(w.sets)}</b><span>Working sets</span></div><div class="stat"><b>${fmtNum(w.cardioMin)}</b><span>Cardio min</span></div></div><span class="sub">Volume ${fmtNum(w.vol)} lb</span></div>`; }
+  const pg = st.program && st.program.data;
+  if (pg) h += `<div class="sec"><span class="label">Current block ${tag('program')}</span><div class="card flat"><span class="h3">${esc(pg.name)}</span><span class="sub">${esc(cap(pg.focus || 'mixed'))} · ${pg.week >= 1 && pg.week <= pg.weeks ? `week ${pg.week} of ${pg.weeks}${pg.deload ? ' · deload' : ''}` : `${pg.weeks} weeks`}</span><span class="sub">${(pg.days || []).slice().sort((x, y) => ((x.wd + 6) % 7) - ((y.wd + 6) % 7)).map(d => DOW[d.wd] + ' ' + esc(d.title)).join(' · ')}</span></div></div>`;
+  const ps = st.prs && st.prs.data;
+  if (ps) {
+    h += `<div class="sec"><span class="label">Best lifts · estimated max ${tag('prs')}</span><div class="rows">${(ps.best || []).slice(0, 8).map(b => `<div class="rowi"><span class="grow"><span class="t ell">${esc(b.ex)}</span><span class="sub">${fmtNum(b.lb)} lb × ${b.reps} · ${fmtShort(b.date)}</span></span><b>${fmtNum(b.e1)} lb</b></div>`).join('')}</div>`;
+    if ((ps.recent || []).length) h += `<span class="label" style="margin-top:6px">Recent PRs</span><div class="rows">${ps.recent.slice(0, 6).map(r => `<div class="rowi"><span class="faint" style="width:48px;font-size:13px;flex:none">${fmtShort(r.date)}</span><span class="grow"><span class="t ell">${esc(r.ex)}</span><span class="sub ell">${esc(r.val)}</span></span><span class="prtag">${esc(r.kind)}</span></div>`).join('')}</div>`;
+    h += `</div>`;
+  }
+  const hi = st.history && st.history.data;
+  if (hi) h += `<div class="sec"><span class="label">Recent sessions ${tag('history')}</span><div class="rows">${hi.list.slice(0, 8).map(w => `<div class="rowi"><span class="faint" style="width:52px;font-size:13px;flex:none">${fmtShort(w.date)}</span><span class="grow"><span class="t ell">${esc(w.title)}</span><span class="sub ell">${esc(w.stat)}</span></span>${w.prs ? `<span class="prtag">${w.prs} PR${w.prs > 1 ? 's' : ''}</span>` : ''}</div>`).join('')}</div></div>`;
+  const bd = st.body && st.body.data;
+  if (bd) h += `<div class="sec"><span class="label">Body ${tag('body')}</span>${stat3([[bd.weightLb != null ? fmtNum(bd.weightLb, 1) : '–', 'Weight (lb)'], [bd.bodyFat != null ? fmtNum(bd.bodyFat, 1) + '%' : '–', 'Body fat'], [bd.d30 == null ? '–' : (bd.d30 > 0 ? '+' : '') + fmtNum(bd.d30, 1), '30 days (lb)']])}</div>`;
+  const ms = st.meas && st.meas.data;
+  if (ms) h += `<div class="sec"><span class="label">Measurements · ${fmtShort(ms.date)} ${tag('meas')}</span><div class="grid2">${MEAS.filter(([k]) => ms.meas[k] != null).map(([k, l]) => `<div class="cmp"><span>${esc(l)}</span><span>${fmtNum(ms.meas[k], 2)}"</span></div>`).join('')}</div></div>`;
+  if (!mine && !lv && !sk && !st.week && !ps && !hi && !pg && !bd && !ms) h += `<div class="empty">${rel === 'friends' ? `${esc(pr.name)} keeps their stats private.` : `Add ${esc(pr.name)} as a friend to see the stats they share with friends.`}</div>`;
+  const f = sget('ufeed:' + id, () => engine.social.feed({ user: id }), 60000);
+  if (f.data && f.data.length) h += `<div class="sec"><span class="label">Posts</span>${f.data.map(p => postCard(p)).join('')}</div>`;
+  return h;
+}
+// You and a friend side by side: this week, streaks and the lifts you both do.
+function vCompare(id) {
+  const me = soMe(), them = soFriendsList().find(f => f.user_id === id) || (SC.get('prof:' + id) || {}).data;
+  if (!me || !them) return skeleton(4);
+  const st = (sget('stats:' + id, () => engine.social.stats([id]), 60000).data || {})[id] || {}, mine = myStats();
+  const bar = (label, a, b, fmt, sub) => { const mx = Math.max(a || 0, b || 0, 1); return `<div class="h2h"><div class="h2h-l"><span class="t">${label}</span>${sub ? `<span class="sub">${sub}</span>` : ''}</div><div class="h2h-r"><span class="h2h-b me"><i style="width:${Math.round(100 * (a || 0) / mx)}%"></i><b>${a == null ? '–' : fmt(a)}</b></span><span class="h2h-b"><i style="width:${Math.round(100 * (b || 0) / mx)}%"></i><b>${b == null ? '–' : fmt(b)}</b></span></div></div>`; };
+  let h = `<div class="h2h-head"><span>${av(me.name, me.user_id)}<b>You</b></span><span class="faint">vs</span><span>${av(them.name, id)}<b>${esc(them.name)}</b></span></div>`;
+  const mon = mondayOf(ymd()), wa = weekStats(mon), wb = weekOfStat(st, mon) || (st.week ? { n: 0, sets: 0, vol: 0, cardioMin: 0 } : null);
+  if (wb) h += `<div class="sec"><span class="label">This week</span><div class="card">${bar('Sessions', wa.n, wb.n, v => fmtNum(v))}${bar('Working sets', wa.sets, wb.sets, v => fmtNum(v))}${bar('Volume', Math.round(wa.vol), wb.vol, v => fmtNum(v) + ' lb')}${bar('Cardio', Math.round(wa.cardioMin), wb.cardioMin, v => fmtNum(v) + ' min')}</div></div>`;
+  const la = mine.level && mine.level.data, lb2 = st.level && st.level.data;
+  if (la && lb2) h += `<div class="sec"><span class="label">Gym bro level</span><div class="card">${bar('Level', la.score + 1, lb2.score + 1, v => GB_LEVELS[Math.min(6, Math.floor(v - 1))])}</div></div>`;
+  const sa = streakInfo(), sb = st.streak && st.streak.data;
+  if (sb) h += `<div class="sec"><span class="label">Consistency</span><div class="card">${bar('Week streak', sa.weeks, sb.weeks, v => fmtNum(v))}${bar('Best streak', sa.best, sb.best, v => fmtNum(v))}${bar('Total sessions', sa.total, sb.total, v => fmtNum(v))}</div></div>`;
+  const pa = (mine.prs && mine.prs.data && mine.prs.data.best) || [], pb = (st.prs && st.prs.data && st.prs.data.best) || [];
+  const both = pa.filter(x => pb.some(y => y.ex === x.ex)).slice(0, 12);
+  const bwA = currentBW(), bwB = st.body && st.body.data && st.body.data.weightLb;
+  if (both.length) h += `<div class="sec"><span class="label">Lifts you both do · estimated max</span><div class="card">${both.map(x => { const y = pb.find(z => z.ex === x.ex); return bar(esc(x.ex), x.e1, y.e1, v => fmtNum(v) + ' lb', bwA && bwB ? `${fmtNum(x.e1 / bwA, 2)}× vs ${fmtNum(y.e1 / bwB, 2)}× body weight` : ''); }).join('')}</div></div>`;
+  else if (st.prs) h += `<div class="empty">You don't have any lifts in common yet.</div>`;
+  if (!wb && !sb && !st.prs) h += `<div class="empty">${esc(them.name)} doesn't share the stats needed to compare.</div>`;
+  h += `<div class="legend"><span><i></i>You</span><span><i class="mute"></i>${esc(them.name)}</span></div>`;
+  return h;
+}
+
+/* ---------- groups ---------- */
+const groupOf = id => (sget('groups', () => engine.social.groups(), 60000).data || []).find(g => g.id === id) || null;
+function vGroup(id) {
+  const g = groupOf(id);
+  if (!g) return (SC.get('groups') || {}).data ? `<div class="empty">You're no longer in this group.</div>` : skeleton(4);
+  const me = myId(), owner = g.owner === me, ms = g.members || [];
+  let h = `<div class="card"><span class="h2">${esc(g.name)}</span>${g.about ? `<span class="sub">${esc(g.about)}</span>` : ''}<div class="avs">${ms.slice(0, 12).map(m => av(m.name, m.user_id)).join('')}${ms.length > 12 ? `<span class="faint">+${ms.length - 12}</span>` : ''}</div><div class="btnrow"><button class="btn primary" data-act="compose" data-group="${id}">${ic('plus')}Post to group</button><button class="btn" data-act="gadd" data-id="${id}">Add friends</button></div></div>`;
+  const stats = sget('gstats:' + id, () => engine.social.stats(ms.map(m => m.user_id).filter(x => x !== me), ['week', 'live', 'streak']), 60000).data || {};
+  h += leaderboard(ms, stats);
+  h += `<div class="sec"><span class="label">Members · ${ms.length}</span><div class="card slist">${ms.map(m => `<div class="srow"><button class="post-a grow" data-act="souser" data-id="${m.user_id}">${av(m.name, m.user_id)}<span class="grow"><span class="t ell">${esc(m.name)}${m.user_id === me ? ' <span class="faint">(you)</span>' : ''}</span><span class="sub ell">@${esc(m.username)}${m.user_id === g.owner ? ' · runs the group' : ''}</span></span></button>${owner && m.user_id !== me ? `<button class="icon" data-act="ask" data-k="gkick:${m.user_id}" aria-label="Remove ${esc(m.name)}">${ic('x')}</button>` : ''}</div>`).join('')}</div></div>`;
+  for (const m of ms) confirmBox('gkick:' + m.user_id, `Remove ${esc(m.name)} from ${esc(g.name)}?`, 'gkick', 'Remove', `data-id="${id}" data-u="${m.user_id}"`, true);
+  h += pendingPosts(id);
+  const f = sget('gfeed:' + id, () => engine.social.feed({ group: id }), 60000);
+  if (f.data && f.data.length) h += `<div class="sec"><span class="label">Group posts</span>${f.data.map(p => postCard(p)).join('')}</div>`;
+  else if (f.data) h += `<div class="empty">No group posts yet. Posts here go only to the group's members.</div>`;
+  h += confirmBox('gleave', owner && ms.length > 1 ? `Leave ${esc(g.name)}? The member who joined first after you takes over running it.` : ms.length > 1 ? `Leave ${esc(g.name)}?` : `Leave ${esc(g.name)}? You're the last member, so the group and its posts are deleted.`, 'gleave', 'Leave group', `data-id="${id}"`, true) || `<button class="btn ghost danger" data-act="ask" data-k="gleave">Leave group</button>`;
+  if (owner && ms.length > 1) h += confirmBox('gdel', `Delete ${esc(g.name)} for everyone? Its posts are deleted too.`, 'gdel', 'Delete group', `data-id="${id}"`, true) || `<button class="btn ghost danger" data-act="ask" data-k="gdel">Delete group</button>`;
+  return h;
+}
+
+/* ---------- notifications ---------- */
+function vNotifs() {
+  const n = sget('notifs', () => engine.social.notifications(), 20000);
+  if (n.data === undefined) return n.err ? `<div class="empty">${esc(soErr(n.err))}.</div>` : skeleton(5);
+  if (n.data.some(x => !x.read) && !S.ui.markedRead) { S.ui.markedRead = true; engine.social.markRead().then(() => { sset('unread', 0); }).catch(() => {}); }
+  if (!n.data.length) return `<div class="empty">Friend requests, props and comments show up here.</div>`;
+  const text = x => ({ request: 'sent you a friend request', accepted: 'accepted your friend request', prop: 'gave you props', comment: 'commented', group: `added you to ${esc(x.body)}` }[x.kind] || '');
+  return `<div class="card slist">${n.data.map(x => { const act = x.post_id ? `data-act="sopost" data-id="${x.post_id}"` : x.group_id ? `data-act="sogroup" data-id="${x.group_id}"` : `data-act="souser" data-id="${x.actor}"`; const rel = x.kind === 'request' ? soRel(x.actor) : '';
+    return `<div class="srow ${x.read ? '' : 'unread'}"><button class="post-a grow" ${act}>${av(x.name, x.actor)}<span class="grow"><span class="ntext"><b>${esc(x.name || 'Someone')}</b> ${text(x)}</span>${x.kind === 'comment' || x.kind === 'prop' ? `<span class="sub ell">${esc(x.body)}</span>` : ''}<span class="faint" style="font-size:12px">${ago(x.created_at)}</span></span></button>${rel === 'incoming' ? `<button class="btn sm primary" data-act="soaccept" data-id="${x.actor}">Accept</button>` : ''}</div>`; }).join('')}</div>`;
+}
+
+/* ---------- one post and its comments ---------- */
+function vPost(id) {
+  let p = findPost(id);
+  const one = sget('post:' + id, () => engine.social.feed({ post: id }), p ? 120000 : 0);
+  if (!p && one.data) p = one.data[0];
+  if (!p) return one.data ? `<div class="empty">This post was deleted, or you can no longer see it.</div>` : skeleton(4);
+  const c = sget('cm:' + id, () => engine.social.comments(id), 20000), me = myId(), mineP = p.user_id === me;
+  let h = postCard(p, true);
+  h += `<div class="sec"><span class="label">Comments</span>`;
+  if (c.data === undefined) h += c.err ? `<div class="sub">${esc(soErr(c.err))}</div>` : skeleton(2);
+  else if (!c.data.length) h += `<span class="sub">No comments yet.</span>`;
+  else h += `<div class="cms">${c.data.map(x => `<div class="cm">${av(x.name, x.user_id, 'sm')}<span class="grow"><span><b>${esc(x.name)}</b> <span class="faint" style="font-size:12px">${ago(x.created_at)}</span></span><span class="cm-t">${esc(x.body)}</span></span>${x.user_id === me || mineP ? `<button class="icon" data-act="ask" data-k="delcm:${x.id}" aria-label="Delete comment">${ic('x')}</button>` : ''}</div>`).join('')}</div>`;
+  for (const x of c.data || []) confirmBox('delcm:' + x.id, 'Delete this comment?', 'delcm', 'Delete', `data-id="${x.id}" data-p="${id}"`, true);
+  h += `</div><div class="chatbar"><textarea id="cm-in" class="in" rows="1" maxlength="500" placeholder="Add a comment" data-root="form" data-bind="cm.${id}">${esc((S.ui.form.cm || {})[id] || '')}</textarea><button class="send" data-act="socomment" data-id="${id}" aria-label="Send">${ic('send')}</button></div>`;
+  return h;
+}
+
+/* ---------- composer ---------- */
+// Opens the composer. o.finishing: posting the workout that's being finished; o.kind/o.data: an attachment; o.group: post to a group.
+function openCompose(o = {}) {
+  S.ui.form.compose = { body: '', photos: [], kind: o.kind || 'text', data: o.data || null, group: o.group || '', finishing: !!o.finishing, wid: o.wid || null };
+  S.ui.sheet = { mode: 'compose' }; render();
+}
+function composeSheet() {
+  const c = S.ui.form.compose || { photos: [] }, groups = sget('groups', () => engine.social.groups(), 60000).data || [];
+  const title = c.finishing ? 'Post workout' : c.kind === 'workout' ? 'Post this workout' : c.kind === 'block' ? 'Share block' : 'New post';
+  const att = c.finishing ? attHtml('workout', wPost({ ...buildDoc(S.active, true), id: 'preview' }), 'preview', true, true) : attHtml(c.kind, c.data, 'preview', true, true);
+  return `<div class="sheet-h"><button class="icon" data-act="closesheet" aria-label="Close">${ic('x')}</button><h2 id="sheet-t" tabindex="-1">${title}</h2></div>
+    <div class="sheet-b"><textarea id="cp-body" class="in" rows="3" maxlength="2000" data-root="form" data-bind="compose.body" placeholder="${c.kind === 'text' ? 'What\'s going on?' : 'Say something about it (optional)'}">${esc(c.body || '')}</textarea>
+    ${att}
+    <div class="cphotos">${c.photos.map((p, i) => `<span class="ph cph"><img src="${p.data}" alt="Photo ${i + 1}"><button class="cpx" data-act="cpdel" data-i="${i}" aria-label="Remove photo ${i + 1}">${ic('x')}</button></span>`).join('')}${c.photos.length < 4 ? `<label class="ph cph">${ic('camera')}<span>Photo</span><input id="cp-photo" type="file" accept="image/*" data-sophoto aria-label="Add a photo"></label>` : ''}</div>
+    ${groups.length ? `<label class="field"><span>Who sees it</span><select id="cp-aud" class="in" data-root="form" data-bind="compose.group"><option value="">All your friends</option>${groups.map(g => `<option value="${g.id}" ${c.group === g.id ? 'selected' : ''}>${esc(g.name)} (group)</option>`).join('')}</select></label>` : `<span class="sub">Your friends will see this.</span>`}
+    ${navigator.onLine ? '' : `<span class="sub warn">You're offline. It posts as soon as you're back online.</span>`}</div>
+    <div class="sheet-f"><button class="btn ghost" data-act="closesheet">Cancel</button><button class="btn primary" style="flex:1" data-act="cpsend">${c.finishing ? 'Finish and post' : 'Post'}</button></div>`;
+}
+function groupAddSheet() {
+  const g = groupOf(S.ui.sheet.gid), have = new Set(((g && g.members) || []).map(m => m.user_id)), fr = soFriendsList().filter(f => f.status === 'friends' && !have.has(f.user_id));
+  return `<div class="sheet-h"><button class="icon" data-act="closesheet" aria-label="Close">${ic('x')}</button><h2 id="sheet-t" tabindex="-1">Add to ${esc(g ? g.name : 'group')}</h2></div>
+    <div class="sheet-b">${fr.length ? `<div class="card slist">${fr.map(f => `<div class="srow">${av(f.name, f.user_id)}<span class="grow"><span class="t ell">${esc(f.name)}</span><span class="sub ell">@${esc(f.username)}</span></span><button class="btn sm primary" data-act="gaddone" data-u="${f.user_id}">Add</button></div>`).join('')}</div>` : `<div class="empty">Everyone on your friends list is already in this group.</div>`}<span class="sub">You can add your own friends. They get a notification and can leave any time.</span></div>`;
+}
+async function addComposePhoto(input) {
+  const file = input.files && input.files[0], c = S.ui.form.compose; if (!file || !c) return;
+  try {
+    const blob = await shrink(file, 1280, 0.82);
+    const data = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(blob); });
+    c.photos.push({ data }); render();
+  } catch (e) { toast('Couldn\'t read that photo'); }
+}
+
+/* ---------- actions ---------- */
+function soOptimistic(id, f) { const ps = postCopies(id); for (const p of ps) f(p); schedule(); return ps; }
+function soCopyWorkout(w) {
+  const doc = { ...w, exercises: (w.exercises || []).map(ex => ({ name: ex.name, ...(ex.group ? { group: ex.group } : {}), sets: ex.sets.map(([lb, reps, rpe]) => ({ kind: 'N', lb, reps, rpe })) })), stretches: (w.stretches || []).map(s => ({ ...s })) };
+  return tplFromWorkout(doc);
+}
+Object.assign(A, {
+  sotab(d) { S.ui.soTab = d.v; S.ui.tab = 'social'; S.ui.stack = []; window.scrollTo(0, 0); render(); },
+  soreload() { sdropAll(); render(); },
+  souser(d) { go('user', { id: d.id }); },
+  sogroup(d) { go('group', { id: d.id }); },
+  sopost(d) { go('post', { id: d.id }); },
+  notifs() { S.ui.markedRead = false; sdrop('notifs'); go('notifs'); },
+  compare(d) { go('compare', { id: d.id }); },
+  compose(d) { openCompose({ group: d.group || '' }); },
+  allbadges(d) { S.ui.allBadges = d.id; render(); },
+  attmore(d) { S.ui.openAtt = S.ui.openAtt === d.id ? null : d.id; render(); },
+  feedmore() {
+    const e = SC.get('feed'), last = e && e.data && e.data.at(-1); if (!last) return;
+    engine.social.feed({ before: last.created_at }).then(more => { if (!more.length) S.ui.feedEnd = true; e.data = [...e.data, ...more.filter(m => !e.data.some(x => x.id === m.id))]; render(); }).catch(x => toast(soErr(x)));
+  },
+  async socreate() {
+    const f = S.ui.form.prof2 || {}, u = (f.username || '').trim().toLowerCase(), name = (f.name || '').trim();
+    if (!/^[a-z0-9_]{3,20}$/.test(u)) { toast('Usernames are 3 to 20 letters, numbers or underscores'); return; }
+    if (!name) { toast('Add the name friends will see'); return; }
+    try {
+      if (!(await engine.social.usernameFree(u))) { toast(`@${u} is taken. Try another`); return; }
+      await engine.social.saveProfile({ username: u, name: name.slice(0, 30), bio: (f.bio || '').trim().slice(0, 160) });
+      sset('me', await engine.social.me()); delete S.ui.form.prof2; sdropAll(); render(); toast(`You're @${u}`); syncStats(true);
+    } catch (e) { toast(e.code === 'taken' ? `@${u} is taken. Try another` : soErr(e)); }
+  },
+  async soprofsave() {
+    const f = S.ui.form.prof3 || {}, me = soMe(), u = (f.username || '').trim().toLowerCase(), name = (f.name || '').trim();
+    if (!/^[a-z0-9_]{3,20}$/.test(u)) { toast('Usernames are 3 to 20 letters, numbers or underscores'); return; }
+    if (!name) { toast('Add the name friends will see'); return; }
+    try {
+      if (u !== me.username && !(await engine.social.usernameFree(u))) { toast(`@${u} is taken. Try another`); return; }
+      await engine.social.saveProfile({ ...me, username: u, name: name.slice(0, 30), bio: (f.bio || '').trim().slice(0, 160) });
+      sset('me', await engine.social.me()); delete S.ui.form.prof3; render(); toast('Profile saved');
+    } catch (e) { toast(e.code === 'taken' ? `@${u} is taken. Try another` : soErr(e)); }
+  },
+  async soadd(d) {
+    try {
+      const r = await engine.social.request(d.u);
+      toast({ sent: `Request sent to @${d.u}`, accepted: `You're now friends with @${d.u}`, pending: 'Already requested', friends: 'You\'re already friends', not_found: 'No one has that username' }[r] || 'Done');
+      sdrop('friends', 'fstats'); render();
+    } catch (e) { toast(soErr(e)); }
+  },
+  async soaccept(d) { try { await engine.social.accept(d.id); toast('Friend added'); sdrop('friends', 'fstats', 'feed', 'notifs', 'stats:' + d.id, 'ufeed:' + d.id); render(); } catch (e) { toast(soErr(e)); } },
+  async sodecline(d) { try { await engine.social.unfriend(d.id); sdrop('friends', 'notifs'); render(); } catch (e) { toast(soErr(e)); } },
+  async sounfriend(d) { S.ui.confirm = null; try { await engine.social.unfriend(d.id); toast('Removed from friends'); sdrop('friends', 'fstats', 'feed', 'stats:' + d.id, 'ufeed:' + d.id); render(); } catch (e) { toast(soErr(e)); } },
+  async prop(d) {
+    if (!navigator.onLine) { toast('You\'re offline'); return; }
+    const p = findPost(d.id); if (!p) return;
+    const on = !p.propped, me = soMe();
+    soOptimistic(d.id, x => { x.propped = on; x.props = Math.max(0, (x.props || 0) + (on ? 1 : -1)); x.prop_names = on ? [me.name, ...(x.prop_names || []).filter(n => n !== me.name)] : (x.prop_names || []).filter(n => n !== me.name); });
+    if (on) haptic('tick');
+    try { await engine.social.prop(d.id, on); } catch (e) { soOptimistic(d.id, x => { x.propped = !on; x.props = Math.max(0, (x.props || 0) + (on ? -1 : 1)); }); toast(soErr(e)); }
+  },
+  async socomment(d) {
+    const el = $('#cm-in'), body = (el ? el.value : '').trim(); if (!body) return;
+    if (!navigator.onLine) { toast('You\'re offline. Comment once you\'re back online'); return; }
+    try { await engine.social.comment(d.id, body); if (el) el.value = ''; if (S.ui.form.cm) delete S.ui.form.cm[d.id]; soOptimistic(d.id, x => { x.comments = (x.comments || 0) + 1; }); sdrop('cm:' + d.id); render(); } catch (e) { toast(soErr(e)); }
+  },
+  async delcm(d) { S.ui.confirm = null; try { await engine.social.deleteComment(d.id); soOptimistic(d.p, x => { x.comments = Math.max(0, (x.comments || 0) - 1); }); sdrop('cm:' + d.p); render(); } catch (e) { toast(soErr(e)); } },
+  async delpost(d) {
+    S.ui.confirm = null; const p = findPost(d.id);
+    try { await engine.social.deletePost(d.id, p ? p.photos : []); for (const [k, e] of SC) if (/^(feed|gfeed:|ufeed:|post:)/.test(k) && Array.isArray(e.data)) e.data = e.data.filter(x => x.id !== d.id); if (curPage() === 'post') back(); else render(); toast('Post deleted'); } catch (e) { toast(soErr(e)); }
+  },
+  photoview(d) { const p = findPost(d.id); if (!p) return; S.ui.photoView = { paths: p.photos, i: +d.i }; render(); },
+  photoclose() { S.ui.photoView = null; render(); },
+  photonext(d) { const v = S.ui.photoView; if (!v) return; v.i = (v.i + +d.d + v.paths.length) % v.paths.length; render(); },
+  copyw(d) { const p = findPost(d.id); if (!p || !p.data || !p.data.w) return; S.ui.draft = { id: uid('t'), folderId: '', days: [soCopyWorkout(p.data.w)] }; go('tpl', { isNew: true }); toast('Check it over, then save it to your workouts', 3500); },
+  copyb(d) {
+    const p = findPost(d.id), b = p && p.data && p.data.b; if (!b) return;
+    S.ui.draft = { ...newBlockDraft(), name: b.name, focus: b.focus, weeks: b.weeks, deloadWeek: b.deloadWeek, rampPct: b.rampPct, days: clone(b.days || []).map(x => ({ ...x, key: uid('d') })), active: false };
+    S.ui.sug = null; sugOpts().hidden = true; go('block', { isNew: true }); toast('Pick a start date, then save the block', 3500);
+  },
+  shareblock(d) { const b = S.blocks.get(d.id); if (!b) return; if (!soMe()) { toast('Set up your profile in Social first'); return; } openCompose({ kind: 'block', data: bPost(b) }); },
+  sharew(d) { const w = S.workouts.get(d.id); if (!w) return; if (!soMe()) { toast('Set up your profile in Social first'); return; } openCompose({ kind: 'workout', data: wPost({ ...w, id: d.id }), wid: d.id }); },
+  cpdel(d) { const c = S.ui.form.compose; if (c) { c.photos.splice(+d.i, 1); render(); } },
+  cpsend() {
+    const c = S.ui.form.compose; if (!c) return;
+    const body = (c.body || '').trim();
+    if (c.kind === 'text' && !c.finishing && !body && !c.photos.length) { toast('Write something or add a photo'); return; }
+    S.ui.sheet = null; S.ui.form.compose = null;
+    if (c.finishing) { finishActive({ post: { body, photos: c.photos, group: c.group || null } }); return; }
+    queuePost({ kind: c.kind, body, data: c.data || {}, photos: c.photos, group: c.group || null });
+    if (c.wid && S.workouts.get(c.wid)) write('workouts', c.wid, { ...S.workouts.get(c.wid), posted: true });
+    render(); if (!navigator.onLine) toast('Saved. It posts when you\'re back online', 3000);
+  },
+  groupnew() { S.ui.newGroup = !S.ui.newGroup; S.ui.form.ng = { name: '', about: '' }; render(); if (S.ui.newGroup) setTimeout(() => { const el = $('#ng-name'); if (el) el.focus(); }, 30); },
+  async groupcreate() {
+    const f = S.ui.form.ng || {}, name = (f.name || '').trim(); if (!name) { toast('Give the group a name'); return; }
+    try { const id = await engine.social.groupCreate(name.slice(0, 40), (f.about || '').trim().slice(0, 200)); S.ui.newGroup = false; sset('groups', await engine.social.groups()); go('group', { id }); } catch (e) { toast(soErr(e)); }
+  },
+  gadd(d) { S.ui.sheet = { mode: 'gadd', gid: d.id }; render(); },
+  async gaddone(d) { const gid = S.ui.sheet && S.ui.sheet.gid; try { await engine.social.groupAdd(gid, d.u); sset('groups', await engine.social.groups()); sdrop('gstats:' + gid); render(); toast('Added'); } catch (e) { toast(soErr(e)); } },
+  async gkick(d) { S.ui.confirm = null; try { await engine.social.groupRemove(d.id, d.u); sset('groups', await engine.social.groups()); render(); } catch (e) { toast(soErr(e)); } },
+  async gleave(d) { S.ui.confirm = null; try { await engine.social.groupRemove(d.id, myId()); sset('groups', await engine.social.groups()); back(); toast('You left the group'); } catch (e) { toast(soErr(e)); } },
+  async gdel(d) { S.ui.confirm = null; try { await engine.social.groupDelete(d.id); sset('groups', await engine.social.groups()); back(); toast('Group deleted'); } catch (e) { toast(soErr(e)); } },
+  privset(d) { saveSetting({ privacy: { ...(settings().privacy || {}), [d.k]: d.v } }); if (d.k === 'live') soLive(!!S.active && d.v !== 'me'); setTimeout(() => syncStats(), 300); },
+  streakgoal(d) { saveSetting({ streakGoal: clamp(streakGoal() + +d.d, 1, 7) }); setTimeout(() => syncStats(), 300); }
+});
+Object.assign(C, {
+  autopost(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => saveSetting({ autoPost: { ...(settings().autoPost || {}), [k]: on } }), 200); },
+  sonotify(t) {
+    const on = t.checked, k = t.dataset.k, me = soMe(); if (!me) return;
+    const save = () => engine.social.saveProfile({ ...me, notify: { ...(me.notify || {}), [k]: on } }).then(() => engine.social.me()).then(m => { sset('me', m); render(); }).catch(e => { t.checked = !on; toast(soErr(e)); });
+    if (on && pushOk() && !LS.get('ft.push', null)) pushEnable().then(save).catch(e => { t.checked = false; toast(e === 'denied' ? 'Notifications are blocked for Engine on this phone' : 'Couldn\'t turn on notifications'); });
+    else setTimeout(save, 200);
+  }
+});
+// Search as you type, redrawing only the results so the keyboard stays up.
+let soQT = null;
+document.addEventListener('input', e => {
+  if (!e.target.hasAttribute('data-soq')) return;
+  S.ui.soQ = e.target.value; clearTimeout(soQT);
+  soQT = setTimeout(() => { const el = $('#so-res'); if (el) el.innerHTML = soResults(); }, 300);
+});
+document.addEventListener('change', e => { if (e.target.hasAttribute && e.target.hasAttribute('data-sophoto')) addComposePhoto(e.target); });
+// A tapped Social notification opens the Social tab.
+if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.open === 'social') { S.ui.tab = 'social'; S.ui.stack = []; S.ui.inLog = false; sdropAll(); render(); } });
+
+/* ---------- settings page ---------- */
+function vSocialSettings() {
+  const me = soMe(), st = settings();
+  if (!me) return `<div class="empty"><span>Set up your profile in the Social tab first.</span><button class="btn" data-act="tab" data-tab="social">Go to Social</button></div>`;
+  const F = S.ui.form; if (!F.prof3) F.prof3 = { username: me.username, name: me.name, bio: me.bio || '' };
+  let h = `<div class="card"><span class="h3">Profile</span><label class="field"><span>Username</span><input id="ps-user" class="in" data-root="form" data-bind="prof3.username" value="${esc(F.prof3.username)}" autocapitalize="off" autocomplete="off" spellcheck="false" maxlength="20"></label>
+    <label class="field"><span>Name friends see</span><input id="ps-name" class="in" data-root="form" data-bind="prof3.name" value="${esc(F.prof3.name)}" maxlength="30"></label>
+    <label class="field"><span>Bio</span><input id="ps-bio" class="in" data-root="form" data-bind="prof3.bio" value="${esc(F.prof3.bio)}" maxlength="160" placeholder="Optional"></label><button class="btn" data-act="soprofsave">Save profile</button></div>`;
+  h += `<div class="sec"><span class="label">Who sees what</span><div class="card slist">${PRIV.map(([k, t, sub]) => scol(t, sub, `<div class="seg mini3">${VIS.map(([v, l]) => `<button data-act="privset" data-k="${k}" data-v="${v}" aria-pressed="${privOf(k) === v}">${l}</button>`).join('')}</div>`)).join('')}</div>
+    <span class="sub">Friends includes people in your groups. Everyone means any Engine account, and only people you invite can make one. Your username, name and bio are visible to every account so friends can find you. Notes, photos you don't post and coach chats are never shared.</span></div>`;
+  h += `<div class="sec"><span class="label">Posts</span><div class="card slist">
+    ${srow('Post new PRs automatically', 'When you save a workout without posting it, its PRs still go up as a short post', `<label class="sw2"><input id="ap-prs" type="checkbox" data-act-change="autopost" data-k="prs" ${autoOn('prs') ? 'checked' : ''} aria-label="Post new PRs automatically"><i></i></label>`)}
+    ${srow('Post badges and streaks', 'A short post when you earn a badge', `<label class="sw2"><input id="ap-badges" type="checkbox" data-act-change="autopost" data-k="badges" ${autoOn('badges') ? 'checked' : ''} aria-label="Post badges automatically"><i></i></label>`)}
+    ${srow('Weekly streak goal', 'Sessions a week that keep your streak going', `<div class="pm"><button data-act="streakgoal" data-d="-1" aria-label="One fewer">−</button><b>${streakGoal()}/wk</b><button data-act="streakgoal" data-d="1" aria-label="One more">+</button></div>`)}</div></div>`;
+  const nt = me.notify || {}, on = k => nt[k] !== false;
+  const nsw = (k, t, sub) => srow(t, sub, `<label class="sw2"><input id="sn-${k}" type="checkbox" data-act-change="sonotify" data-k="${k}" ${on(k) ? 'checked' : ''} aria-label="${esc(t)} notifications"><i></i></label>`);
+  h += `<div class="sec"><span class="label">Phone notifications</span>${pushOk() ? `<div class="card slist">${nsw('request', 'Friend requests', '')}${nsw('accepted', 'Requests accepted', '')}${nsw('prop', 'Props', 'Once per post per person')}${nsw('comment', 'Comments on your posts', '')}${nsw('group', 'Added to a group', '')}</div>${LS.get('ft.push', null) ? '' : '<span class="sub">This phone isn\'t set up for notifications yet. Switching one on asks for permission.</span>'}` : `<div class="empty">Notifications need Engine installed on your home screen through Chrome or Samsung Internet. You'll still see everything under the bell in Social.</div>`}</div>`;
+  return h;
+}
+
+/* ---------- background upkeep ---------- */
+function soTick() { if (!SOC() || document.visibilityState !== 'visible') return; flushPosts(); syncStats(); if (soMe()) sget('unread', () => engine.social.unread(), 60000); }
+setInterval(soTick, 60000);
+setTimeout(soTick, 8000);
+window.addEventListener('online', () => setTimeout(soTick, 1500));
 
 /* ================= account ================= */
 function vAuth() {
@@ -4495,7 +5074,7 @@ function installCard(always) {
 applyAccent(LS.get('ft.accent', DEF_SETTINGS.accent));
 applyTheme(LS.get('ft.theme', DEF_SETTINGS));
 const hash = (location.hash || '').slice(1);
-if (['today', 'train', 'profile'].includes(hash)) S.ui.tab = hash; else if (hash === 'progress') S.ui.tab = 'prog'; else S.ui.tab = startTab();
+if (['today', 'train', 'social', 'profile'].includes(hash)) S.ui.tab = hash; else if (hash === 'progress') S.ui.tab = 'prog'; else S.ui.tab = startTab();
 applyLayout(settings());
 const tabPicked = S.ui.tab !== 'today' || !!hash;
 if (S.ui.inLog) wake();
@@ -4504,7 +5083,7 @@ function startApp() {
   S.ui.auth = null;
   // Another account's cached data never carries over.
   const id = window.engine && engine.uid && engine.uid();
-  if (id && LS.get('ft.uid', id) !== id) { for (const col of COLS) S[col].clear(); outbox = []; S.active = null; for (const k of ['ft.cache', 'ft.outbox', 'ft.active', 'ft.push', 'ft.remindKey']) LS.del(k); memo.clear(); }
+  if (id && LS.get('ft.uid', id) !== id) { for (const col of COLS) S[col].clear(); outbox = []; S.active = null; for (const k of ['ft.cache', 'ft.outbox', 'ft.active', 'ft.push', 'ft.remindKey', ...SO_LS]) LS.del(k); memo.clear(); SC.clear(); postq = []; }
   if (id) LS.set('ft.uid', id);
   render();
   if (started) { flush(); return; }
