@@ -141,6 +141,31 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .tile-b .tn{font-weight:700;font-size:15.5px;line-height:1.25}
 .tile-b .sub{font-size:12.5px}
 .tile .btn{width:100%}
+.rtile{gap:4px;text-align:left;align-items:flex-start}
+.rtile .t{font-weight:680;line-height:1.25;margin-top:4px}
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:15px;line-height:1.45}
+.msg.me{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:5px;white-space:pre-wrap}
+.msg.ai{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.ai p{margin:0 0 6px}.msg.ai p:last-child{margin:0}.msg.ai ul{margin:4px 0 6px;padding-left:18px}.msg.ai h4{margin:6px 0 2px;font-size:14.5px}
+.prop{border-color:var(--accent-line)}
+.chatbar{position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 6px);display:flex;gap:8px;align-items:flex-end;background:var(--bg);padding:6px 0}
+.chatbar textarea{flex:1;min-height:44px;max-height:140px;resize:none}
+.chatbar .send{background:var(--accent);color:var(--accent-ink);border-radius:12px;width:44px;height:44px}
+.chatbar .send:disabled{opacity:.4}
+.coachbtn{display:flex;flex-direction:row;align-items:center;gap:12px;text-align:left;width:100%}
+.coachbtn .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.follow{align-items:center;text-align:center;gap:8px}
+.follow .ring{position:relative;width:170px;height:170px;margin:4px auto}
+.follow .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.follow .ring circle{fill:none;stroke-width:9}
+.follow .ring .bg{stroke:var(--surface-2)}
+.follow .ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .5s linear}
+.follow .ring.prep .fg{stroke:var(--muted)}
+.follow .ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:760;font-stretch:85%}
+.follow .cue{font-size:14.5px;color:var(--muted);max-width:34ch}
+.follow .btnrow{justify-content:center;width:100%}
+.follow .btnrow .btn{flex:1}
 .clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 .fold{display:flex;flex-direction:column;gap:10px}
 .fold-h{display:flex;align-items:center;gap:4px}
@@ -214,6 +239,20 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}}
 .zbar{display:flex;gap:2px;height:12px;margin-top:4px}
 .zbar i{border-radius:4px;background:var(--accent);min-width:3px}
+.zin{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.zin label{position:relative}
+.zin .in{padding-right:24px;text-align:center}
+.zin label i{position:absolute;right:7px;top:50%;transform:translateY(-50%);font-style:normal;color:var(--faint);font-size:11px;pointer-events:none}
+.goal{display:flex;flex-direction:column;gap:5px;padding:8px 0}
+.goal .gt{display:flex;justify-content:space-between;font-size:14px}
+.goal .gt span:last-child{color:var(--muted)}
+.gbar{height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.gbar i{display:block;height:100%;border-radius:999px;background:var(--accent)}
+.zleg{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.zleg i{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--accent);margin-right:5px;vertical-align:-1px}
+.chart .z1{fill:var(--accent);opacity:.22}.chart .z2{fill:var(--accent);opacity:.4}.chart .z3{fill:var(--accent);opacity:.6}.chart .z4{fill:var(--accent);opacity:.8}.chart .z5{fill:var(--accent)}
+.chart .goal-l{stroke:var(--fg);stroke-width:1.2;stroke-dasharray:4 3;opacity:.7}
+.zleg .z1{opacity:.22}.zleg .z2{opacity:.4}.zleg .z3{opacity:.6}.zleg .z4{opacity:.8}
 .zbar .z1{opacity:.22}.zbar .z2{opacity:.4}.zbar .z3{opacity:.6}.zbar .z4{opacity:.8}
 .zlab{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .zlab b{color:var(--fg);font-weight:650}
@@ -375,6 +414,13 @@ body.logging .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .prtag{flex:none;font-size:11px;font-weight:750;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 7px;border-radius:6px;white-space:nowrap}
 .status{font-size:12px;font-weight:650;padding:5px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .status.warn{color:var(--warn)}
+.status.sync{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:4px 9px}
+.status.sync .ic{width:17px;height:17px}
+.status.sync.ok{color:var(--accent);border-color:transparent;background:transparent}
+.status.sync.ok span{color:var(--muted)}
+.status.sync .spin{transform-origin:12px 11.3px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.status.sync .spin{animation:none}}
 .swatches{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .themes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 10px}
 .th{display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:600;color:var(--muted);text-align:center;min-width:0}
@@ -391,6 +437,15 @@ body.logging .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .ph img{width:100%;height:100%;object-fit:cover}
 .ph input{position:absolute;inset:0;opacity:0;cursor:pointer}
 .ph .lab{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:2px 6px;border-radius:6px}
+.ph.big{border-style:solid;border-radius:12px}
+.wipe{position:relative;border-radius:12px;overflow:hidden;touch-action:pan-y}
+.wipe .ph{border:0;border-radius:0;width:100%}
+.wipe .ph.top{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--x)) 0 0)}
+.wipe .wline{position:absolute;top:0;bottom:0;left:var(--x);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.35);pointer-events:none}
+.wipe .wline::after{content:'';position:absolute;top:50%;left:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+.wipe .lab{position:absolute;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:3px 8px;border-radius:6px;pointer-events:none}
+.wipe .lab.l{left:8px}.wipe .lab.r{right:8px}
+.wipe input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:ew-resize}
 .daycard{display:flex;flex-direction:column;gap:10px}
 .item{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
 .item .l1{display:flex;align-items:center;gap:4px}
@@ -810,6 +865,50 @@ const LIB = LIB_TXT.trim().split('\n').map(l => { const [name, muscle, f = '', e
 const EQUIP = ['Barbell', 'Dumbbell', 'Cable', 'Machine', 'Bodyweight', 'Kettlebell', 'Band', 'Other'];
 const MUSCLES = ['Chest', 'Back', 'Shoulders', 'Traps', 'Biceps', 'Triceps', 'Forearms', 'Quads', 'Hamstrings', 'Glutes', 'Calves', 'Core', 'Full body'];
 const STRETCHES = ['Couch Stretch (hip flexor)', 'Half-Kneeling Hip Flexor Stretch', 'Pigeon Pose', 'Figure-4 Stretch', '90/90 Hip Switch', 'Frog Stretch', 'Butterfly Stretch', 'Adductor Rock-Back', 'Standing Hamstring Stretch', 'Seated Forward Fold', 'Quad Stretch', 'Calf Stretch (wall)', 'Ankle Dorsiflexion Rock', 'World\'s Greatest Stretch', 'Spiderman Lunge', 'Doorway Pec Stretch', 'Lat Stretch (bench)', 'Cross-Body Shoulder Stretch', 'Sleeper Stretch', 'Overhead Triceps Stretch', 'Thread the Needle', 'Thoracic Rotation', 'Cat-Cow', 'Child\'s Pose', 'Downward Dog', 'Cobra', 'Neck Side Stretch', 'Wrist Flexor Stretch'];
+// One-line cues the follow-along timer shows for each stretch.
+const STRETCH_CUES = {
+  'Couch Stretch (hip flexor)': 'Back knee against the wall, squeeze that glute and keep your ribs down.',
+  'Half-Kneeling Hip Flexor Stretch': 'Tuck your pelvis under and shift forward until the front of the back hip opens.',
+  'Pigeon Pose': 'Front shin across, hips square, walk your hands forward and breathe into the hip.',
+  'Figure-4 Stretch': 'Ankle over the opposite knee, pull the bottom thigh toward you.',
+  '90/90 Hip Switch': 'Sit tall with both knees at 90°, rotate side to side slowly without using your hands.',
+  'Frog Stretch': 'Knees wide, ankles in line with knees, rock your hips back gently.',
+  'Butterfly Stretch': 'Soles together, sit tall and let your knees drop. Hinge forward from the hips.',
+  'Adductor Rock-Back': 'One leg out to the side, flat back, rock your hips back toward your heel.',
+  'Standing Hamstring Stretch': 'Heel on a low step, straight leg, hinge forward with a flat back.',
+  'Seated Forward Fold': 'Legs long, reach from the hips rather than rounding your upper back.',
+  'Quad Stretch': 'Pull your heel to your glute, knees together, hips pushed slightly forward.',
+  'Calf Stretch (wall)': 'Back leg straight, heel down, lean into the wall.',
+  'Ankle Dorsiflexion Rock': 'Half-kneeling, drive the front knee over your toes with the heel down.',
+  'World\'s Greatest Stretch': 'Deep lunge, elbow to instep, then rotate and reach the arm to the ceiling.',
+  'Spiderman Lunge': 'Foot outside your hand, sink your hips low and keep the back leg long.',
+  'Doorway Pec Stretch': 'Forearm on the frame at shoulder height, step through until the chest opens.',
+  'Lat Stretch (bench)': 'Elbows on a bench, sit your hips back and let your chest sink.',
+  'Cross-Body Shoulder Stretch': 'Pull your arm across your chest just above the elbow, shoulder down.',
+  'Sleeper Stretch': 'Lie on your side, elbow at shoulder height, press the forearm toward the floor gently.',
+  'Overhead Triceps Stretch': 'Hand behind your head, pull the elbow back with the other hand.',
+  'Thread the Needle': 'On all fours, slide one arm under your body and rest your shoulder down.',
+  'Thoracic Rotation': 'On your side with knees bent, open your top arm and follow it with your eyes.',
+  'Cat-Cow': 'Move slowly: round your back on the exhale, arch and lift your chest on the inhale.',
+  'Child\'s Pose': 'Knees wide, hips to heels, arms long, and breathe into your back.',
+  'Downward Dog': 'Hips high, press the floor away, heels reaching down.',
+  'Cobra': 'Hips down, press up through your hands and keep your shoulders away from your ears.',
+  'Neck Side Stretch': 'Ear toward your shoulder, opposite shoulder down. Hold gently.',
+  'Wrist Flexor Stretch': 'Arm straight, palm out, pull your fingers back gently.'
+};
+// Ready-made mobility routines: tap one to start a stretch session, then follow along.
+const RT = (name, holdSec, sides) => ({ name, holdSec, sides: !!sides });
+const ROUTINES = [
+  { id: 'r-full10', name: 'Full body · 10 min', focus: 'Everything, quickly', stretches: [RT('Cat-Cow', 40), RT('World\'s Greatest Stretch', 30, 1), RT('Downward Dog', 40), RT('Half-Kneeling Hip Flexor Stretch', 40, 1), RT('Standing Hamstring Stretch', 35, 1), RT('Thread the Needle', 30, 1), RT('Doorway Pec Stretch', 40), RT('Child\'s Pose', 45)] },
+  { id: 'r-hips', name: 'Hips & lower back', focus: 'Hip flexors, glutes, adductors', stretches: [RT('90/90 Hip Switch', 45), RT('Couch Stretch (hip flexor)', 45, 1), RT('Pigeon Pose', 60, 1), RT('Frog Stretch', 60), RT('Adductor Rock-Back', 40, 1), RT('Figure-4 Stretch', 45, 1), RT('Child\'s Pose', 60)] },
+  { id: 'r-shoulders', name: 'Shoulders & upper back', focus: 'Pecs, lats, T-spine', stretches: [RT('Cat-Cow', 40), RT('Thoracic Rotation', 40, 1), RT('Thread the Needle', 40, 1), RT('Doorway Pec Stretch', 45), RT('Lat Stretch (bench)', 45), RT('Sleeper Stretch', 40, 1), RT('Cross-Body Shoulder Stretch', 30, 1)] },
+  { id: 'r-postlower', name: 'After a lower-body day', focus: 'Quads, hamstrings, glutes, calves', stretches: [RT('Quad Stretch', 40, 1), RT('Half-Kneeling Hip Flexor Stretch', 45, 1), RT('Standing Hamstring Stretch', 45, 1), RT('Figure-4 Stretch', 45, 1), RT('Calf Stretch (wall)', 40, 1), RT('Child\'s Pose', 45)] },
+  { id: 'r-postupper', name: 'After an upper-body day', focus: 'Chest, lats, arms, neck', stretches: [RT('Doorway Pec Stretch', 45), RT('Lat Stretch (bench)', 45), RT('Overhead Triceps Stretch', 30, 1), RT('Cross-Body Shoulder Stretch', 30, 1), RT('Wrist Flexor Stretch', 25, 1), RT('Neck Side Stretch', 25, 1)] },
+  { id: 'r-run', name: 'Runner\'s reset', focus: 'After a run or ride', stretches: [RT('Calf Stretch (wall)', 45, 1), RT('Ankle Dorsiflexion Rock', 30, 1), RT('Quad Stretch', 40, 1), RT('Standing Hamstring Stretch', 45, 1), RT('Couch Stretch (hip flexor)', 45, 1), RT('Pigeon Pose', 45, 1)] },
+  { id: 'r-morning', name: 'Morning wake-up · 5 min', focus: 'Gentle, whole body', stretches: [RT('Cat-Cow', 45), RT('Child\'s Pose', 40), RT('Cobra', 30), RT('Downward Dog', 40), RT('Spiderman Lunge', 30, 1), RT('Thoracic Rotation', 30, 1)] }
+];
+const prepSec = 5;
+const stretchMin = list => Math.max(1, Math.round(list.reduce((a, s) => a + (s.holdSec || 45) * (s.sides ? 2 : 1) + prepSec * (s.sides ? 2 : 1), 0) / 60));
 const INTENSITY = ['Easy (Z2)', 'Recovery', 'Long', 'Tempo', 'Threshold', 'Intervals', 'Hills', 'Technique'];
 const TYPES = { strength: 'Strength', run: 'Run', ride: 'Ride', swim: 'Swim', stretch: 'Stretch' };
 const MEAS = [['neck', 'Neck'], ['shoulders', 'Shoulders'], ['chest', 'Chest'], ['waist', 'Waist (navel)'], ['hips', 'Hips'], ['armL', 'Upper arm L'], ['armR', 'Upper arm R'], ['forearmL', 'Forearm L'], ['forearmR', 'Forearm R'], ['thighL', 'Thigh L'], ['thighR', 'Thigh R'], ['calfL', 'Calf L'], ['calfR', 'Calf R']];
@@ -891,6 +990,7 @@ async function flush() {
       }
     }
   } finally { flushing = false; }
+  if (!outbox.length && !S.net.lastErr) { S.net.savedAt = Date.now(); setTimeout(schedule, 3100); }
   if (outbox.length && db) { clearTimeout(retryT); retryT = setTimeout(flush, navigator.onLine ? 15000 : 30000); }
   schedule();
 }
@@ -1109,6 +1209,24 @@ const SPORT = {
   ride: { label: 'Ride', metric: 'Speed', unit: 'km/h', fmt: v => fmtNum(v, 1), lower: false, dist: w => w.km || 0, distUnit: 'km' },
   swim: { label: 'Swim', metric: 'Pace', unit: '/100 m', fmt: v => fmtPace(v), lower: true, dist: w => (w.meters || 0) / 1000, distUnit: 'km' }
 };
+// Seconds in each of the 5 zones: typed-in Garmin minutes win, then the watch's live stream; null if neither.
+function wZones(w) {
+  if (w.zoneMin && w.zoneMin.some(Boolean)) return w.zoneMin.map(m => (m || 0) * 60);
+  if (w.hr && w.hr.zones && w.hr.zones.some(Boolean)) return w.hr.zones;
+  return null;
+}
+const ZONE_NAMES = ['Recovery', 'Easy', 'Aerobic', 'Threshold', 'Max'];
+// Weekly distance goals live in settings.goals: run and ride in km, swim in metres.
+const goalOf = t => { const g = (settings().goals || {})[t]; return g > 0 ? g : null; };
+const goalDone = (t, mon) => { const d = weekStats(mon).list.filter(w => w.type === t).reduce((a, w) => a + SPORT[t].dist(w), 0); return t === 'swim' ? d * 1000 : d; };
+const goalUnit = t => t === 'swim' ? 'm' : 'km';
+function goalStreak(t) { const g = goalOf(t); if (!g) return 0; let n = 0, m = addDays(mondayOf(ymd()), -7); while (n < 52 && goalDone(t, m) >= g) { n++; m = addDays(m, -7); } return n; }
+function goalRows(mon, withStreak) {
+  return Object.keys(SPORT).filter(goalOf).map(t => {
+    const g = goalOf(t), d = goalDone(t, mon), st = withStreak ? goalStreak(t) : 0, dp = t === 'swim' ? 0 : 1;
+    return `<div class="goal"><div class="gt"><span><b>${SPORT[t].label}</b>${d >= g ? ` ${ic('check', 'acc')}` : ''}</span><span>${fmtNum(d, dp)} / ${fmtNum(g, dp)} ${goalUnit(t)}${st ? ` · ${st} week${st === 1 ? '' : 's'} in a row` : ''}</span></div><div class="gbar"><i style="width:${Math.min(100, d / g * 100).toFixed(1)}%"></i></div></div>`;
+  }).join('');
+}
 function cardioSeries(type) { return mm('cs:' + type, () => allW().filter(w => w.type === type).map(w => [dix(w.date), cardioMetric(w)]).filter(p => p[1] != null).sort((a, b) => a[0] - b[0])); }
 function cardioForecast(type) { return mm('cf:' + type, () => forecast(cardioSeries(type), { exp: SPORT[type].lower ? -0.01 : 0.01, damp: 0.85, uPerMonth: 0.009, window: 70, obsMin: -0.03, obsMax: 0.03 })); }
 function topLifts() {
@@ -1247,7 +1365,7 @@ function lineChart(o) {
 function barChart(o) {
   const W = 340, H = o.h || 150, L = 38, R = 8, T = 10, B = 22, bars = o.bars;
   if (!bars.length) return '';
-  const tk = ticks(0, Math.max(1, ...bars.map(b => b.v)), 3);
+  const tk = ticks(0, Math.max(1, o.goal || 0, ...bars.map(b => b.v)), 3);
   const bw = (W - L - R) / bars.length, Y = v => H - B - v / tk.hi * (H - T - B);
   const yf = o.yFmt || (v => fmtNum(v));
   let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Bar chart')}">`;
@@ -1256,6 +1374,22 @@ function barChart(o) {
   bars.forEach((b, i) => {
     const x = L + i * bw + bw * 0.18, w = bw * 0.64, y = Y(b.v);
     if (b.v > 0) s += `<rect class="bar ${b.cls || ''}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${(H - B - y).toFixed(1)}" rx="2"/>`;
+    if ((bars.length - 1 - i) % every === 0) s += `<text class="tx" x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${esc(b.label)}</text>`;
+  });
+  if (o.goal) { const gy = H - B - o.goal / tk.hi * (H - T - B); s += `<line class="goal-l" x1="${L}" x2="${W - R}" y1="${gy.toFixed(1)}" y2="${gy.toFixed(1)}"/>`; }
+  return s + '</svg>';
+}
+// Stacked bars: each bar has parts [v, cls] drawn bottom-up.
+function stackChart(o) {
+  const W = 340, H = o.h || 150, L = 38, R = 8, T = 10, B = 22, bars = o.bars;
+  const tk = ticks(0, Math.max(1, ...bars.map(b => b.parts.reduce((a, p) => a + p[0], 0))), 3);
+  const bw = (W - L - R) / bars.length, Y = v => H - B - v / tk.hi * (H - T - B), yf = o.yFmt || (v => fmtNum(v));
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Stacked bar chart')}">`;
+  for (const v of tk.t) s += `<line class="gl" x1="${L}" x2="${W - R}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="tx" x="${L - 6}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end">${esc(yf(v))}</text>`;
+  const every = Math.ceil(bars.length / 6);
+  bars.forEach((b, i) => {
+    const x = L + i * bw + bw * 0.18, w = bw * 0.64; let acc = 0;
+    for (const [v, cls] of b.parts) if (v > 0) { const y0 = Y(acc), y1 = Y(acc + v); s += `<rect class="${cls}" x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(0.5, y0 - y1 - 0.8).toFixed(1)}" rx="1.5"/>`; acc += v; }
     if ((bars.length - 1 - i) % every === 0) s += `<text class="tx" x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle">${esc(b.label)}</text>`;
   });
   return s + '</svg>';
@@ -1300,6 +1434,12 @@ const IC = {
   palette: '<path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.8-.8 1.8-1.7 0-1.2-1-1.6-1-2.6 0-.9.7-1.6 1.7-1.6h2.2c2 0 3.3-1.5 3.3-3.4C20 7 16.4 3.5 12 3.5z"/><circle cx="7.8" cy="11.2" r="1.1"/><circle cx="10.6" cy="7.6" r="1.1"/><circle cx="15" cy="7.9" r="1.1"/>',
   timer: '<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V9.8M9.5 3h5M18.3 7.2l1.3-1.3"/>',
   cloud: '<path d="M7 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.9 9.6 4.5 4.5 0 0 1 17.5 18.5z"/>',
+  cloudok: '<path d="M7 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.9 9.6 4.5 4.5 0 0 1 17.5 18.5z"/><path d="m9.3 13.6 2 2 3.6-3.8"/>',
+  cloudoff: '<path d="M7 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.9 9.6 4.5 4.5 0 0 1 17.5 18.5z"/><path d="M4 4l16 16"/>',
+  cloudsync: '<path d="M7 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.9 9.6 4.5 4.5 0 0 1 17.5 18.5z"/><path class="spin" d="M14.6 12.4a2.8 2.8 0 1 1-.8-2.1M14.2 8.8v1.7h-1.7"/>',
+  chat: '<path d="M4.5 6.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H10l-4 3.5v-3.5h0a2 2 0 0 1-1.5-2z"/><path d="M8.5 9.5h7M8.5 12.5h4.5"/>',
+  send: '<path d="M4 12 20 4l-4 16-4-6.5z"/><path d="M12 13.5 20 4"/>',
+  mobility: '<circle cx="12" cy="4.8" r="1.8"/><path d="M12 7.5v6l-4.5 6M12 13.5l4.5 6M5 10.5l7-2 7 2"/>',
   trophy: '<path d="M8 4h8v6a4 4 0 0 1-8 0z"/><path d="M8 6H5v1.5a3 3 0 0 0 3 3M16 6h3v1.5a3 3 0 0 1-3 3M12 14v3M8.5 20.5h7M10 17h4"/>',
   link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
   gear: '<circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.6 7.6 0 0 0 7 6.5l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.4z"/>',
@@ -1344,7 +1484,7 @@ function viewAnim(v) {
   return a;
 }
 function header(v) {
-  const titles = { today: 'Today', train: 'Train', prog: 'Progression', profile: 'Profile', block: v.p && v.p.isNew ? 'New block' : 'Edit block', tpl: v.p && v.p.isNew ? 'New saved workout' : 'Edit saved workout', cal: 'Calendar', library: 'Exercise library', history: 'History', exercise: v.p && v.p.name, session: 'Session', prs: 'Personal records' };
+  const titles = { today: 'Today', train: 'Train', prog: 'Progression', profile: 'Profile', block: v.p && v.p.isNew ? 'New block' : 'Edit block', tpl: v.p && v.p.isNew ? 'New saved workout' : 'Edit saved workout', cal: 'Calendar', library: 'Exercise library', history: 'History', exercise: v.p && v.p.name, session: 'Session', prs: 'Personal records', photocmp: 'Compare photos', coach: 'Ask the coach' };
   let t = titles[v.v] || '';
   if (PAGE_TITLES[v.v]) t = PAGE_TITLES[v.v];
   if (v.v === 'log') t = S.active.editingId ? 'Edit session' : (S.active.title || TYPES[S.active.type]);
@@ -1352,15 +1492,17 @@ function header(v) {
   const back = v.v === 'log' ? `<button class="icon" data-act="minimize" aria-label="Back to app (workout keeps running)">${ic('back')}</button>` : (S.ui.stack.length ? `<button class="icon" data-act="back" aria-label="Back">${ic('back')}</button>` : '');
   let right = statusChip();
   if (v.v === 'profile') right += `<button class="icon" data-act="profpage" data-k="settings" aria-label="Settings" style="margin-right:-8px">${ic('gear')}</button>`;
-  if (v.v === 'log') right = `<button class="btn sm primary" data-act="ask" data-k="finish">${S.active.editingId ? 'Save' : 'Finish'}</button>`;
+  if (v.v === 'log') right = statusChip(true) + `<button class="btn sm primary" data-act="ask" data-k="finish">${S.active.editingId ? 'Save' : 'Finish'}</button>`;
   return `${back}<h1>${esc(t)}</h1>${right}`;
 }
-function statusChip() {
-  if (!S.net.online) return `<button class="status warn" data-act="statusinfo">Offline${outbox.length ? ' · ' + outbox.length + ' to sync' : ''}</button>`;
-  if (outbox.length) return `<button class="status" data-act="statusinfo">Saving ${outbox.length}</button>`;
-  if (S.net.dbFailed) return `<button class="status warn" data-act="statusinfo">This phone only</button>`;
-  if (S.net.lastErr) return `<button class="status warn" data-act="statusinfo">Sync issue</button>`;
-  return '';
+// Always-on sync state: spinning while changes go up, a tick (with "Saved" for a few seconds) once everything is in.
+function statusChip(compact) {
+  const c = (cls, icon, label, aria) => `<button class="status sync ${cls}" data-act="statusinfo" aria-label="${aria}">${ic(icon)}${label && !compact ? `<span>${label}</span>` : ''}</button>`;
+  if (!S.net.online) return c('warn', 'cloudoff', `Offline${outbox.length ? ' · ' + outbox.length : ''}`, `Offline${outbox.length ? ', ' + outbox.length + ' changes waiting to sync' : ', everything is saved on this phone'}`);
+  if (S.net.dbFailed) return c('warn', 'cloudoff', 'This phone only', 'Sync is off, changes stay on this phone');
+  if (S.net.lastErr) return c('warn', 'cloudoff', 'Sync issue', 'Sync issue, tap for details');
+  if (outbox.length || S.net.loading) return c('busy', 'cloudsync', outbox.length ? 'Saving' : 'Syncing', outbox.length ? `Saving ${outbox.length} change${outbox.length === 1 ? '' : 's'}` : 'Syncing');
+  return c('ok', 'cloudok', Date.now() - (S.net.savedAt || 0) < 3000 ? 'Saved' : '', 'All changes saved');
 }
 function navBar() {
   return [['today', 'Today'], ['train', 'Train'], ['prog', 'Progression'], ['profile', 'Profile']].map(([k, l]) => `<button data-act="tab" data-tab="${k}" ${S.ui.tab === k ? 'aria-current="page"' : ''}>${ic(k === 'prog' ? 'prog' : k)}<span>${l}</span></button>`).join('');
@@ -1380,6 +1522,8 @@ function view(v) {
     case 'exercise': return vExercise(v.p.name);
     case 'session': return vSession(v.p.id, v.p.fresh);
     case 'prs': return vPRs();
+    case 'photocmp': return vPhotoCmp();
+    case 'coach': return vCoach();
   }
   if (v.v === 'settings') return vSettings();
   if (PAGE_TITLES[v.v]) return vProfPage(v.v);
@@ -1440,6 +1584,7 @@ function vToday() {
   // coach note
   const c = meta('coach');
   if (c && c.note) h += `<div class="sec"><div class="sec-h"><span class="label">${c.kind === 'checkin' ? 'Weekly check-in' : 'From Claude'}${c.sample ? ' · example' : ''}</span><span class="faint" style="font-size:12.5px">${c.updatedAt ? fmtShort(ymd(new Date(c.updatedAt))) : ''}</span></div><div class="card coach">${md(c.note)}</div></div>`;
+  h += `<button class="card coachbtn" data-act="coach">${ic('chat', 'acc')}<span class="grow"><b>Ask the coach</b><span class="sub">Questions, or a new or changed block</span></span>${ic('chev')}</button>`;
   // last workout
   const last = allW()[0];
   if (last) {
@@ -1452,7 +1597,7 @@ function vToday() {
   // this week
   const ws = weekStats(mon);
   const plannedN = b ? Array.from({ length: 7 }, (_, i) => sessionsOn(addDays(mon, i)).length).reduce((a, x) => a + x, 0) : 0;
-  h += `<div class="sec"><span class="label">This week</span><div class="stats"><div class="stat"><b>${ws.n}${plannedN ? `<span class="faint" style="font-size:15px"> / ${plannedN}</span>` : ''}</b><span>Sessions</span></div><div class="stat"><b>${fmtNum(ws.sets)}</b><span>Working sets</span></div><div class="stat"><b>${fmtNum(ws.km, 1)}</b><span>Cardio km</span></div></div></div>`;
+  h += `<div class="sec"><span class="label">This week</span><div class="stats"><div class="stat"><b>${ws.n}${plannedN ? `<span class="faint" style="font-size:15px"> / ${plannedN}</span>` : ''}</b><span>Sessions</span></div><div class="stat"><b>${fmtNum(ws.sets)}</b><span>Working sets</span></div><div class="stat"><b>${fmtNum(ws.km, 1)}</b><span>Cardio km</span></div></div>${Object.keys(SPORT).some(goalOf) ? `<button class="card flat" data-act="goals" style="text-align:left;padding-top:6px;padding-bottom:6px">${goalRows(mon)}</button>` : ''}</div>`;
   return h;
 }
 function sessCard(b, d, w, date) {
@@ -1510,7 +1655,9 @@ function vCal() {
 function vTrain() {
   let h = `<div class="sec"><span class="label">Start a session</span><div class="grid3">${['strength', 'run', 'ride', 'swim', 'stretch'].map(t => `<button class="btn" data-act="startempty" data-type="${t}">${TYPES[t]}</button>`).join('')}<button class="btn ghost" data-act="go" data-v="library">Library</button></div></div>`;
   h += loadingBox();
+  h += `<div class="sec"><div class="sec-h"><span class="label">Ask the coach</span></div><button class="card coachbtn" data-act="coach">${ic('chat', 'acc')}<span class="grow"><b>Build or tweak a block with Claude</b><span class="sub">Describe what you want. Claude drafts it, you review it before anything changes.</span></span>${ic('chev')}</button></div>`;
   h += savedSection();
+  h += `<div class="sec"><span class="label">Mobility routines</span><div class="tgrid">${ROUTINES.map(r => `<button class="tile rtile" data-act="routine" data-id="${r.id}">${ic('mobility', 'acc')}<span class="t">${esc(r.name)}</span><span class="sub">${esc(r.focus)}</span><span class="faint" style="font-size:12.5px">${r.stretches.length} stretches · about ${stretchMin(r.stretches)} min</span></button>`).join('')}</div></div>`;
   const bs = allB();
   h += `<div class="sec"><div class="sec-h"><span class="label">Training blocks</span><button class="link" data-act="newblock">+ New block</button></div>`;
   if (!bs.length && !S.net.loading) h += `<div class="empty"><span>A block is a multi-week plan: a weekly schedule of sessions with progression and a deload week.</span><button class="btn primary" data-act="newblock">Build your first block</button></div>`;
@@ -1921,14 +2068,55 @@ function logCardio(a) {
     <div class="field"><span>Duration</span><div class="dur"><label><input id="c-h" class="in" inputmode="numeric" data-root="active" data-bind="h" data-num data-derive value="${a.h ?? ''}" aria-label="Hours"><i>h</i></label><label><input id="c-m" class="in" inputmode="numeric" data-root="active" data-bind="m" data-num data-derive value="${a.m ?? ''}" aria-label="Minutes"><i>min</i></label><label><input id="c-s" class="in" inputmode="numeric" data-root="active" data-bind="s" data-num data-derive value="${a.s ?? ''}" aria-label="Seconds"><i>s</i></label></div></div>
     ${a.type === 'swim' ? `<label class="field"><span>Distance (m)</span><input id="c-dist" class="in" inputmode="numeric" data-root="active" data-bind="meters" data-num data-derive value="${a.meters ?? ''}"></label>` : `<label class="field"><span>Distance (km)</span><input id="c-dist" class="in" inputmode="decimal" data-root="active" data-bind="km" data-num data-derive value="${a.km ?? ''}"></label>`}
     <label class="field"><span>Average heart rate (bpm, optional)</span><input id="c-hr" class="in" inputmode="numeric" data-root="active" data-bind="avgHr" data-num value="${a.avgHr ?? ''}"></label>
+    ${a.hr && !a.editingId ? '' : `<div class="field"><span>Minutes in each heart rate zone (optional, from Garmin)</span><div class="zin">${[0, 1, 2, 3, 4].map(i => `<label><input id="c-z${i}" class="in" inputmode="numeric" data-root="active" data-bind="zoneMin.${i}" data-num value="${(a.zoneMin || [])[i] ?? ''}" aria-label="Minutes in zone ${i + 1}"><i>Z${i + 1}</i></label>`).join('')}</div></div>`}
     <div class="stats two"><div class="stat"><b id="derived">${cardioDerived(a)}</b><span>${sp.metric} (${sp.unit})</span></div></div></div>
     <div class="field"><span>RPE (how hard overall)</span><div class="rpe">${Array.from({ length: 10 }, (_, i) => `<button data-act="arpe" data-v="${i + 1}" aria-pressed="${a.rpe === i + 1}">${i + 1}</button>`).join('')}</div></div>`;
   return h;
 }
 function cardioFields(a) { const sec = (a.h || 0) * 3600 + (a.m || 0) * 60 + (a.s || 0); return { durSec: sec, durationMin: Math.round(sec / 6) / 10 }; }
 function cardioDerived(a) { const f = cardioFields(a); const m = cardioMetric({ type: a.type, durSec: f.durSec, km: a.km, meters: a.meters }); return m == null ? '–' : SPORT[a.type].fmt(m); }
+// Follow-along: 5 s to get in position, hold, "switch sides" and hold again for two-sided stretches, then on to the next.
+function followCard(a) {
+  const f = a.follow; if (!f) return '';
+  if (f.over) return `<div class="card follow"><div class="eyebrow acc">Routine complete</div><div class="h2">Nice work</div><span class="sub">${a.stretches.filter(s => s.done).length} of ${a.stretches.length} stretches done.</span><div class="btnrow"><button class="btn primary" data-act="ask" data-k="finish">Finish session</button><button class="btn ghost" data-act="fastop">Close</button></div></div>`;
+  const s = a.stretches[f.j]; if (!s) return '';
+  const left = f.paused ? f.left : f.end - Date.now(), tot = f.phase === 'hold' ? s.holdSec : prepSec, frac = clamp(left / 1000 / tot, 0, 1);
+  const nxt = a.stretches.find((x, k) => k > f.j && !x.done);
+  const what = f.phase === 'prep' ? 'Get into position' : f.phase === 'switch' ? 'Switch sides' : s.sides ? (f.side ? 'Right side' : 'Left side') : 'Hold';
+  return `<div class="card follow"><div class="eyebrow">${f.j + 1} of ${a.stretches.length} · <span class="acc">${what}</span></div><div class="h2">${esc(s.name)}</div>
+    <div class="ring ${f.phase === 'hold' ? '' : 'prep'}"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="fa-ring" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="${(326.7 * (1 - frac)).toFixed(1)}"/></svg><b id="fa-t">${Math.max(0, Math.ceil(left / 1000))}</b></div>
+    ${STRETCH_CUES[s.name] ? `<span class="cue">${esc(STRETCH_CUES[s.name])}</span>` : ''}
+    <span class="faint" style="font-size:13px">${nxt ? 'Next: ' + esc(nxt.name) : 'Last one'}</span>
+    <div class="btnrow"><button class="btn" data-act="faprev" aria-label="Previous stretch">Back</button><button class="btn primary" data-act="fapause">${f.paused ? 'Resume' : 'Pause'}</button><button class="btn" data-act="faskip">Skip</button></div>
+    <button class="link" data-act="fastop">Stop follow-along</button></div>`;
+}
+function faSet(phase, j, side) { const a = S.active, s = a.stretches[j]; a.follow = { j, side, phase, end: Date.now() + (phase === 'hold' ? s.holdSec : prepSec) * 1000 }; }
+function faNext(markDone) {
+  const a = S.active, f = a.follow;
+  if (markDone) a.stretches[f.j].done = true;
+  const j = a.stretches.findIndex((x, k) => k > f.j && !x.done);
+  if (j < 0) { a.follow = { over: true }; buzz(); } else { faSet('prep', j, 0); chime(); }
+}
+function faAdvance() {
+  const a = S.active, f = a.follow, s = a.stretches[f.j];
+  if (f.phase === 'prep') { faSet('hold', f.j, f.side); chime(880); }
+  else if (f.phase === 'hold' && s.sides && !f.side) { faSet('switch', f.j, 1); chime(); }
+  else if (f.phase === 'switch') { faSet('hold', f.j, 1); chime(880); }
+  else faNext(true);
+  saveActive(); render();
+}
+function tickFollow() {
+  const a = S.active, f = a && a.follow; if (!f || f.over || f.paused || !(S.ui.inLog)) return;
+  const left = f.end - Date.now();
+  if (left <= 0) { faAdvance(); return; }
+  const s = a.stretches[f.j], tot = f.phase === 'hold' ? s.holdSec : prepSec, t = $('#fa-t'), r = $('#fa-ring');
+  if (t) t.textContent = Math.ceil(left / 1000);
+  if (r) r.style.strokeDashoffset = (326.7 * (1 - clamp(left / 1000 / tot, 0, 1))).toFixed(1);
+}
 function logStretch(a) {
-  let h = `<div class="card"><div class="rows">`;
+  let h = followCard(a);
+  if (!a.follow && a.stretches.some(s => !s.done)) h += `<button class="btn primary wide" data-act="fastart">${ic('timer')} Start follow-along · about ${stretchMin(a.stretches.filter(s => !s.done))} min</button>`;
+  h += `<div class="card"><div class="rows">`;
   if (!a.stretches.length) h += `<div class="sub" style="padding:8px 0">Add stretches to build this session.</div>`;
   a.stretches.forEach((s, j) => {
     h += `<div class="stretch ${s.done ? 'done' : ''}"><div class="grow"><div class="t">${esc(s.name)}</div><div class="sub">${s.holdSec}s${s.sides ? ' each side' : ''}</div></div>
@@ -1954,6 +2142,8 @@ function finishActive() {
   } else {
     const f = cardioFields(a);
     Object.assign(doc, f, { km: a.type === 'swim' ? null : a.km, meters: a.type === 'swim' ? a.meters : null, avgHr: a.avgHr ?? null, plan: a.plan || null, h: undefined });
+    const zm = [0, 1, 2, 3, 4].map(i => Math.max(0, num((a.zoneMin || [])[i]) || 0));
+    doc.zoneMin = zm.some(Boolean) ? zm : null;
     if (!f.durSec) { toast('Enter the duration first'); S.ui.confirm = null; render(); return; }
   }
   const hs = !a.editingId && hrStats(a.hr); if (hs) { doc.hr = hs; if (SPORT[a.type] && doc.avgHr == null) doc.avgHr = hs.avg; } else if (prev && prev.hr) doc.hr = prev.hr;
@@ -2105,6 +2295,117 @@ async function runPendingEvals() {
   if (p) await runEval(p.id, true);
 }
 
+/* ================= Ask the coach (chat) ================= */
+// Chat history syncs in meta/coachchat. Claude answers through the same edge function as evaluations; when it drafts a
+// block it appends one ```engine-block JSON fence, which the app shows as a card that opens in the block editor.
+const chatMsgs = () => (meta('coachchat') || {}).msgs || [];
+const CHAT_IDEAS = ['Build me a new 6-week block', 'Make my current block a bit harder', 'Swap the lifts I\'ve stalled on', 'Fit three runs a week into my plan', 'Add a mobility session to my week'];
+function coachPrompt(msgs) {
+  const p = profile(), b = activeBlock(), today = ymd(), since = addDays(today, -42), st = settings();
+  const strip = x => { const { sample, updatedAt, ...r } = x; return r; };
+  const recent = allW().filter(w => w.date >= since).map(w => {
+    const o = { date: w.date, type: w.type, title: w.title, rpe: w.rpe ?? null };
+    if (w.type === 'strength') o.lifts = (w.exercises || []).map(ex => ex.name + ': ' + ex.sets.filter(x => x.kind !== 'W').map(x => `${x.lb || 0}x${x.reps}${x.rpe ? '@' + x.rpe : ''}`).join(', '));
+    else if (SPORT[w.type]) Object.assign(o, { km: w.km, meters: w.meters, minutes: Math.round((w.durSec || (w.durationMin || 0) * 60) / 60), avgHr: w.avgHr || null });
+    else o.stretches = (w.stretches || []).length;
+    if (w.notes) o.notes = w.notes;
+    return o;
+  });
+  const lifts = topLifts().slice(0, 15).map(l => { const f = liftForecast(l.name); return { name: l.name, sessions: l.n, e1rmNowLb: f ? Math.round(f.cur) : null }; });
+  const byMuscle = {}; for (const e of library()) (byMuscle[e.muscle] = byMuscle[e.muscle] || []).push(e.name);
+  const ctx = {
+    today: `${today} (${DOW[pd(today).getDay()]})`,
+    athlete: { goal: p.goal || 'Strength and conditioning: get strong again while keeping and improving cardio', age: p.age || null, trainingYears: p.trainingYears || null, previousBests: p.prevBests || null, bodyWeightLb: currentBW() ? Math.round(currentBW()) : null, trainingMaturity: maturity().label, units: 'lb, km, pool metres', maxHr: hrMax(), weeklyDistanceGoals: st.goals || {}, defaultRestSec: { compound: st.restCompound, accessory: st.restAccessory } },
+    activeBlock: b ? { id: b.id, ...strip(b), currentWeek: blockWeek(b) } : null,
+    otherBlocks: allB().filter(x => !b || x.id !== b.id).slice(0, 8).map(x => ({ id: x.id, name: x.name, focus: x.focus, weeks: x.weeks, startDate: x.startDate })),
+    lifts, stalledLifts: stalled(), last6WeeksSessions: recent,
+    exerciseLibrary: byMuscle, stretchLibrary: STRETCHES, cardioIntensities: INTENSITY
+  };
+  const convo = msgs.slice(-20).map(m => `${m.role === 'me' ? 'ATHLETE' : 'COACH'}: ${m.text}${m.block ? '\n[The coach attached a block draft: ' + m.block.name + ']' : ''}`).join('\n\n');
+  return `You are the athlete's strength and conditioning coach inside the Engine training app. Reply to the athlete's latest message in the conversation below.
+
+Write like a coach texting: plain, direct, specific, using the athlete's real numbers from DATA. Keep replies under 180 words unless they ask for detail. Use short paragraphs or "- " bullets, and **bold** sparingly. Ask one clarifying question instead of guessing when an important detail is missing (like days available). Never invent sessions or numbers that aren't in DATA.
+
+When you propose a new block, or a change to an existing block, briefly explain it and then end your reply with exactly one fenced code block tagged engine-block holding JSON for the COMPLETE block (every day, not just the changes). The app shows it as a card the athlete reviews in the block editor before saving. Only include it when you're actually proposing a block. Schema:
+\`\`\`engine-block
+{"editBlockId": "<id of the block you're changing, or null for a new block>", "name": "Upper/Lower Strength", "focus": "strength|hypertrophy|conditioning|mixed", "weeks": 6, "deloadWeek": 6, "rampPct": 5, "startDate": "YYYY-MM-DD (a Monday)",
+ "days": [{"weekday": 1, "title": "Upper A", "type": "strength", "items": [{"name": "Barbell Bench Press", "sets": 4, "repLow": 4, "repHigh": 6, "rpe": 8, "restSec": 180, "group": null}]},
+          {"weekday": 3, "title": "Easy run", "type": "run|ride|swim", "cardio": {"minutes": 40, "km": null, "meters": null, "intensity": "Easy (Z2)", "notes": ""}},
+          {"weekday": 6, "title": "Hips", "type": "stretch", "stretches": [{"name": "Pigeon Pose", "holdSec": 60, "sides": true}]}]}
+\`\`\`
+weekday: 0 = Sunday ... 6 = Saturday. Use exercise names exactly as in exerciseLibrary and stretch names from stretchLibrary where possible. Exercises that share the same "group" string are a superset. rampPct is the weekly cardio increase. Weights aren't set in a block: Engine picks them each session from history. For an edit, keep the block's name, startDate and day titles unless the athlete asks to change them.
+
+DATA (JSON):
+${JSON.stringify(ctx)}
+
+CONVERSATION:
+${convo}`;
+}
+const FENCE = /```engine-block\s*([\s\S]*?)(```|$)/;
+const chatVisible = t => { const i = (t || '').indexOf('```engine-block'); return (i < 0 ? t : t.slice(0, i)).trim(); };
+// Turn Claude's JSON into a safe block draft for the editor.
+function parseBlock(text) {
+  const m = (text || '').match(FENCE); if (!m || !m[2]) return null;
+  let j; try { j = JSON.parse(m[1].trim()); } catch (e) { return null; }
+  if (!j || !Array.isArray(j.days)) return null;
+  const ex = j.editBlockId && S.blocks.get(j.editBlockId), n = (v, a, b, d) => { const x = num(v); return x == null ? d : clamp(x, a, b); };
+  const weeks = Math.round(n(j.weeks, 1, 16, ex ? ex.weeks : 6));
+  const days = j.days.filter(d => d && TYPES[d.type]).map(d => {
+    const wd = Math.round(n(d.weekday, 0, 6, 1)), old = ex && (ex.days || []).find(o => o.weekday === wd && o.type === d.type);
+    const o = { key: old ? old.key : uid('d'), weekday: wd, title: String(d.title || TYPES[d.type]).slice(0, 60), type: d.type, items: [], stretches: [] };
+    if (d.type === 'strength') o.items = (d.items || []).filter(it => it && it.name).map(it => { const info = exInfo(String(it.name)), r = { name: String(it.name).slice(0, 80), sets: Math.round(n(it.sets, 1, 12, 3)), repLow: Math.round(n(it.repLow, 1, 50, 8)), repHigh: Math.round(n(it.repHigh, 1, 50, 10)), rpe: n(it.rpe, 5, 10, 8), restSec: Math.round(n(it.restSec, 15, 600, info.compound || info.lower ? settings().restCompound : settings().restAccessory)) }; if (it.group) r.group = String(it.group); return r; });
+    else if (d.type === 'stretch') o.stretches = (d.stretches || []).filter(x => x && x.name).map(x => ({ name: String(x.name).slice(0, 80), holdSec: Math.round(n(x.holdSec, 5, 600, 45)), sides: !!x.sides }));
+    else { const c = d.cardio || {}; o.cardio = { minutes: n(c.minutes, 1, 600, null), km: n(c.km, 0.1, 300, null), meters: n(c.meters, 25, 20000, null), intensity: INTENSITY.includes(c.intensity) ? c.intensity : 'Easy (Z2)', notes: String(c.notes || '').slice(0, 200) }; }
+    return o;
+  });
+  if (!days.length) return null;
+  for (const d of days) if (d.type === 'strength') fixReps(d.items);
+  const start = /^\d{4}-\d{2}-\d{2}$/.test(j.startDate || '') ? j.startDate : ex ? ex.startDate : newBlockDraft().startDate;
+  return { editId: ex ? j.editBlockId : null, name: String(j.name || (ex && ex.name) || 'New block').slice(0, 60), focus: ['strength', 'hypertrophy', 'conditioning', 'mixed'].includes(j.focus) ? j.focus : (ex ? ex.focus : 'mixed'), weeks, deloadWeek: j.deloadWeek ? Math.round(n(j.deloadWeek, 1, weeks, weeks)) : ex && ex.deloadWeek ? Math.min(ex.deloadWeek, weeks) : null, rampPct: n(j.rampPct, 0, 10, 5), startDate: start, days };
+}
+function blockCard(bk, i) {
+  const days = bk.days.slice().sort((x, y) => ((x.weekday + 6) % 7) - ((y.weekday + 6) % 7));
+  return `<div class="card prop"><div class="eyebrow acc">${bk.editId ? 'Changes to ' + esc((S.blocks.get(bk.editId) || {}).name || 'your block') : 'New block draft'}</div><div class="h3">${esc(bk.name)}</div>
+    <span class="sub">${bk.weeks} weeks${bk.deloadWeek ? ` · deload week ${bk.deloadWeek}` : ''} · starts ${fmtShort(bk.startDate)}</span>
+    <div class="rows">${days.map(d => `<div class="rowi" style="padding:6px 0"><span class="faint" style="width:34px">${DOW[d.weekday]}</span><span class="grow t">${esc(d.title)}</span><span class="faint" style="font-size:13px">${d.type === 'strength' ? d.items.length + ' ex' : d.type === 'stretch' ? d.stretches.length + ' stretches' : [d.cardio.minutes ? d.cardio.minutes + ' min' : '', d.cardio.km ? d.cardio.km + ' km' : ''].filter(Boolean).join(' · ') || TYPES[d.type]}</span></div>`).join('')}</div>
+    <button class="btn primary" data-act="coachapply" data-i="${i}">Review in block editor</button><span class="sub">Nothing changes until you save it there.</span></div>`;
+}
+function vCoach() {
+  const msgs = chatMsgs(), busy = S.ui.chatBusy;
+  let h = '';
+  if (!msgs.length && !busy) h += `<div class="card coach"><b>Ask me anything about your training.</b><span class="sub">I can see your blocks, the last six weeks of sessions, your lifts and your goals. I can draft a new block or change your current one, and you review it before anything is saved.</span></div><div class="chips">${CHAT_IDEAS.map(t => `<button class="chip" data-act="chatidea" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`;
+  h += `<div class="chat">`;
+  msgs.forEach((m, i) => {
+    if (m.role === 'me') h += `<div class="msg me">${esc(m.text)}</div>`;
+    else h += `<div class="msg ai">${md(chatVisible(m.text))}</div>${m.block ? blockCard(m.block, i) : ''}`;
+  });
+  if (busy) { const t = S.ui.chatText || ''; h += `<div class="msg ai" id="chat-live">${t ? md(chatVisible(t)) + (t.includes('```engine-block') ? '<p class="faint">Drafting the block…</p>' : '') : '<span class="faint">Thinking…</span>'}</div>`; }
+  h += `</div>`;
+  if (S.ui.chatErr) h += `<div class="sub warn">${esc(S.ui.chatErr)}</div>`;
+  h += `<div class="chatbar"><textarea id="chat-in" class="in" rows="1" data-root="form" data-bind="chat" placeholder="${S.net.online ? 'Message your coach' : 'You\'re offline'}" ${busy ? 'disabled' : ''}>${esc(S.ui.form.chat || '')}</textarea><button class="icon send" data-act="chatsend" aria-label="Send" ${busy || !S.net.online ? 'disabled' : ''}>${ic('send')}</button></div>`;
+  if (msgs.length && !busy) h += S.ui.confirm === 'chatclear' ? confirmBox('chatclear', 'Clear this conversation? Blocks you already saved stay.', 'chatclear', 'Clear', '', true) : `<button class="link" data-act="ask" data-k="chatclear" style="align-self:center">Start a new conversation</button>`;
+  return h;
+}
+async function chatSend(text) {
+  text = (text || '').trim(); if (!text || S.ui.chatBusy) return;
+  if (!navigator.onLine) { S.ui.chatErr = 'You\'re offline. The coach needs a connection.'; render(); return; }
+  if (!sampleFn) { S.ui.chatErr = 'The coach isn\'t connected yet. Sign in and try again.'; render(); return; }
+  const msgs = [...chatMsgs(), { role: 'me', text, at: Date.now() }].slice(-40);
+  write('meta', 'coachchat', { msgs });
+  S.ui.form.chat = ''; S.ui.chatBusy = true; S.ui.chatText = ''; S.ui.chatErr = null; render(); chatScroll();
+  try {
+    const res = await sampleFn(coachPrompt(msgs), { modelTier: 'default', onText: ({ text: t }) => { S.ui.chatText = t; const el = document.getElementById('chat-live'); if (el) { el.innerHTML = md(chatVisible(t)) + (t.includes('```engine-block') ? '<p class="faint">Drafting the block…</p>' : ''); chatScroll(); } } });
+    const block = parseBlock(res.text);
+    const reply = { role: 'ai', text: res.text, at: Date.now() };
+    if (block) reply.block = block; else if (FENCE.test(res.text)) reply.text = chatVisible(res.text) + '\n\n(The block draft didn\'t come through complete. Ask me to send it again.)';
+    write('meta', 'coachchat', { msgs: [...chatMsgs(), reply].slice(-40) });
+  } catch (e) {
+    const code = e && e.code;
+    S.ui.chatErr = code === 'not_configured' ? 'The coach needs your Anthropic API key in Supabase (Edge Functions, Secrets, ANTHROPIC_API_KEY).' : code === 'rate_limited' ? 'Claude is busy right now. Try again in a minute.' : code === 'session_expired' ? 'Sign in again to use the coach.' : 'The coach couldn\'t be reached' + (e && e.message ? ' (' + e.message + ')' : '') + '. Try again.';
+  } finally { S.ui.chatBusy = false; S.ui.chatText = ''; render(); chatScroll(); }
+}
+function chatScroll() { requestAnimationFrame(() => window.scrollTo({ top: document.body.scrollHeight })); }
+
 /* ================= Progression ================= */
 /* ================= muscle balance ================= */
 const PUSH_M = ['Chest', 'Shoulders', 'Triceps'], PULL_M = ['Back', 'Biceps', 'Traps'], LOWER_M = ['Quads', 'Hamstrings', 'Glutes', 'Calves'];
@@ -2226,11 +2527,19 @@ function progCardio() {
   const sp = S.ui.sport, cfg = SPORT[sp], today = ymd(), mon = mondayOf(today);
   const tw = weekStats(mon), lw = weekStats(addDays(mon, -7));
   const kmBy = (ws, t) => ws.list.filter(w => w.type === t).reduce((a, w) => a + SPORT[t].dist(w), 0);
-  let h = `<div class="sec"><span class="label">This week vs last week</span><div class="scrollx"><table class="tbl"><thead><tr><th></th><th class="r">This week</th><th class="r">Last week</th></tr></thead><tbody>${Object.keys(SPORT).map(t => `<tr><td>${SPORT[t].label}</td><td class="r"><b>${fmtNum(kmBy(tw, t), 1)} km</b></td><td class="r">${fmtNum(kmBy(lw, t), 1)} km</td></tr>`).join('')}<tr><td>Cardio time</td><td class="r"><b>${fmtMin(tw.cardioMin)}</b></td><td class="r">${fmtMin(lw.cardioMin)}</td></tr></tbody></table></div></div>`;
+  const st = settings(), ge = S.ui.goalEdit;
+  let h = `<div class="sec"><div class="sec-h"><span class="label">Weekly distance goals</span><button class="link" data-act="goaledit">${ge ? 'Done' : Object.keys(SPORT).some(goalOf) ? 'Edit' : 'Set goals'}</button></div>`;
+  if (ge) h += `<div class="card"><div class="grid3">${Object.keys(SPORT).map(t => `<label class="field"><span>${SPORT[t].label} (${goalUnit(t)})</span><input id="goal-${t}" class="in" inputmode="${t === 'swim' ? 'numeric' : 'decimal'}" data-act-change="goal" data-k="${t}" value="${(st.goals || {})[t] ?? ''}" placeholder="–"></label>`).join('')}</div><span class="sub">Leave a sport blank for no goal. Progress shows on Today.</span></div>`;
+  else if (Object.keys(SPORT).some(goalOf)) h += `<div class="card">${goalRows(mon, true)}</div>`;
+  else h += `<div class="empty" style="padding:14px"><span>Set a weekly distance for running, riding or swimming and track it on Today.</span></div>`;
+  h += `</div>`;
+  h += `<div class="sec"><span class="label">This week vs last week</span><div class="scrollx"><table class="tbl"><thead><tr><th></th><th class="r">This week</th><th class="r">Last week</th></tr></thead><tbody>${Object.keys(SPORT).map(t => `<tr><td>${SPORT[t].label}</td><td class="r"><b>${fmtNum(kmBy(tw, t), 1)} km</b></td><td class="r">${fmtNum(kmBy(lw, t), 1)} km</td></tr>`).join('')}<tr><td>Cardio time</td><td class="r"><b>${fmtMin(tw.cardioMin)}</b></td><td class="r">${fmtMin(lw.cardioMin)}</td></tr></tbody></table></div></div>`;
   h += `<div class="chips">${Object.keys(SPORT).map(t => `<button class="chip" data-act="sport" data-k="${t}" aria-pressed="${t === sp}">${SPORT[t].label}</button>`).join('')}</div>`;
   const bars = [];
   for (let i = 11; i >= 0; i--) { const m = addDays(mon, -7 * i); bars.push({ label: fmtShort(m).replace(' ', ' '), v: kmBy(weekStats(m), sp) }); }
-  h += `<div class="sec"><span class="label">${cfg.label} distance per week (km)</span>${barChart({ bars, yFmt: v => fmtNum(v, 1), label: `${cfg.label} weekly distance, last 12 weeks` })}</div>`;
+  const gk = goalOf(sp) && (sp === 'swim' ? goalOf(sp) / 1000 : goalOf(sp));
+  h += `<div class="sec"><span class="label">${cfg.label} distance per week (km)</span>${barChart({ bars, goal: gk, yFmt: v => fmtNum(v, 1), label: `${cfg.label} weekly distance, last 12 weeks` })}${gk ? `<div class="legend"><span><i class="mute" style="height:0;border-top:2px dashed var(--fg);background:none"></i>Weekly goal</span></div>` : ''}</div>`;
+  h += cardioZones(sp, mon);
   const s = cardioSeries(sp), f = cardioForecast(sp);
   if (s.length) {
     const lines = [{ pts: s, marks: s.length < 30, end: true }]; let band = null; const t0 = dix(today);
@@ -2246,6 +2555,34 @@ function progCardio() {
   for (let i = 0; i < 84; i++) { const d = addDays(start, i); const n = allW().filter(w => w.date === d).length; cal += `<i title="${fmtShort(d)}: ${n} session${n === 1 ? '' : 's'}" style="${n ? `background:var(--accent);opacity:${Math.min(1, .35 + n * .3)}` : ''}${d > today ? ';visibility:hidden' : ''}"></i>`; }
   h += `<div class="sec"><span class="label">Training calendar · 12 weeks, all sessions</span><div class="cal">${cal}</div><div class="legend"><span>Each column is a week, Monday on top. Brighter means more sessions that day.</span></div></div>`;
   return h;
+}
+// Time in heart rate zones per week, the easy/hard split, and average pace or speed for sessions in each zone.
+function cardioZones(sp, mon) {
+  const cfg = SPORT[sp], ws = allW().filter(w => w.type === sp);
+  const bars = []; let any = false;
+  for (let i = 7; i >= 0; i--) {
+    const m = addDays(mon, -7 * i), e = addDays(m, 7), z = [0, 0, 0, 0, 0];
+    for (const w of ws) if (w.date >= m && w.date < e) { const zs = wZones(w); if (zs) { any = true; zs.forEach((v, k) => z[k] += v / 60); } }
+    bars.push({ label: fmtShort(m), parts: z.map((v, k) => [v, 'z' + (k + 1)]) });
+  }
+  let h = `<div class="sec"><span class="label">${cfg.label} · time in heart rate zones (min per week)</span>`;
+  if (any) {
+    const last4 = bars.slice(-4).reduce((a, b) => { b.parts.forEach((p, k) => a[k] += p[0]); return a; }, [0, 0, 0, 0, 0]), tot = last4.reduce((a, b) => a + b, 0);
+    h += stackChart({ bars, yFmt: v => fmtNum(v), label: `${cfg.label} minutes per heart rate zone, last 8 weeks` });
+    h += `<div class="zleg">${ZONE_NAMES.map((n, k) => `<span><i class="z${k + 1}"></i>Z${k + 1} ${n}</span>`).join('')}</div>`;
+    if (tot) { const easy = Math.round((last4[0] + last4[1]) / tot * 100); h += `<span class="sub">Last 4 weeks: <b>${easy}% easy</b> (zones 1–2), ${100 - easy}% moderate to hard. ${easy >= 75 ? 'A good base for building fitness.' : 'Most endurance plans keep about 80% easy, so slow a few sessions down.'}</span>`; }
+  } else h += `<div class="empty" style="padding:14px"><span>Zones fill in when your watch streams heart rate during a session, or when you type in the minutes per zone from Garmin.</span></div>`;
+  // Pace/speed by zone, from each session's average heart rate (last 120 days)
+  const since = addDays(ymd(), -120), rows = [[], [], [], [], []];
+  for (const w of ws) { const m = cardioMetric(w), hr = w.avgHr || (w.hr && w.hr.avg); if (w.date >= since && m != null && hr) rows[hrZone(hr) - 1].push({ m, hr, date: w.date }); }
+  if (rows.some(r => r.length)) {
+    const avg = (r, k) => r.reduce((a, x) => a + x[k], 0) / r.length;
+    h += `<span class="label" style="margin-top:6px">${cfg.metric} by zone · last 4 months</span><div class="scrollx"><table class="tbl"><thead><tr><th>Zone</th><th class="r">Sessions</th><th class="r">Avg HR</th><th class="r">${cfg.metric} (${cfg.unit})</th></tr></thead><tbody>${rows.map((r, k) => r.length ? `<tr><td>Z${k + 1} ${ZONE_NAMES[k]}</td><td class="r">${r.length}</td><td class="r">${Math.round(avg(r, 'hr'))}</td><td class="r"><b>${cfg.fmt(avg(r, 'm'))}</b></td></tr>` : '').join('')}</tbody></table></div>`;
+    const z2 = rows[1], cut = addDays(ymd(), -42), nw = z2.filter(x => x.date >= cut), od = z2.filter(x => x.date < cut);
+    if (nw.length && od.length) { const a = avg(nw, 'm'), b = avg(od, 'm'), better = cfg.lower ? a < b : a > b; h += `<span class="sub">Easy (zone 2) ${cfg.metric.toLowerCase()} over the last 6 weeks is <b>${cfg.fmt(a)} ${cfg.unit}</b>, ${better ? 'faster' : 'slower'} than ${cfg.fmt(b)} before that${better ? ', a sign your aerobic fitness is improving' : ''}.</span>`; }
+    h += `<span class="sub">Zones use your max heart rate of ${hrMax()} bpm (change it in Settings, Heart rate). Each session counts in the zone of its average heart rate.</span>`;
+  }
+  return h + `</div>`;
 }
 function progBody() {
   const bl = bodyList(), wa = weightAvg();
@@ -2416,14 +2753,42 @@ function photosCard() {
   const d = S.ui.photoDate || ymd(); const e = S.body.get(d) || {};
   const slot = k => { const id = e.photos && e.photos[k]; return `<label class="ph">${id ? photoImg(id, `${k} photo, ${fmtShort(d)}`) : `${ic('plus')}<span>${cap(k)}</span>`}<span class="lab">${cap(k)}</span><input id="ph-${k}" type="file" accept="image/*" data-photo="${k}" aria-label="Add ${k} photo"></label>`; };
   let h = `<div class="card"><span class="h3">Progress photos <span class="faint" style="font-weight:500">· optional, private</span></span><label class="field"><span>Date</span><input id="ph-date" type="date" class="in" value="${esc(d)}" data-act-change="photodate"></label><div class="photos">${['front', 'side', 'back'].map(slot).join('')}</div>`;
-  if (dates.length >= 2) {
-    const a = S.ui.cmpA || dates[0], b = S.ui.cmpB || dates.at(-1), pose = S.ui.pose;
-    const pa = (S.body.get(a) || {}).photos || {}, pb = (S.body.get(b) || {}).photos || {};
-    h += `<span class="label">Compare</span><div class="grid2"><select id="cmp-a" class="in" data-act-change="cmpa">${dates.map(x => `<option ${x === a ? 'selected' : ''} value="${x}">${fmtShort(x)}</option>`).join('')}</select><select id="cmp-b" class="in" data-act-change="cmpb">${dates.map(x => `<option ${x === b ? 'selected' : ''} value="${x}">${fmtShort(x)}</option>`).join('')}</select></div>
-      <div class="seg">${['front', 'side', 'back'].map(k => `<button data-act="pose" data-k="${k}" aria-pressed="${pose === k}">${cap(k)}</button>`).join('')}</div>
-      <div class="grid2">${[pa, pb].map((p, i) => `<div class="ph" style="border-style:solid">${p[pose] ? photoImg(p[pose], `${pose} photo`) : '<span>No photo</span>'}<span class="lab">${fmtShort(i ? b : a)}</span></div>`).join('')}</div>`;
-  }
+  if (dates.length >= 2) h += `<button class="btn primary" data-act="go" data-v="photocmp">Compare two dates</button>`;
+  else h += `<span class="sub">Add photos on a second date to compare them side by side.</span>`;
   return h + `</div>`;
+}
+// Full-screen compare: any two photo dates, side by side or stacked with a drag-to-wipe slider, plus body changes between them.
+const photoDates = () => bodyList().filter(b => b.photos && Object.keys(b.photos).length).map(b => b.date);
+function nearBody(date, key, days = 7) {
+  let best = null;
+  for (const b of bodyList()) if (b[key] != null) { const d = Math.abs(diffDays(b.date, date)); if (d <= days && (!best || d < best.d)) best = { d, v: b[key] }; }
+  return best && best.v;
+}
+function vPhotoCmp() {
+  const dates = photoDates();
+  if (dates.length < 2) return `<div class="empty">Add progress photos on two different dates to compare them.</div>`;
+  const a = dates.includes(S.ui.cmpA) ? S.ui.cmpA : dates[0], b = dates.includes(S.ui.cmpB) ? S.ui.cmpB : dates.at(-1), pose = S.ui.pose, mode = S.ui.cmpMode || 'side';
+  const pa = (S.body.get(a) || {}).photos || {}, pb = (S.body.get(b) || {}).photos || {};
+  const opt = sel => dates.map(x => `<option ${x === sel ? 'selected' : ''} value="${x}">${fmtD(x)}</option>`).join('');
+  const preset = (label, days) => { const want = addDays(b, -days); const pick = dates.filter(x => x < b).reduce((best, x) => !best || Math.abs(diffDays(x, want)) < Math.abs(diffDays(best, want)) ? x : best, null); return pick && !(pick === dates[0] && b === dates.at(-1)) ? `<button class="chip" data-act="cmpset" data-a="${pick}" data-b="${b}" aria-pressed="${pick === a}">${label}</button>` : ''; };
+  let h = `<div class="grid2"><label class="field"><span>Before</span><select id="cmp-a" class="in" data-act-change="cmpa">${opt(a)}</select></label><label class="field"><span>After</span><select id="cmp-b" class="in" data-act-change="cmpb">${opt(b)}</select></label></div>`;
+  h += `<div class="chips"><button class="chip" data-act="cmpset" data-a="${dates[0]}" data-b="${dates.at(-1)}" aria-pressed="${a === dates[0] && b === dates.at(-1)}">First vs latest</button>${preset('About 1 month', 30)}${preset('About 3 months', 91)}</div>`;
+  h += `<div class="seg">${['front', 'side', 'back'].map(k => `<button data-act="pose" data-k="${k}" aria-pressed="${pose === k}">${cap(k)}</button>`).join('')}</div>`;
+  h += `<div class="seg">${[['side', 'Side by side'], ['wipe', 'Slider']].map(([k, l]) => `<button data-act="cmpmode" data-k="${k}" aria-pressed="${mode === k}">${l}</button>`).join('')}</div>`;
+  const img = (p, d) => p[pose] ? photoImg(p[pose], `${pose} photo, ${fmtD(d)}`) : `<span>No ${pose} photo</span>`;
+  if (mode === 'side') h += `<div class="grid2">${[[pa, a], [pb, b]].map(([p, d]) => `<div class="ph big">${img(p, d)}<span class="lab">${fmtShort(d)}</span></div>`).join('')}</div>`;
+  else {
+    const x = S.ui.cmpX ?? 50;
+    h += `<div class="wipe" id="wipe" style="--x:${x}%"><div class="ph big">${img(pb, b)}</div><div class="ph big top">${img(pa, a)}</div><i class="wline"></i><span class="lab l">${fmtShort(a)}</span><span class="lab r">${fmtShort(b)}</span>
+      <input id="cmp-x" type="range" min="0" max="100" value="${x}" data-wipe aria-label="Drag to compare ${fmtShort(a)} and ${fmtShort(b)}"></div><span class="sub" style="text-align:center">Drag across the photo to wipe between the two dates.</span>`;
+  }
+  // What changed between the two dates (nearest log within a week of each photo date)
+  const days = diffDays(b, a), rows = [];
+  const ch = (label, key, unit, dp = 1) => { const va = nearBody(a, key), vb = nearBody(b, key); if (va != null && vb != null) rows.push(`<div class="cmp"><span>${label}</span><span>${fmtNum(va, dp)} → ${fmtNum(vb, dp)}${unit} <span class="${vb - va ? 'acc' : 'faint'}">(${vb - va > 0 ? '+' : ''}${fmtNum(vb - va, dp)})</span></span></div>`); };
+  ch('Weight', 'weightLb', ' lb'); ch('Body fat', 'bodyFat', '%');
+  for (const [k, l] of MEAS) ch(l, k, '"', 2);
+  h += `<div class="card"><span class="h3">${days} day${days === 1 ? '' : 's'} apart</span>${rows.length ? rows.join('') : '<span class="sub">Log weight, body fat or measurements near these dates to see what changed.</span>'}</div>`;
+  return h;
 }
 async function uploadPhoto(input) {
   const file = input.files && input.files[0]; if (!file || !assets) return;
@@ -2543,6 +2908,7 @@ document.addEventListener('input', e => {
   if (t.hasAttribute('data-libq')) { S.ui.libQ = t.value; const q = t.value.toLowerCase(); $('#lib-list').innerHTML = libList(library().filter(x => !q || x.name.toLowerCase().includes(q) || x.muscle.toLowerCase().includes(q))); }
   if (t.hasAttribute('data-color')) applyAccent(t.value);
   if (t.dataset.themeColor) applyTheme({ ...settings(), [t.dataset.themeColor]: t.value });
+  if (t.hasAttribute('data-wipe')) { S.ui.cmpX = +t.value; const w = $('#wipe'); if (w) w.style.setProperty('--x', t.value + '%'); }
 });
 document.addEventListener('change', e => {
   const t = e.target;
@@ -2609,6 +2975,7 @@ const C = {
   bodydate(t) { const e = S.body.get(t.value) || {}; S.ui.form.body = { date: t.value, weightLb: e.weightLb ?? null, bodyFat: e.bodyFat ?? null }; render(); },
   measdate(t) { const e = S.body.get(t.value) || {}; S.ui.form.meas = { date: t.value, ...(e.meas || {}) }; render(); },
   photodate(t) { S.ui.photoDate = t.value; render(); },
+  goal(t) { const v = num(t.value), g = { ...(settings().goals || {}) }; if (v > 0) g[t.dataset.k] = v; else delete g[t.dataset.k]; saveSetting({ goals: g }); },
   cmpa(t) { S.ui.cmpA = t.value; render(); },
   cmpb(t) { S.ui.cmpB = t.value; render(); },
   sound(t) { saveSetting({ sound: t.checked }); },
@@ -2646,7 +3013,7 @@ Object.assign(A, {
   undo() { const f = undoFn; undoFn = null; $('#toast').hidden = true; if (f) f(); },
   cancel() { S.ui.confirm = null; render(); },
   ask(d) { S.ui.confirm = d.k; render(); if (d.k === 'finish') setTimeout(() => { const el = $('#finishbox'); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 30); },
-  statusinfo() { toast(!S.net.online ? 'You\'re offline. Everything is saved on this phone and syncs when you reconnect.' : outbox.length ? 'Sending your latest changes…' : S.net.lastErr || (S.net.dbFailed ? 'Engine can\'t reach your synced data right now. Changes stay on this phone.' : 'All changes saved.')); },
+  statusinfo() { toast(!S.net.online ? `You're offline. ${outbox.length ? outbox.length + ' change' + (outbox.length === 1 ? ' is' : 's are') + ' saved on this phone and' : 'Everything is saved on this phone and new changes'} sync when you reconnect.` : outbox.length ? 'Sending your latest changes…' : S.net.lastErr || (S.net.dbFailed ? 'Engine can\'t reach your synced data right now. Changes stay on this phone.' : 'All changes saved to your account' + (S.net.savedAt ? ` · last save ${new Date(S.net.savedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : '') + '.')); },
   session(d) { go('session', { id: d.id }); },
   day(d) { S.ui.day = d.d === ymd() ? null : d.d; render(); },
   opencal() { const d = S.ui.day || ymd(); S.ui.calDay = d; S.ui.calMonth = d.slice(0, 7); go('cal'); },
@@ -2662,6 +3029,20 @@ Object.assign(A, {
   bodym(d) { S.ui.bodyMetric = d.k; render(); },
   progtab(d) { S.ui.prog = d.k; render(); },
   pose(d) { S.ui.pose = d.k; render(); },
+  coach() { go('coach'); chatScroll(); },
+  chatidea(d) { chatSend(d.t); },
+  chatsend() { const el = $('#chat-in'); chatSend(el ? el.value : S.ui.form.chat); },
+  chatclear() { write('meta', 'coachchat', { msgs: [] }); S.ui.confirm = null; render(); },
+  coachapply(d) {
+    const m = chatMsgs()[+d.i], bk = m && m.block; if (!bk) return;
+    const { editId, ...rest } = clone(bk), ex = editId && S.blocks.get(editId);
+    if (ex) { S.ui.draft = { ...clone(ex), ...rest, id: editId }; go('block', { id: editId }); }
+    else { S.ui.draft = { ...newBlockDraft(), ...rest, active: true }; S.ui.sug = null; sugOpts().hidden = true; go('block', { isNew: true }); }
+  },
+  goaledit() { S.ui.goalEdit = !S.ui.goalEdit; render(); },
+  goals() { S.ui.tab = 'prog'; S.ui.prog = 'cardio'; S.ui.stack = []; window.scrollTo(0, 0); render(); },
+  cmpset(d) { S.ui.cmpA = d.a; S.ui.cmpB = d.b; render(); },
+  cmpmode(d) { S.ui.cmpMode = d.k; render(); },
   // sessions
   startplan(d) { startPlanned(d.key); },
   startempty(d) { startEmpty(d.type); },
@@ -2722,6 +3103,12 @@ Object.assign(A, {
   resttime(d) { if (S.rest) { S.rest.end += +d.d * 1000; S.rest.total += +d.d; S.rest.fired = false; tick(); } },
   restskip() { S.rest = null; tick(); },
   lstr(d) { const s = S.active.stretches[+d.j]; s.holdSec = clamp(s.holdSec + +d.d, 5, 600); saveActive(); render(); },
+  routine(d) { const r = ROUTINES.find(x => x.id === d.id); if (!r) return; begin(fillSession({ id: uid('w'), type: 'stretch', title: r.name, date: ymd(), startedAt: Date.now(), notes: '', rpe: null }, { type: 'stretch', stretches: r.stretches })); },
+  fastart() { const a = S.active, j = a.stretches.findIndex(s => !s.done); if (j < 0) return; S.rest = null; faSet('prep', j, 0); chime(); saveActive(); window.scrollTo(0, 0); render(); },
+  fapause() { const f = S.active.follow; if (f.paused) { f.end = Date.now() + f.left; f.paused = false; } else { f.left = Math.max(0, f.end - Date.now()); f.paused = true; } saveActive(); render(); },
+  faskip() { faNext(false); saveActive(); render(); },
+  faprev() { const a = S.active, f = a.follow, j = Math.max(0, f.phase === 'prep' || f.j === 0 ? f.j - 1 : f.j); if (j < 0) return; a.stretches[Math.max(0, j)].done = false; faSet('prep', Math.max(0, j), 0); saveActive(); render(); },
+  fastop() { S.active.follow = null; saveActive(); render(); },
   hold(d) { const s = S.active.stretches[+d.j]; startRest(s.holdSec, `Hold: ${s.name}${s.sides ? ' (one side)' : ''}`); },
   strdone(d) { const s = S.active.stretches[+d.j]; s.done = !s.done; saveActive(); render(); },
   // picker
@@ -2847,6 +3234,8 @@ Object.assign(A, {
   clearsample() { let n = 0; for (const c of COLS) for (const [id, d] of [...S[c].entries()]) if (d && d.sample) { remove(c, id); n++; } S.ui.confirm = null; S.ui.form = {}; render(); toast(`Deleted ${n} example entries`); }
 });
 function fixReps(items) { for (const it of items || []) { if (!it.repLow && it.repHigh) it.repLow = it.repHigh; if (!it.repHigh && it.repLow) it.repHigh = it.repLow; if (it.repLow > it.repHigh) [it.repLow, it.repHigh] = [it.repHigh, it.repLow]; } return items && normGroups(items); }
+// Wait for settings to arrive from the server first: on a fresh install, saving before then would replace them.
+function saveTzPhone(n = 0) { if (S.net.dbFailed) return; if (!S.net.synced.has('meta')) { if (n < 30) setTimeout(() => saveTzPhone(n + 1), 1000); return; } if (settings().tzPhone !== phoneTz()) saveSetting({ tzPhone: phoneTz() }); }
 function saveSetting(patch) { const cur = meta('settings') || {}; write('meta', 'settings', { ...cur, ...patch }); }
 const hexRgb = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
 const rgbHex = a => '#' + a.map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0')).join('');
@@ -2885,6 +3274,7 @@ function applyAccent(c) {
 /* ================= timers, rest, sound, wake lock ================= */
 function startRest(sec, label) { S.rest = { end: Date.now() + sec * 1000, total: sec, label, fired: false }; tick(); }
 function tick() {
+  tickFollow();
   const el = $('#elapsed'); if (el && S.active) el.textContent = fmtHMS((Date.now() - S.active.startedAt) / 1000);
   const rb = $('#restbar');
   if (!S.rest || !(S.ui.inLog && S.active) || S.ui.auth) { rb.hidden = true; return; }
@@ -2899,9 +3289,14 @@ function tick() {
   if (!rb.firstChild) rb.innerHTML = `<div class="prog" id="rb-p"></div><div class="in-r"><span class="t" id="rb-t"></span><span class="lbl" id="rb-l"></span><button class="btn sm" data-act="resttime" data-d="-5">−5s</button><button class="btn sm" data-act="resttime" data-d="15">+15s</button><button class="btn sm" data-act="restskip">Skip</button></div>`;
   $('#rb-p').style.width = pct + '%'; $('#rb-t').textContent = t; $('#rb-l').textContent = over ? 'Rest is over' : (S.rest.label || 'Rest');
 }
-setInterval(tick, 500);
+setInterval(tick, 250);
 let actx = null;
 function unlockAudio() { try { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); } catch (e) {} }
+function chime(f = 660) {
+  try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
+  if (!actx || !settings().sound) return;
+  try { const t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain(); o.frequency.value = f; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.3, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.25); o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + 0.3); } catch (e) {}
+}
 function buzz() {
   try { if (navigator.vibrate) navigator.vibrate([300, 120, 300]); } catch (e) {}
   if (!actx || !settings().sound) return;
@@ -2976,8 +3371,11 @@ function hrStats(hr) {
   const zones = [0, 0, 0, 0, 0]; for (const b of v) zones[hrZone(b) - 1] += hr.step;
   return { avg: Math.round(v.reduce((a, b) => a + b, 0) / v.length), max: Math.max(...v), zones, step: hr.step, bpm: hr.bpm };
 }
+function zoneBar(zs) { return `<div class="zbar">${zs.map((z, i) => z ? `<i class="z${i + 1}" style="flex:${z}" title="Zone ${i + 1}"></i>` : '').join('')}</div><div class="zlab">${zs.map((z, i) => `<span><b>Z${i + 1}</b> ${Math.round(z / 60)}′</span>`).join('')}</div>`; }
 function hrSection(w) {
-  const hr = w.hr; if (!hr || !hr.bpm) return '';
+  const hr = w.hr;
+  if ((!hr || !hr.bpm) && w.zoneMin && w.zoneMin.some(Boolean)) { const zs = w.zoneMin.map(m => m * 60), tot = zs.reduce((a, b) => a + b, 0); return `<div class="sec"><span class="label">Heart rate zones</span>${w.avgHr ? `<div class="sub">Average ${w.avgHr} bpm · ${Math.round((zs[0] + zs[1]) / tot * 100)}% easy (zones 1–2)</div>` : ''}${zoneBar(zs)}</div>`; }
+  if (!hr || !hr.bpm) return '';
   const W = 340, H = 140, L = 32, R = 8, T = 8, B = 20, n = hr.bpm.length, pts = hr.bpm.map((b, i) => [i * hr.step / 60, b]).filter(p => p[1] > 0);
   if (pts.length < 2) return '';
   const tk = ticks(Math.min(...pts.map(p => p[1])), Math.max(...pts.map(p => p[1])), 3), xMax = Math.max(1, (n - 1) * hr.step / 60);
@@ -2988,7 +3386,7 @@ function hrSection(w) {
   let d = '', prev = -9; for (const [x, y] of pts) { d += `${x - prev > hr.step / 60 * 3 ? 'M' : 'L'}${X(x).toFixed(1)},${Y(y).toFixed(1)}`; prev = x; }
   s += `<path class="ln" d="${d}"/></svg>`;
   const tot = hr.zones.reduce((a, b) => a + b, 0) || 1;
-  const zbar = `<div class="zbar">${hr.zones.map((z, i) => z ? `<i class="z${i + 1}" style="flex:${z}" title="Zone ${i + 1}"></i>` : '').join('')}</div><div class="zlab">${hr.zones.map((z, i) => `<span><b>Z${i + 1}</b> ${Math.round(z / 60)}′</span>`).join('')}</div>`;
+  const zbar = zoneBar(hr.zones);
   return `<div class="sec"><span class="label">Heart rate</span><div class="stats"><div class="stat"><b>${hr.avg}</b><span>Average (bpm)</span></div><div class="stat"><b>${hr.max}</b><span>Max (bpm)</span></div><div class="stat"><b>${Math.round(hr.zones.slice(3).reduce((a, b) => a + b, 0) / tot * 100)}%</b><span>In zones 4–5</span></div></div>${s}${zbar}</div>`;
 }
 
@@ -3182,7 +3580,7 @@ function startApp() {
   render();
   if (started) { flush(); return; }
   started = true;
-  connect().then(() => { const st = settings(); if (st.accent) applyAccent(st.accent); applyTheme(st); render(); if (!S.net.dbFailed && st.tzPhone !== phoneTz()) saveSetting({ tzPhone: phoneTz() }); pushRefresh(); syncReminders(); });
+  connect().then(() => { const st = settings(); if (st.accent) applyAccent(st.accent); applyTheme(st); render(); saveTzPhone(); pushRefresh(); syncReminders(); });
 }
 if (window.engine && !engine.signedIn()) { S.ui.auth = { mode: 'in' }; render(); } else startApp();
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
