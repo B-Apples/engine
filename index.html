@@ -19,7 +19,7 @@
 /* Layout: one-column phone app. Sticky header, scrolling content, fixed bottom tab bar.
    Cards only mark things you act on (sessions, forms); everything else sits on the page. */
 :root{
-  --bg:#111315; --surface:#1A1D20; --surface-2:#23272B; --line:#30353B;
+  --bg:#111315; --surface:#1A1D20; --surface-2:#23272B; --line:#30353B; --press:rgba(255,255,255,.13);
   --fg:#ECEEF0; --muted:#A3A9B0; --faint:#717880;
   --accent:#5B8CFF; --accent-ink:#0A0F1C;
   --accent-soft:color-mix(in srgb, var(--accent) 16%, transparent);
@@ -30,6 +30,7 @@
   color-scheme:dark;
 }
 html,body{height:100%}
+html{overscroll-behavior-y:none}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.4;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
 *{box-sizing:border-box}
@@ -655,6 +656,11 @@ body.haslive .chatbar,body.haslive .savebar{bottom:calc(var(--nav-h) + 74px + en
 .btn,.icon,#nav button,.card[data-act],.rowi,.srow[data-act],.wd,.seg button,.chip{transition:transform .12s ease,filter .12s,background-color .15s}
 .btn:active,.card[data-act]:active,.rowi:active,.srow[data-act]:active,.wd:active,.chip:active{transform:scale(.97)}
 .icon:active,#nav button:active{transform:scale(.92)}
+/* Pressed: set the moment a finger lands (no ease-in) and held briefly, so even a quick tap shows */
+.pressed{transition-duration:0s!important;box-shadow:inset 0 0 0 100vmax var(--press)}
+.btn.pressed,.card.pressed,.rowi.pressed,.srow.pressed,.wd.pressed,.chip.pressed,.seg button.pressed,.pressed.blk{transform:scale(.95)}
+.btn.primary.pressed{filter:brightness(1.18)}
+.icon.pressed,#nav button.pressed{transform:scale(.86);background:var(--press)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -1110,7 +1116,7 @@ const THEMES = [
 ];
 const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null, checkin: true, checkinDay: 0, checkinTime: '19:00', checkinPush: false, tz: null, tzPhone: null,
   todayCards: null, tabs: null, startTab: 'today', coachStyle: 'balanced', incUpper: null, incLower: null, incEx: {}, missCount: 2, missDropPct: 5, deloadLoadPct: 10, deloadSetsPct: 40, blockWeeks: 6, deloadLast: true,
-  favEx: [], metrics: [], fontScale: 1, density: 'default', prKinds: {}, prAlerts: {}, iconTheme: 'match', haptics: true, autoWarm: false, privacy: null, autoPost: null, streakGoal: 3, badgesSeen: null };
+  favEx: [], metrics: [], fontScale: 1, density: 'default', prKinds: {}, prAlerts: {}, iconTheme: 'match', haptics: true, tapBuzz: true, autoWarm: false, privacy: null, autoPost: null, streakGoal: 3, badgesSeen: null };
 const MAIN_LIFTS = { squat: 'Back Squat', bench: 'Barbell Bench Press', deadlift: 'Deadlift', ohp: 'Overhead Press' };
 // Personalization: the Today cards and their default order (custom metrics and recent PRs start hidden), the tabs,
 // coach styles (applied on the server by the evaluate and checkin functions), PR types, text sizes and layout density.
@@ -1813,7 +1819,22 @@ const ic = (k, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hid
 let rq = false;
 function schedule() { if (rq) return; rq = true; requestAnimationFrame(() => { rq = false; render(); }); }
 const curView = () => (S.ui.inLog && S.active) ? { v: 'log' } : (S.ui.stack.at(-1) || { v: S.ui.tab });
+// While you type in a text box, updates that come from elsewhere (sync, live data, timers) wait until you leave it.
+// Rebuilding the screen under the keyboard resets the cursor and breaks the word the keyboard is composing.
+let inAct = 0, renderLater = false, tapAt = 0;
+// A tap anywhere but a text box (or its label) is you doing something, so the screen updates right away.
+document.addEventListener('pointerdown', e => { if (!(e.target.closest && e.target.closest('input, textarea, label'))) tapAt = Date.now(); }, true);
+function typingIn() {
+  const ae = document.activeElement;
+  if (!ae || !(ae.tagName === 'TEXTAREA' || (ae.tagName === 'INPUT' && /^(text|search|email|password|tel|url|number)$/.test(ae.type)))) return null;
+  return ae.closest('#main, #sheet, #dlg') ? ae : null;
+}
+function renderSoon() { if (renderLater && !typingIn()) { renderLater = false; render(); } }
+document.addEventListener('focusout', () => setTimeout(() => { if (!press) renderSoon(); }, 0));
+document.addEventListener('pointerup', () => { if (renderLater) setTimeout(renderSoon, 350); });
 function render() {
+  if (!inAct && Date.now() - tapAt > 500 && typingIn()) { renderLater = true; if (!S.ui.auth) $('#hdr').innerHTML = header(curView()); return; }
+  renderLater = false;
   const ae = document.activeElement;
   const aid = ae && ae.id && $('#app').contains(ae) ? ae.id : null;
   let ss = null, se = null; try { ss = ae.selectionStart; se = ae.selectionEnd; } catch (e) {}
@@ -1843,6 +1864,7 @@ function render() {
   if (dOpen) { sheetIn(dg); const t = dg.querySelector('#dlg-t'); if (t) t.focus({ preventScroll: true }); }
   clearTimeout(tipT); tipT = setTimeout(tipCheck, tipCur ? 0 : 900);
   if (aid) { const el = document.getElementById(aid); if (el && el !== document.activeElement) { el.focus({ preventScroll: true }); try { if (ss != null) el.setSelectionRange(ss, se); } catch (e) {} } }
+  try { sessionStorage.setItem('ft.view', JSON.stringify({ tab: S.ui.tab, prog: S.ui.prog })); } catch (e) {}
   tick();
 }
 // Screens slide in when you go deeper, back out when you return, rise for a workout, and fade between tabs.
@@ -3183,7 +3205,8 @@ function vSettings() {
     ${srow('Sound when rest ends', 'Vibrates too', swc('sound', st.sound, 'Sound when rest ends'))}
     ${srow('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'))}
     ${srow('Auto warm-ups', 'Compound lifts start with a warm-up ramp to your first working weight', swc('autoWarm', st.autoWarm, 'Auto warm-ups'))}
-    ${srow('Haptics', 'A tap when you tick a set, a double pulse when an exercise or round is done', swc('haptics', st.haptics, 'Haptics'))}</div></div>`;
+    ${srow('Haptics', 'A tap when you tick a set, a double pulse when an exercise or round is done', swc('haptics', st.haptics, 'Haptics'))}
+    ${srow('Buzz on taps', 'A light buzz every time you press a button', swc('tapBuzz', st.tapBuzz !== false, 'Buzz on taps'))}</div></div>`;
   const cs = COACH_STYLES.find(c => c[0] === st.coachStyle) || COACH_STYLES[1];
   h += `<div class="sec"><span class="label">Coaching</span><div class="card slist">
     ${scol('Coach style', `${cs[1]}: ${cs[2]} Used for evaluations, check-ins and coach chat.`, segOf('coachstyle', [['blunt', 'Blunt'], ['balanced', 'Balanced'], ['detailed', 'Detailed']], cs[0]))}
@@ -3499,11 +3522,32 @@ document.addEventListener('click', e => {
   unlockAudio();
   const b = e.target.closest('[data-act]'); if (!b) return;
   if (b.tagName === 'SELECT' || (b.tagName === 'INPUT')) return;
-  const f = A[b.dataset.act]; if (f) { f(b.dataset, b, e); }
+  tapBuzz();
+  const f = A[b.dataset.act]; if (f) { inAct++; try { f(b.dataset, b, e); } finally { inAct--; } }
 });
+// Press feedback: whatever you touch darkens and shrinks the instant your finger lands, and stays that way a moment after you lift it.
+const PRESS_SEL = 'button, [data-act], .chip, a[href]';
+let press = null;
+function pressEnd(hold) {
+  const p = press; press = null; if (!p) return;
+  const off = () => p.el.classList.remove('pressed');
+  if (hold) setTimeout(off, Math.max(0, 130 - (Date.now() - p.t))); else off();
+}
+document.addEventListener('pointerdown', e => {
+  pressEnd(false);
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  const el = e.target.closest && e.target.closest(PRESS_SEL);
+  if (!el || el.matches('input, select, textarea, [disabled]')) return;
+  el.classList.add('pressed'); press = { el, id: e.pointerId, x: e.clientX, y: e.clientY, t: Date.now() };
+}, { passive: true });
+document.addEventListener('pointermove', e => { if (press && e.pointerId === press.id && Math.hypot(e.clientX - press.x, e.clientY - press.y) > 10) pressEnd(false); }, { passive: true });
+document.addEventListener('pointerup', e => { if (press && e.pointerId === press.id) pressEnd(true); });
+document.addEventListener('pointercancel', () => pressEnd(false));
+window.addEventListener('scroll', () => pressEnd(false), { passive: true });
+function tapBuzz() { if (settings().tapBuzz === false) return; try { if (navigator.vibrate) navigator.vibrate(12); } catch (e) {} }
 document.addEventListener('input', e => {
   const t = e.target;
-  if (t.dataset.bind) bindInput(t);
+  if (t.dataset.bind) { inAct++; try { bindInput(t); } finally { inAct--; } }
   if (t.hasAttribute('data-pickq')) { S.ui.sheet.q = t.value; S.ui.customForm = false; S.ui.form.custom = null; $('#pick-list').innerHTML = pickList(); }
   if (t.hasAttribute('data-libq')) { S.ui.libQ = t.value; const q = t.value.toLowerCase(); $('#lib-list').innerHTML = libList(library().filter(x => !q || x.name.toLowerCase().includes(q) || x.muscle.toLowerCase().includes(q))); }
   if (t.hasAttribute('data-color')) applyAccent(t.value);
@@ -3512,6 +3556,10 @@ document.addEventListener('input', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
+  if (t.type === 'checkbox' || t.type === 'radio') tapBuzz();
+  inAct++; try { onChange(t); } finally { inAct--; }
+});
+function onChange(t) {
   if (undoField && t.id === undoField.id && S.active && undoField.a.id === S.active.id && (t.type === 'checkbox' ? t.checked : t.value) !== undoField.v) {
     undoStack.push({ a: undoField.a, label: 'edit', at: Date.now() }); if (undoStack.length > UNDO_MAX) undoStack.shift();
     undoField = { ...undoField, v: t.type === 'checkbox' ? t.checked : t.value, a: clone(S.active) };
@@ -3522,7 +3570,7 @@ document.addEventListener('change', e => {
   if (t.dataset.themeColor) { saveSetting({ [t.dataset.themeColor]: t.value }); return; }
   if (t.dataset.bind && (t.tagName === 'SELECT' || t.type === 'checkbox' || t.type === 'date')) bindInput(t);
   const ac = t.dataset.actChange; if (ac && C[ac]) C[ac](t);
-});
+}
 document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!$('#dlg').hidden) sheetClose($('#dlg')); else if (S.ui.sheet) A.closesheet(); });
 // Dragging a sheet down: from its handle or header (or anywhere on a short dialog); let go far or fast enough and it closes.
 let bs = null;
@@ -3588,10 +3636,11 @@ function swUp(e) {
   swEnd = Date.now();
 }
 document.addEventListener('pointerup', swUp); document.addEventListener('pointercancel', swUp);
-// Pull to refresh on Today and Progression: drag down from the top of the page to fetch the latest from your account.
+// Pull to refresh on every screen except an open workout: drag down from the top of the page to fetch the latest from your account.
+// You stay on the screen you're on; the browser's own pull-to-refresh (which reloads the app) is switched off in the CSS.
 const PTR_GO = 64;
 let ptr = null, ptrBusy = false;
-const ptrOn = () => !S.ui.auth && !S.ui.sheet && $('#dlg').hidden && !S.ui.stack.length && !(S.ui.inLog && S.active) && (S.ui.tab === 'today' || S.ui.tab === 'prog' || S.ui.tab === 'social');
+const ptrOn = () => !S.ui.auth && !S.ui.sheet && $('#dlg').hidden && !(S.ui.inLog && S.active);
 function ptrShow(d, cls) { const el = $('#ptr'); if (!el.firstChild) el.innerHTML = ic('refresh'); el.className = 'ptr ' + (cls || ''); el.style.transform = `translateY(${d - 60}px)`; el.style.opacity = Math.min(1, d / 40); el.firstChild.style.transform = cls === 'busy' ? '' : `rotate(${d * 4}deg)`; }
 document.addEventListener('touchstart', e => {
   ptr = null; if (ptrBusy || !ptrOn() || window.scrollY > 2 || e.touches.length > 1 || e.target.closest('svg.chart, .wipe, input, textarea, select, .swr')) return;
@@ -3642,7 +3691,7 @@ document.addEventListener('click', e => { if (Date.now() - swEnd < 350) { swEnd 
 function selectRow(i, j) {
   if (S.ui.sel.e === i && S.ui.sel.s === j) return;
   S.ui.sel = { e: i, s: j };
-  if (S.ui.noteOpen && S.ui.noteOpen.startsWith('s')) { S.ui.noteOpen = null; render(); return; }
+  if (S.ui.noteOpen && S.ui.noteOpen.startsWith('s')) { S.ui.noteOpen = null; inAct++; try { render(); } finally { inAct--; } return; }
   document.querySelectorAll('.set.sel').forEach(x => x.classList.remove('sel'));
   const row = document.querySelector(`.set[data-i="${i}"][data-j="${j}"]`); if (row) row.classList.add('sel');
   document.querySelectorAll('.stepwrap').forEach(x => { x.hidden = +x.dataset.i !== i; });
@@ -3991,7 +4040,7 @@ function themeVars(bg, card) {
   return {
     '--bg': bg, '--surface': card, '--surface-2': mixHex(card, ink, light ? 0.05 : 0.045), '--line': mixHex(card, ink, light ? 0.13 : 0.10),
     '--fg': mixHex(bg, ink, light ? 0.9 : 0.92), '--muted': mixHex(bg, ink, light ? 0.64 : 0.62), '--faint': mixHex(bg, ink, light ? 0.56 : 0.5),
-    '--good': light ? '#1B8F59' : '#4CC98E', '--warn': light ? '#A0730A' : '#E5B54A', '--bad': light ? '#CC3B36' : '#EF6A66',
+    '--press': light ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.13)', '--good': light ? '#1B8F59' : '#4CC98E', '--warn': light ? '#A0730A' : '#E5B54A', '--bad': light ? '#CC3B36' : '#EF6A66',
     'color-scheme': light ? 'light' : 'dark'
   };
 }
@@ -5055,7 +5104,7 @@ async function submitAuth() {
     startApp();
   } catch (e) { a.busy = false; a.err = authMsg(e); render(); }
 }
-document.addEventListener('submit', e => { if (e.target.id === 'auth-form') { e.preventDefault(); submitAuth(); } });
+document.addEventListener('submit', e => { if (e.target.id === 'auth-form') { e.preventDefault(); inAct++; try { submitAuth(); } finally { inAct--; } } });
 window.addEventListener('engine:auth', e => {
   if (e.detail === 'SIGNED_IN' && S.ui.auth && !S.ui.auth.busy) startApp();
   if (e.detail === 'SIGNED_OUT' && !S.ui.auth) { S.ui.auth = { mode: 'in', err: 'You were signed out. Sign in again to keep syncing. Nothing on this phone was lost.' }; render(); }
@@ -5074,9 +5123,13 @@ function installCard(always) {
 applyAccent(LS.get('ft.accent', DEF_SETTINGS.accent));
 applyTheme(LS.get('ft.theme', DEF_SETTINGS));
 const hash = (location.hash || '').slice(1);
-if (['today', 'train', 'social', 'profile'].includes(hash)) S.ui.tab = hash; else if (hash === 'progress') S.ui.tab = 'prog'; else S.ui.tab = startTab();
+// A reload (an app update, or the browser refreshing) comes back to the tab you were on; a fresh launch opens the start screen.
+let lastView = null; try { lastView = JSON.parse(sessionStorage.getItem('ft.view') || 'null'); } catch (e) {}
+if (['today', 'train', 'social', 'profile'].includes(hash)) S.ui.tab = hash; else if (hash === 'progress') S.ui.tab = 'prog';
+else if (lastView && TABS.some(t => t[0] === lastView.tab)) { S.ui.tab = lastView.tab; if (lastView.prog) S.ui.prog = lastView.prog; }
+else S.ui.tab = startTab();
 applyLayout(settings());
-const tabPicked = S.ui.tab !== 'today' || !!hash;
+const tabPicked = S.ui.tab !== 'today' || !!hash || !!lastView;
 if (S.ui.inLog) wake();
 let started = false;
 function startApp() {
