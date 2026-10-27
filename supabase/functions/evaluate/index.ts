@@ -22,6 +22,22 @@ function publishableKey(): string {
   return Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 }
 
+// Coach style from the account's Settings (meta/settings.coachStyle). It applies to every request through this
+// function: post-workout evaluations and coach chat. The checkin function carries the same wording.
+const STYLE: Record<string, string> = {
+  blunt: "The athlete chose a short and blunt coaching style. This overrides any length in the request: write about half as many words as it asks for, at most 2 bullet points per section, no praise or softening. Just the numbers and what to do next.",
+  detailed: "The athlete chose a detailed and encouraging coaching style. You may write up to about half again as many words as the request asks for. Explain the reasoning behind each point, and give specific credit for what went well before what to fix.",
+};
+async function coachStyle(token: string): Promise<string> {
+  try {
+    const db = createClient(Deno.env.get("SUPABASE_URL")!, publishableKey(), { auth: { persistSession: false }, global: { headers: { Authorization: `Bearer ${token}` } } });
+    const { data } = await db.from("docs").select("data").eq("col", "meta").eq("id", "settings").maybeSingle();
+    return String(data?.data?.coachStyle ?? "balanced");
+  } catch {
+    return "balanced";
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (req.method !== "POST") return json(405, { error: "Use POST.", code: "invalid_argument" });
@@ -43,6 +59,7 @@ Deno.serve(async (req) => {
     return json(400, { error: "The evaluation request was empty or too large.", code: "invalid_argument" });
   }
 
+  const system = STYLE[await coachStyle(token)];
   const client = new Anthropic({ apiKey });
   const encoder = new TextEncoder();
   // Newline-delimited JSON: {t} text deltas, {reset} when a fallback model restarts the answer, then {done} or {error}.
@@ -56,6 +73,7 @@ Deno.serve(async (req) => {
           output_config: { effort: "medium" },
           betas: ["server-side-fallback-2026-07-01"],
           fallbacks: "default",
+          ...(system ? { system } : {}),
           messages: [{ role: "user", content: prompt }],
         });
         for await (const event of stream) {
