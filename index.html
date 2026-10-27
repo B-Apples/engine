@@ -224,6 +224,18 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 /* logger */
 .logmeta{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px;flex-wrap:wrap}
 .logmeta b{color:var(--fg);font-size:16px}
+.undob{margin-left:auto;display:inline-flex;align-items:center;gap:5px;background:var(--surface-2);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:3px 11px 3px 8px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.undob .ic{width:16px;height:16px}
+.fb{gap:0;padding-block:6px}
+.fbr{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.fbr:last-child{border-bottom:0}
+.fbr .grow{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
+.fbn{width:22px;text-align:center;color:var(--muted);font-weight:700}
+.fbr.me .fbn{color:var(--accent)}
+.fbt{display:flex;justify-content:space-between;gap:10px}
+.fbbar{height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden}
+.fbbar i{display:block;height:100%;background:var(--faint);border-radius:2px}
+.fbr.me .fbbar i{background:var(--accent)}
 .hrchip{margin-left:auto;display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:13px;font-weight:650;color:var(--muted)}
 .hrchip svg.ic{width:17px;height:17px;color:var(--bad)}
 .hrchip b{font-size:16px;color:var(--fg);min-width:26px;text-align:right}
@@ -962,7 +974,7 @@ const THEMES = [
 ];
 const DEF_SETTINGS = { accent: '#5B8CFF', theme: 'graphite', customBg: '#1A1626', customCard: '#251F35', restCompound: 150, restAccessory: 90, stepLb: 5, sound: true, screenOn: true, suggestBlocks: true, remind: false, remindTime: '17:00', restAlerts: false, hrMax: null, checkin: true, checkinDay: 0, checkinTime: '19:00', checkinPush: false, tz: null, tzPhone: null,
   todayCards: null, tabs: null, startTab: 'today', coachStyle: 'balanced', incUpper: null, incLower: null, incEx: {}, missCount: 2, missDropPct: 5, deloadLoadPct: 10, deloadSetsPct: 40, blockWeeks: 6, deloadLast: true,
-  favEx: [], metrics: [], fontScale: 1, density: 'default', prKinds: {}, prAlerts: {}, iconTheme: 'match' };
+  favEx: [], metrics: [], fontScale: 1, density: 'default', prKinds: {}, prAlerts: {}, iconTheme: 'match', haptics: true, autoWarm: false, share: null };
 const MAIN_LIFTS = { squat: 'Back Squat', bench: 'Barbell Bench Press', deadlift: 'Deadlift', ohp: 'Overhead Press' };
 // Personalization: the Today cards and their default order (custom metrics and recent PRs start hidden), the tabs,
 // coach styles (applied on the server by the evaluate and checkin functions), PR types, text sizes and layout density.
@@ -1540,7 +1552,10 @@ const IC = {
   gear: '<circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.6 7.6 0 0 0 7 6.5l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.4z"/>',
   bell: '<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
   heart: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>',
-  bolt: '<path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/>'
+  bolt: '<path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/>',
+  undo: '<path d="M9 7 4.5 11.5 9 16"/><path d="M5 11.5h9a5 5 0 0 1 0 10h-2"/>',
+  people: '<circle cx="9" cy="8.5" r="3.3"/><path d="M2.8 19.5c1-3.2 3.4-4.8 6.2-4.8s5.2 1.6 6.2 4.8"/><path d="M15.5 5.5a3.2 3.2 0 0 1 0 6.2M17.6 14.9c1.8.6 3 2.1 3.6 4.6"/>',
+  flame: '<path d="M12 21c-3.6 0-6-2.5-6-5.8 0-3.3 2.4-5 3.6-8.2.4 1.9 1.4 3 2.6 3.4-.2-2.6.9-5.2 3-6.9-.1 3.3 4.8 5.6 4.8 11.4 0 3.5-2.8 6.1-8 6.1z"/>'
 };
 const ic = (k, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
 
@@ -2058,6 +2073,30 @@ function toggleLink(list, j) {
 const groupTag = g => g ? `<span class="gtag">${g.lab}</span>` : '';
 
 /* ================= logger ================= */
+// Warm-up ramp up to the first working weight, each set rounded to the weight step. Barbell lifts start with the empty
+// bar, then about 40, 60 and 80% (and 90% for a single before heavy sets of 5 or fewer); other compound lifts get 50 and 75%;
+// isolation lifts one light set. Steps that would round onto the bar, the previous step or the working weight are dropped.
+function warmRamp(name, top, reps) {
+  const st = settings().stepLb, info = exInfo(name), bar = info.equip === 'Barbell' ? 45 : 0;
+  if (!(top > 0)) return [];
+  const plan = bar ? [[0.4, 5], [0.6, 3], [0.8, 2], ...(top >= 185 && reps && reps <= 5 ? [[0.9, 1]] : [])]
+    : info.compound ? [[0.5, 8], [0.75, 4]] : [[0.5, 10]];
+  const out = [];
+  if (bar && top >= bar * 2) out.push({ lb: bar, reps: 10 });
+  for (const [pct, r] of plan) {
+    const lb = roundTo(top * pct, st), prev = out.length ? out.at(-1).lb : 0;
+    if (lb <= 0 || lb <= bar || lb <= prev || lb > top - st) continue;
+    out.push({ lb, reps: r });
+  }
+  return out.map(w => ({ kind: 'W', lb: w.lb, reps: w.reps, rpe: null, done: false, tLb: w.lb }));
+}
+// Replaces any unticked warm-ups on an exercise with a fresh ramp. Returns how many were added.
+function fillWarm(ex) {
+  const w = ex.sets.find(x => x.kind !== 'W'), ramp = w ? warmRamp(ex.name, w.lb, w.reps) : [];
+  if (!ramp.length) return 0;
+  ex.sets = [...ramp, ...ex.sets.filter(x => x.kind !== 'W' || x.done)];
+  return ramp.length;
+}
 function mkEx(name, item, deload) {
   const info = exInfo(name), st = settings();
   const rest = (item && item.restSec) || (info.compound ? st.restCompound : st.restAccessory);
@@ -2074,8 +2113,35 @@ function mkEx(name, item, deload) {
   }
   return { name, muscle: info.muscle, restSec: rest, plan, reason, note: '', sets, ...(item && item.group ? { group: item.group } : {}) };
 }
+// Undo during a workout: a copy of the workout is kept before each change (up to 30) and the Undo button at the top
+// steps back through them. A typed edit is one step, saved when the box loses focus. Heart rate keeps recording.
+const UNDO_MAX = 30;
+let undoStack = [], undoField = null;
+function snap(label, key) {
+  if (!S.active) return;
+  const top = undoStack.at(-1);
+  if (key && top && top.key === key && Date.now() - top.at < 2000) { top.at = Date.now(); return; } // a run of +/− taps is one step
+  undoStack.push({ a: clone(S.active), label, key, at: Date.now() });
+  if (undoStack.length > UNDO_MAX) undoStack.shift();
+  requestAnimationFrame(syncUndoBtn);
+}
+const undoBtn = () => undoStack.length ? `<button class="undob" data-act="wundo" aria-label="Undo ${esc(undoStack.at(-1).label)}">${ic('undo')}Undo</button>` : '';
+// Puts the Undo button in the header without redrawing the page, so the box being typed in keeps focus.
+function syncUndoBtn() { const lm = $('.logmeta'); if (!lm) return; const b = lm.querySelector('.undob'); if (b) b.remove(); lm.insertAdjacentHTML('beforeend', undoBtn()); }
+function undoLast() {
+  const u = undoStack.pop();
+  if (!u || !S.active || u.a.id !== S.active.id) { undoStack = []; render(); return; }
+  const live = S.active;
+  S.active = Object.assign(u.a, { hr: live.hr, follow: live.follow });
+  if (!S.active.hr) delete S.active.hr;
+  const xs = S.active.exercises || [];
+  if (S.ui.sel.e >= xs.length || (xs[S.ui.sel.e] && S.ui.sel.s >= xs[S.ui.sel.e].sets.length)) S.ui.sel = { e: -1, s: -1 };
+  S.ui.exMenu = null; S.ui.confirm = null; S.ui.swipe = null; S.ui.noteOpen = null; undoField = null;
+  saveActive(); render(); toast(`Undone: ${u.label}`, 2200);
+}
 function begin(a) {
   if (S.active) { S.ui.pendingStart = a; S.ui.confirm = 'replace'; S.ui.sheet = { mode: 'replace' }; render(); return; }
+  undoStack = []; undoField = null;
   S.active = a; saveActive(); S.ui.inLog = true; S.ui.sel = { e: 0, s: 0 }; S.ui.exMenu = null; S.ui.confirm = null;
   window.scrollTo(0, 0); wake(); render();
 }
@@ -2088,7 +2154,11 @@ function startPlanned(key) {
 }
 // d is a block day or a saved workout: items (strength), stretches, or a cardio plan.
 function fillSession(a, d, deload, plan) {
-  if (d.type === 'strength') a.exercises = (d.items || []).map(it => mkEx(it.name, it, deload));
+  if (d.type === 'strength') {
+    a.exercises = (d.items || []).map(it => mkEx(it.name, it, deload));
+    // Settings › Workouts › Auto warm-ups: compound lifts that open a group or stand alone start with a ramp.
+    if (settings().autoWarm) a.exercises.forEach((ex, i, xs) => { if (exInfo(ex.name).compound && !(ex.group && i && xs[i - 1].group === ex.group)) fillWarm(ex); });
+  }
   else if (d.type === 'stretch') a.stretches = (d.stretches || []).map(s => ({ name: s.name, holdSec: s.holdSec || 45, sides: !!s.sides, done: false }));
   else { a.plan = plan; Object.assign(a, { h: null, m: null, s: null, km: null, meters: null, avgHr: null }); }
   return a;
@@ -2102,7 +2172,7 @@ function startEmpty(type) {
 }
 function vLog() {
   const a = S.active;
-  let h = `<div class="logmeta">${a.editingId ? '' : '<b id="elapsed">0:00</b>'}<span>${fmtD(a.date)}</span>${a.week ? `<span>· Week ${a.week}</span>` : ''}${a.editingId ? '' : hrChip()}</div>`;
+  let h = `<div class="logmeta">${a.editingId ? '' : '<b id="elapsed">0:00</b>'}<span>${fmtD(a.date)}</span>${a.week ? `<span>· Week ${a.week}</span>` : ''}${a.editingId ? '' : hrChip()}${undoBtn()}</div>`;
   if (a.editingId) h += `<div class="grid2"><label class="field"><span>Date</span><input id="a-date" type="date" class="in" data-root="active" data-bind="date" value="${esc(a.date)}"></label>${a.type === 'strength' || a.type === 'stretch' ? `<label class="field"><span>Duration (min)</span><input id="a-dur" class="in" inputmode="numeric" data-root="active" data-bind="durationMin" data-num value="${a.durationMin ?? ''}"></label>` : ''}</div>`;
   if (a.type === 'strength') h += logStrength(a);
   else if (a.type === 'stretch') h += logStretch(a);
@@ -2169,7 +2239,7 @@ function exCard(ex, i, g) {
   h += `</div><div class="stepwrap" data-i="${i}" ${selSet ? '' : 'hidden'}><div class="stepper"><div class="grp"><button data-act="step" data-f="lb" data-d="${-step}" aria-label="Minus ${step} pounds">−${step}</button><span>lb</span><button data-act="step" data-f="lb" data-d="${step}" aria-label="Plus ${step} pounds">+${step}</button></div>
       <div class="grp"><button data-act="step" data-f="reps" data-d="-1" aria-label="One rep fewer">−1</button><span>reps</span><button data-act="step" data-f="reps" data-d="1" aria-label="One more rep">+1</button></div>
       <div class="grp"><button data-act="step" data-f="rpe" data-d="-0.5" aria-label="RPE down half">−½</button><span>RPE</span><button data-act="step" data-f="rpe" data-d="0.5" aria-label="RPE up half">+½</button></div></div></div>`;
-  h += `<div class="ex-f"><button class="btn sm" data-act="addset" data-i="${i}">+ Set</button><button class="btn sm" data-act="addwarm" data-i="${i}">+ Warm-up</button><button class="btn sm ghost" data-act="setnote" data-i="${i}">Set note</button></div></section>`;
+  h += `<div class="ex-f"><button class="btn sm" data-act="addset" data-i="${i}">+ Set</button>${ex.sets.some(x => x.kind === 'W') ? `<button class="btn sm" data-act="addwarm" data-i="${i}">+ Warm-up</button>` : `<button class="btn sm" data-act="warmups" data-i="${i}">${ic('flame')}Warm-ups</button>`}<button class="btn sm ghost" data-act="setnote" data-i="${i}">Set note</button></div></section>`;
   return h;
 }
 function logCardio(a) {
@@ -2262,6 +2332,9 @@ function finishActive() {
   if (prev) { if (prev.evaluation) doc.evaluation = prev.evaluation; if (prev.sample) doc.sample = true; }
   doc.summary = computeSummary(doc, id);
   write('workouts', id, doc);
+  if (!prev) haptic('finish');
+  undoStack = [];
+  shareSoon();
   syncPlan();
   S.active = null; saveActive(); S.ui.inLog = false; S.rest = null; S.ui.confirm = null; release(); $('#prb').hidden = true; $('#toast').hidden = true;
   S.ui.stack = [{ v: 'session', p: { id, fresh: !prev } }];
@@ -2376,6 +2449,16 @@ Exercises that share a "group" value were done back to back as a superset or cir
 DATA (JSON):
 ${JSON.stringify(ctx)}`;
 }
+// Daily Claude allowance (set on the server): when it's used up, say when the next request frees up, and don't retry
+// waiting evaluations until then.
+let aiFreeAt = 0;
+function limitMsg(e) {
+  const at = e && e.freeAt ? new Date(e.freeAt) : null;
+  if (at && !isNaN(at)) aiFreeAt = at.getTime();
+  const when = at && !isNaN(at) ? ` More free up at ${at.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}${ymd(at) !== ymd() ? ' tomorrow' : ''}.` : ' More free up within a day.';
+  S.ai = null;
+  return `You've used today's ${e && e.limit ? e.limit + ' ' : ''}Claude requests.${when}`;
+}
 let evalRunning = false;
 async function runEval(id, auto) {
   const w0 = S.workouts.get(id); if (!w0) return;
@@ -2396,13 +2479,14 @@ async function runEval(id, auto) {
     else if (code === 'not_configured') { S.ui.evalErr[id] = 'Claude evaluations need your Anthropic API key. Add it in Supabase under Edge Functions, Secrets, as ANTHROPIC_API_KEY.'; if (cur.evalPending) write('workouts', id, { ...cur, evalPending: false }); }
     else if (code === 'refused') { S.ui.evalErr[id] = 'Claude couldn\'t evaluate this session. Try again, or add a note and retry.'; if (cur.evalPending) write('workouts', id, { ...cur, evalPending: false }); }
     else if (code === 'rate_limited') S.ui.evalErr[id] = 'Claude is busy right now. Try again in a minute.';
+    else if (code === 'limit_reached') { S.ui.evalErr[id] = limitMsg(e) + ' This evaluation runs then.'; write('workouts', id, { ...cur, evalPending: true }); }
     else if (code === 'cancelled') S.ui.evalErr[id] = null;
     else if (!navigator.onLine || code === 'upstream_error' || code === 'session_expired') { write('workouts', id, { ...cur, evalPending: true }); if (navigator.onLine) S.ui.evalErr[id] = 'Claude couldn\'t be reached' + (e && e.message && e.message !== code ? ' (' + e.message + ')' : '') + '. Engine tries again next time you open it, or tap to retry now.'; }
     else S.ui.evalErr[id] = 'The evaluation didn\'t come through (' + (code || 'error') + '). Try again.';
   } finally { evalRunning = false; S.ui.evalBusy[id] = false; render(); }
 }
 async function runPendingEvals() {
-  if (evalRunning || !sampleFn || !navigator.onLine) return;
+  if (evalRunning || !sampleFn || !navigator.onLine || Date.now() < aiFreeAt) return;
   const p = allW().find(w => w.evalPending && !(w.evaluation && w.evaluation.text));
   if (p) await runEval(p.id, true);
 }
@@ -2513,7 +2597,7 @@ async function chatSend(text) {
     write('meta', 'coachchat', { msgs: [...chatMsgs(), reply].slice(-40) });
   } catch (e) {
     const code = e && e.code;
-    S.ui.chatErr = code === 'not_configured' ? 'The coach needs your Anthropic API key in Supabase (Edge Functions, Secrets, ANTHROPIC_API_KEY).' : code === 'rate_limited' ? 'Claude is busy right now. Try again in a minute.' : code === 'session_expired' ? 'Sign in again to use the coach.' : 'The coach couldn\'t be reached' + (e && e.message ? ' (' + e.message + ')' : '') + '. Try again.';
+    S.ui.chatErr = code === 'not_configured' ? 'The coach needs your Anthropic API key in Supabase (Edge Functions, Secrets, ANTHROPIC_API_KEY).' : code === 'rate_limited' ? 'Claude is busy right now. Try again in a minute.' : code === 'limit_reached' ? limitMsg(e) : code === 'session_expired' ? 'Sign in again to use the coach.' : 'The coach couldn\'t be reached' + (e && e.message ? ' (' + e.message + ')' : '') + '. Try again.';
   } finally { S.ui.chatBusy = false; S.ui.chatText = ''; render(); chatScroll(); }
 }
 function chatScroll() { requestAnimationFrame(() => window.scrollTo({ top: document.body.scrollHeight })); }
@@ -2747,8 +2831,8 @@ function profForms() {
   if (!F.prof) { const p = profile(); F.prof = { age: p.age ?? null, ft: p.heightIn ? Math.floor(p.heightIn / 12) : null, inch: p.heightIn ? p.heightIn % 12 : null, trainingYears: p.trainingYears ?? null, goal: p.goal || '', prevBests: { ...(p.prevBests || {}) } }; }
   return F;
 }
-const PROF_PAGES = [['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
-const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics' };
+const PROF_PAGES = [['pfriends', 'Friends', 'people'], ['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
+const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics', pfriends: 'Friends' };
 function profSummary(k) {
   const bl = bodyList(), st = settings();
   if (k === 'pmeas') { const m = bl.filter(b => b.meas && Object.keys(b.meas).length).at(-1); return m ? `Last measured ${fmtShort(m.date)}` : 'Not measured yet'; }
@@ -2760,6 +2844,7 @@ function profSummary(k) {
   if (k === 'ptabs') { const n = k => TABS.find(t => t[0] === k)[1]; return `${tabOrder().map(n).join(', ')} · opens on ${n(startTab())}`; }
   if (k === 'pprog') { const ov = Object.keys(st.incEx || {}).length; return `+${fmtNum(st.incUpper ?? st.stepLb, 1)} lb upper, +${fmtNum(st.incLower ?? st.stepLb * 2, 1)} lb lower${ov ? ` · ${ov} custom lift${ov === 1 ? '' : 's'}` : ''}`; }
   if (k === 'ppr') return PRK.filter(p => prOn(p[0])).map(p => p[2]).join(', ') || 'None counted';
+  if (k === 'pfriends') { const c = shareCfg(); return c.on && c.name.trim() ? `Sharing as ${esc(c.name.trim())}` : 'Leaderboard and PRs with friends · sharing is off'; }
   if (k === 'pnotif') return notifSummary();
   if (k === 'phr') return hrSummary();
   if (k === 'pdata') { if (S.net.dbFailed || S.net.lastErr) return `<span class="warn">Sync issue</span>`; return window.engine && engine.signedIn() ? esc(engine.email() || 'Signed in') : 'Export, account'; }
@@ -2774,6 +2859,15 @@ const segOf = (act, opts, cur, k = '') => `<div class="seg">${opts.map(([v, l]) 
 const ordBtns = (act, i, n, name) => `<span class="ord"><button class="icon" data-act="${act}" data-i="${i}" data-d="-1" ${i ? '' : 'disabled'} aria-label="Move ${esc(name)} up">${ic('up')}</button><button class="icon" data-act="${act}" data-i="${i}" data-d="1" ${i < n - 1 ? '' : 'disabled'} aria-label="Move ${esc(name)} down">${ic('down')}</button></span>`;
 const iconSvg = (bg, fg) => `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="${bg}"/><g transform="rotate(-40 32 32)" fill="${fg}"><rect x="9" y="15.5" width="46" height="9" rx="4.5"/><rect x="9" y="27.5" width="46" height="9" rx="4.5"/><rect x="9" y="39.5" width="46" height="9" rx="4.5"/></g></svg>`;
 const restPm = k => `<div class="pm"><button data-act="restdef" data-k="${k}" data-d="-5" aria-label="5 seconds less">−</button><b>${fmtClock(settings()[k])}</b><button data-act="restdef" data-k="${k}" data-d="5" aria-label="5 seconds more">+</button></div>`;
+// Requests used in the last 24 hours (evaluations and coach chat; the weekly check-in doesn't count). Fetched when Settings opens.
+function aiSummary() {
+  if (!S.ai && navigator.onLine && window.engine && engine.aiUsage) { S.ai = { loading: true }; engine.aiUsage().then(u => { S.ai = u || { off: true }; render(); }).catch(() => { S.ai = { off: true }; }); }
+  const u = S.ai;
+  if (!u || u.loading) return 'Checking…';
+  if (u.off) return 'Evaluations and coach chat. Your daily allowance shows here when you\'re online';
+  if (u.limit == null) return `No daily limit on your account · ${u.used} in the last 24 hours`;
+  return `${u.used} of ${u.limit} used in the last 24 hours (evaluations and coach chat)${u.freeAt ? ` · next one frees up at ${new Date(u.freeAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : ''}`;
+}
 function vSettings() {
   const st = settings();
   let h = `<div class="sec"><span class="label">Look and layout</span><div class="card slist">${slink('pappear', 'Theme, text size and app icon', 'palette')}${slink('ptoday', 'Today screen', 'today')}${slink('ptabs', 'Tabs and start screen', 'layout')}</div></div>`;
@@ -2783,13 +2877,16 @@ function vSettings() {
     ${slink('pprog', 'Progression rules', 'prog')}
     ${slink('ppr', 'Personal records', 'trophy')}
     ${srow('Sound when rest ends', 'Vibrates too', swc('sound', st.sound, 'Sound when rest ends'))}
-    ${srow('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'))}</div></div>`;
+    ${srow('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'))}
+    ${srow('Auto warm-ups', 'Compound lifts start with a warm-up ramp to your first working weight', swc('autoWarm', st.autoWarm, 'Auto warm-ups'))}
+    ${srow('Haptics', 'A tap when you tick a set, a double pulse when an exercise or round is done', swc('haptics', st.haptics, 'Haptics'))}</div></div>`;
   const cs = COACH_STYLES.find(c => c[0] === st.coachStyle) || COACH_STYLES[1];
   h += `<div class="sec"><span class="label">Coaching</span><div class="card slist">
     ${scol('Coach style', `${cs[1]}: ${cs[2]} Used for evaluations, check-ins and coach chat.`, segOf('coachstyle', [['blunt', 'Blunt'], ['balanced', 'Balanced'], ['detailed', 'Detailed']], cs[0]))}
     ${srow('Weekly check-in', st.checkin ? `${DOWL[st.checkinDay]}s at ${fmtTime(st.checkinTime)}. Claude reviews your week and sets next week's targets` : 'Claude reviews your week and sets next week\'s targets', swc('checkin', st.checkin, 'Weekly check-in'))}
     ${st.checkin ? srow('When', '', `<span class="ctl2"><select id="ck-day" class="in mini day" data-act-change="ckday" aria-label="Check-in day">${[0, 1, 2, 3, 4, 5, 6].map(d => `<option value="${d}" ${st.checkinDay === d ? 'selected' : ''}>${DOWL[d].slice(0, 3)}</option>`).join('')}</select><input id="ck-time" type="time" class="in mini time" data-act-change="cktime" value="${esc(st.checkinTime)}" aria-label="Check-in time"></span>`) : ''}
-    ${srow('Block suggestions', 'Offer a ready-made block when you start a new one', swc('suggestBlocks', st.suggestBlocks, 'Block suggestions'))}</div></div>`;
+    ${srow('Block suggestions', 'Offer a ready-made block when you start a new one', swc('suggestBlocks', st.suggestBlocks, 'Block suggestions'))}
+    ${srow('Claude requests', aiSummary(), '')}</div></div>`;
   h += `<div class="sec"><span class="label">Time zone</span><div class="card slist"><div class="srow col"><span class="grow"><span class="t">Time zone</span><span class="sub">Your check-in and workout reminders follow it</span></span>${tzSelect()}</div></div></div>`;
   h += `<div class="sec"><span class="label">Alerts and devices</span><div class="card slist">${slink('pnotif', 'Notifications', 'bell')}${slink('phr', 'Heart rate monitor', 'heart')}</div></div>`;
   h += `<div class="sec"><span class="label">Account</span><div class="card slist">${slink('pdata', 'Data and account', 'cloud')}</div></div>`;
@@ -2813,6 +2910,7 @@ function vProfile() {
   return h;
 }
 function vProfPage(k) {
+  if (k === 'pfriends') return vFriends();
   const F = profForms(), st = settings();
   if (k === 'pmeas') {
     const last = bodyList().filter(b => b.meas && Object.keys(b.meas).length).at(-1);
@@ -3061,13 +3159,14 @@ function addPicked() {
   const sh = S.ui.sheet, names = sh.sel.slice(); if (!names.length) return;
   S.ui.sheet = null; S.ui.customForm = false; S.ui.form.custom = null;
   if (sh.mode === 'add') {
+    snap('add exercise');
     const first = S.active.exercises.length;
     for (const n of names) S.active.exercises.push(mkEx(n, null));
     S.ui.sel = { e: first, s: 0 }; saveActive(); render();
     setTimeout(() => { const el = document.getElementById('ex-' + first); if (el) el.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 50);
     return;
   }
-  if (sh.mode === 'logstretch') { for (const n of names) S.active.stretches.push({ ...stretchItem(n), done: false }); saveActive(); render(); return; }
+  if (sh.mode === 'logstretch') { snap('add stretch'); for (const n of names) S.active.stretches.push({ ...stretchItem(n), done: false }); saveActive(); render(); return; }
   const day = S.ui.draft.days[sh.i], st = settings();
   if (sh.mode === 'blockstretch') { for (const n of names) (day.stretches || (day.stretches = [])).push(stretchItem(n)); render(); return; }
   for (const n of names) { const info = exInfo(n); (day.items || (day.items = [])).push({ name: n, sets: 3, repLow: info.compound ? 5 : 8, repHigh: info.compound ? 8 : 12, rpe: 8, restSec: info.compound ? st.restCompound : st.restAccessory }); }
@@ -3077,7 +3176,7 @@ function pickEx(name) {
   const sh = S.ui.sheet;
   if (isMultiPick(sh)) { togglePick(name); return; }
   S.ui.sheet = null; S.ui.customForm = false; S.ui.form.custom = null;
-  if (sh.mode === 'swap') { const old = S.active.exercises[sh.i]; S.active.exercises[sh.i] = mkEx(name, old.plan ? { ...old.plan, restSec: old.restSec } : null); if (old.group) S.active.exercises[sh.i].group = old.group; S.ui.exMenu = null; saveActive(); render(); return; }
+  if (sh.mode === 'swap') { snap('swap exercise'); const old = S.active.exercises[sh.i]; S.active.exercises[sh.i] = mkEx(name, old.plan ? { ...old.plan, restSec: old.restSec } : null); if (old.group) S.active.exercises[sh.i].group = old.group; S.ui.exMenu = null; saveActive(); render(); return; }
   if (sh.mode === 'blockswap') { S.ui.draft.days[sh.i].items[sh.j].name = name; render(); }
 }
 
@@ -3100,6 +3199,11 @@ document.addEventListener('input', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
+  if (undoField && t.id === undoField.id && S.active && undoField.a.id === S.active.id && (t.type === 'checkbox' ? t.checked : t.value) !== undoField.v) {
+    undoStack.push({ a: undoField.a, label: 'edit', at: Date.now() }); if (undoStack.length > UNDO_MAX) undoStack.shift();
+    undoField = { ...undoField, v: t.type === 'checkbox' ? t.checked : t.value, a: clone(S.active) };
+    syncUndoBtn();
+  }
   if (t.dataset.photo) { uploadPhoto(t); return; }
   if (t.hasAttribute('data-color')) { saveSetting({ accent: t.value }); return; }
   if (t.dataset.themeColor) { saveSetting({ [t.dataset.themeColor]: t.value }); return; }
@@ -3108,7 +3212,9 @@ document.addEventListener('change', e => {
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.ui.sheet) A.closesheet(); });
 document.addEventListener('focusin', e => {
-  const row = e.target.closest('.set'); if (!row) return;
+  const t = e.target;
+  if (t.dataset && t.dataset.root === 'active' && S.active) undoField = { id: t.id, v: t.type === 'checkbox' ? t.checked : t.value, a: clone(S.active) };
+  const row = t.closest('.set'); if (!row) return;
   selectRow(+row.dataset.i, +row.dataset.j);
 });
 // Swiping a set row: a mostly-sideways drag moves the row; let go past halfway and it stays open on Delete.
@@ -3160,6 +3266,20 @@ function bindInput(t) {
   if (t.hasAttribute('data-rerender')) render();
 }
 const C = {
+  shareon(t) {
+    const on = t.checked, c = shareCfg();
+    setTimeout(async () => {
+      saveSetting({ share: { ...c, on } });
+      if (on) { LS.del('ft.shareStop'); syncShare(true); return; }
+      LS.del('ft.shareSent'); S.friends = null;
+      try { await engine.friends.stop(); toast('Sharing is off. Your shared copy was deleted.'); }
+      catch (e) { LS.set('ft.shareStop', true); toast('Sharing is off. Engine deletes your shared copy as soon as it\'s back online.'); }
+      render();
+    }, 200);
+  },
+  sharename(t) { saveSetting({ share: { ...shareCfg(), name: t.value.trim().slice(0, 30) } }); syncShare(true); },
+  shareopt(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => { saveSetting({ share: { ...shareCfg(), [k]: on } }); syncShare(true); }, 200); },
+  fblift(t) { S.ui.fbLift = t.value; render(); },
   tcshow(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => saveSetting({ todayCards: todayLayout().map(c => c.k === k ? { ...c, on } : c) }), 200); },
   prkind(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => saveSetting({ prKinds: { ...(settings().prKinds || {}), [k]: on } }), 200); },
   pralert(t) { const on = t.checked, k = t.dataset.k; setTimeout(() => saveSetting({ prAlerts: { ...(settings().prAlerts || {}), [k]: on } }), 200); },
@@ -3194,10 +3314,10 @@ Object.assign(A, {
     const a = S.active, i = +d.i, j = +d.j, ex = a && a.exercises[i]; if (!ex || !ex.sets[j]) return;
     const row = document.querySelector(`.swr[data-k="${i}-${j}"]`);
     const go = () => {
-      const [gone] = ex.sets.splice(j, 1); S.ui.swipe = null;
+      snap('delete set'); ex.sets.splice(j, 1); S.ui.swipe = null;
       if (S.ui.sel.e === i && S.ui.sel.s >= j) S.ui.sel.s = Math.max(0, S.ui.sel.s - 1);
       saveActive(); render();
-      toast('Set deleted', 5000, () => { if (S.active !== a || a.exercises[i] !== ex) return; ex.sets.splice(Math.min(j, ex.sets.length), 0, gone); saveActive(); render(); });
+      toast('Set deleted', 5000, undoLast);
     };
     if (row && row.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) row.animate([{ height: row.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 180, easing: 'ease-in', fill: 'forwards' }).finished.then(go, go);
     else go();
@@ -3242,15 +3362,19 @@ Object.assign(A, {
   replaceactive() { S.active = null; S.rest = null; S.ui.sheet = null; const a = S.ui.pendingStart; S.ui.pendingStart = null; begin(a); },
   minimize() { S.ui.inLog = false; S.ui.confirm = null; render(); },
   finish() { finishActive(); },
-  discard() { S.active = null; saveActive(); S.ui.inLog = false; S.rest = null; S.ui.confirm = null; release(); render(); toast('Workout discarded'); },
+  discard() { undoStack = []; S.active = null; saveActive(); S.ui.inLog = false; S.rest = null; S.ui.confirm = null; release(); render(); toast('Workout discarded'); },
   arpe(d) { S.active.rpe = S.active.rpe === +d.v ? null : +d.v; saveActive(); render(); },
   sel(d) { selectRow(+d.i, +d.j); },
-  kind(d) { const s = S.active.exercises[+d.i].sets[+d.j]; s.kind = s.kind === 'W' ? 'N' : 'W'; saveActive(); render(); },
+  wundo() { undoLast(); },
+  fbweek(d) { S.ui.fbWeek = d.v; render(); },
+  fbmetric(d) { S.ui.fbMetric = d.v; render(); },
+  friendsreload() { loadFriends(); render(); },
+  kind(d) { snap('set type'); const s = S.active.exercises[+d.i].sets[+d.j]; s.kind = s.kind === 'W' ? 'N' : 'W'; saveActive(); render(); },
   done(d) {
     const xs = S.active.exercises, i = +d.i, ex = xs[i], j = +d.j, s = ex.sets[j];
-    if (s.done) { s.done = false; delete s.pr; liveVolPR(ex); saveActive(); render(); return; }
+    if (s.done) { snap('untick set'); s.done = false; delete s.pr; liveVolPR(ex); saveActive(); render(); return; }
     if (s.reps == null || s.reps <= 0) { toast('Enter reps first'); return; }
-    s.done = true;
+    snap('tick set'); s.done = true;
     if (s.kind !== 'W' && s.lb != null && s.tLb != null && s.lb !== s.tLb) for (let k = j + 1; k < ex.sets.length; k++) { const n = ex.sets[k]; if (!n.done && n.kind !== 'W' && n.lb === s.tLb) { n.lb = s.lb; n.tLb = s.lb; } }
     const pr = livePR(ex, j), vpr = liveVolPR(ex);
     if (pr) s.pr = pr.kind;
@@ -3269,6 +3393,7 @@ Object.assign(A, {
     S.ui.sel = { e: ni, s: nj }; S.ui.noteOpen = null;
     const nx = ni >= 0 ? xs[ni] : null, ng = nx ? groupInfo(xs)[ni] : null, nextName = nx ? (ng ? ng.lab + ' ' : '') + nx.name : '';
     const restSec = g ? xs[g.end].restSec : ex.restSec;
+    if (!say) haptic(g ? (midRound ? 'tick' : 'round') : ex.sets.every(x => x.done) ? 'round' : 'tick');
     if (midRound) { S.rest = null; tick(); toast(`Next: ${nextName}`, 1800); }
     else if (xs.some(e2 => e2.sets.some(x => !x.done))) { $('#toast').hidden = true; startRest(s.kind === 'W' ? Math.min(60, restSec) : restSec, `Next: ${nextName}`); }
     saveActive(); render();
@@ -3279,24 +3404,34 @@ Object.assign(A, {
     const { e, s } = S.ui.sel; const set = S.active.exercises[e] && S.active.exercises[e].sets[s]; if (!set) return;
     const f = d.f, dv = +d.d;
     const base = set[f] ?? (f === 'rpe' ? (S.active.exercises[e].plan && S.active.exercises[e].plan.rpe) || 7 : 0);
+    snap('change ' + (f === 'lb' ? 'weight' : f === 'rpe' ? 'RPE' : 'reps'), `step${e}-${s}-${f}`);
     let v = Math.round((base + dv) * 10) / 10;
     if (f === 'rpe') v = clamp(v, 1, 10); else v = Math.max(0, v);
     set[f] = v; saveActive();
     const inp = document.getElementById(`s${e}-${s}-${{ lb: 'lb', reps: 'r', rpe: 'p' }[f]}`); if (inp) inp.value = v; else render();
   },
-  addset(d) { const ex = S.active.exercises[+d.i]; const last = [...ex.sets].reverse().find(x => x.kind !== 'W') || ex.sets.at(-1); ex.sets.push({ kind: 'N', lb: last ? last.lb : null, reps: last ? last.reps : null, rpe: null, done: false, tLb: last ? last.lb : null }); S.ui.sel = { e: +d.i, s: ex.sets.length - 1 }; saveActive(); render(); },
-  addwarm(d) { const ex = S.active.exercises[+d.i]; const w = ex.sets.find(x => x.kind !== 'W'); const nW = ex.sets.filter(x => x.kind === 'W').length; const st = settings().stepLb; const lb = w && w.lb ? Math.max(0, roundTo(w.lb * (0.5 + 0.2 * nW), st)) : null; ex.sets.splice(nW, 0, { kind: 'W', lb, reps: nW ? 3 : 5, rpe: null, done: false, tLb: lb }); S.ui.sel = { e: +d.i, s: nW }; saveActive(); render(); },
+  addset(d) { snap('add set'); const ex = S.active.exercises[+d.i]; const last = [...ex.sets].reverse().find(x => x.kind !== 'W') || ex.sets.at(-1); ex.sets.push({ kind: 'N', lb: last ? last.lb : null, reps: last ? last.reps : null, rpe: null, done: false, tLb: last ? last.lb : null }); S.ui.sel = { e: +d.i, s: ex.sets.length - 1 }; saveActive(); render(); },
+  warmups(d) {
+    const i = +d.i, ex = S.active.exercises[i], w = ex.sets.find(x => x.kind !== 'W');
+    if (!w || !(w.lb > 0)) { toast('Enter the weight for your first working set first'); return; }
+    const ramp = warmRamp(ex.name, w.lb, w.reps);
+    if (!ramp.length) { toast(`${fmtNum(w.lb)} lb is light enough to start without warm-ups`); return; }
+    snap('add warm-ups'); const n = fillWarm(ex);
+    S.ui.sel = { e: i, s: 0 }; saveActive(); render();
+    toast(`${n} warm-up set${n === 1 ? '' : 's'} up to ${fmtNum(ramp.at(-1).lb)} lb`, 2600);
+  },
+  addwarm(d) { snap('add warm-up'); const ex = S.active.exercises[+d.i]; const w = ex.sets.find(x => x.kind !== 'W'); const nW = ex.sets.filter(x => x.kind === 'W').length; const st = settings().stepLb; const lb = w && w.lb ? Math.max(0, roundTo(w.lb * (0.5 + 0.2 * nW), st)) : null; ex.sets.splice(nW, 0, { kind: 'W', lb, reps: nW ? 3 : 5, rpe: null, done: false, tLb: lb }); S.ui.sel = { e: +d.i, s: nW }; saveActive(); render(); },
   setnote(d) { const i = +d.i; if (S.ui.sel.e !== i) S.ui.sel = { e: i, s: Math.max(0, S.active.exercises[i].sets.findIndex(x => !x.done)) }; const k = `s${S.ui.sel.e}-${S.ui.sel.s}`; S.ui.noteOpen = S.ui.noteOpen === k ? null : k; render(); setTimeout(() => { const el = document.getElementById(`sn-${S.ui.sel.e}-${S.ui.sel.s}`); if (el) el.focus(); }, 30); },
   exmenu(d) { S.ui.exMenu = S.ui.exMenu === +d.i ? null : +d.i; S.ui.confirm = null; render(); },
-  exmove(d) { const i = +d.i, j = i + +d.d, xs = S.active.exercises; if (j < 0 || j >= xs.length) return; [xs[i], xs[j]] = [xs[j], xs[i]]; normGroups(xs); S.ui.exMenu = j; S.ui.sel = { e: -1, s: -1 }; saveActive(); render(); },
-  exlink(d) { toggleLink(S.active.exercises, +d.i); S.ui.exMenu = null; saveActive(); render(); },
-  exunlink(d) { const xs = S.active.exercises, i = +d.i; delete xs[i].group; normGroups(xs); S.ui.exMenu = null; saveActive(); render(); },
-  exrest(d) { const xs = S.active.exercises, g = groupInfo(xs)[+d.i], ex = xs[g ? g.end : +d.i]; ex.restSec = clamp(ex.restSec + +d.d, 15, 600); saveActive(); render(); },
+  exmove(d) { const i = +d.i, j = i + +d.d, xs = S.active.exercises; if (j < 0 || j >= xs.length) return; snap('move exercise'); [xs[i], xs[j]] = [xs[j], xs[i]]; normGroups(xs); S.ui.exMenu = j; S.ui.sel = { e: -1, s: -1 }; saveActive(); render(); },
+  exlink(d) { snap('superset'); toggleLink(S.active.exercises, +d.i); S.ui.exMenu = null; saveActive(); render(); },
+  exunlink(d) { snap('superset'); const xs = S.active.exercises, i = +d.i; delete xs[i].group; normGroups(xs); S.ui.exMenu = null; saveActive(); render(); },
+  exrest(d) { snap('rest time', 'rest' + d.i); const xs = S.active.exercises, g = groupInfo(xs)[+d.i], ex = xs[g ? g.end : +d.i]; ex.restSec = clamp(ex.restSec + +d.d, 15, 600); saveActive(); render(); },
   exnote(d) { S.ui.noteOpen = 'ex' + d.i; S.ui.exMenu = null; render(); setTimeout(() => { const el = document.getElementById('exn-' + d.i); if (el) el.focus(); }, 30); },
-  exdel(d) { S.active.exercises.splice(+d.i, 1); normGroups(S.active.exercises); S.ui.exMenu = null; S.ui.confirm = null; S.ui.sel = { e: -1, s: -1 }; saveActive(); render(); },
+  exdel(d) { const nm = S.active.exercises[+d.i].name; snap('remove exercise'); S.active.exercises.splice(+d.i, 1); normGroups(S.active.exercises); S.ui.exMenu = null; S.ui.confirm = null; S.ui.sel = { e: -1, s: -1 }; saveActive(); render(); toast(`Removed ${nm}`, 5000, undoLast); },
   resttime(d) { if (S.rest) { S.rest.end += +d.d * 1000; S.rest.total += +d.d; S.rest.fired = false; tick(); } },
   restskip() { S.rest = null; tick(); },
-  lstr(d) { const s = S.active.stretches[+d.j]; s.holdSec = clamp(s.holdSec + +d.d, 5, 600); saveActive(); render(); },
+  lstr(d) { snap('hold time', 'lstr' + d.j); const s = S.active.stretches[+d.j]; s.holdSec = clamp(s.holdSec + +d.d, 5, 600); saveActive(); render(); },
   routine(d) { const r = ROUTINES.find(x => x.id === d.id); if (!r) return; begin(fillSession({ id: uid('w'), type: 'stretch', title: r.name, date: ymd(), startedAt: Date.now(), notes: '', rpe: null }, { type: 'stretch', stretches: r.stretches })); },
   fastart() { const a = S.active, j = a.stretches.findIndex(s => !s.done); if (j < 0) return; S.rest = null; faSet('prep', j, 0); chime(); saveActive(); window.scrollTo(0, 0); render(); },
   fapause() { const f = S.active.follow; if (f.paused) { f.end = Date.now() + f.left; f.paused = false; } else { f.left = Math.max(0, f.end - Date.now()); f.paused = true; } saveActive(); render(); },
@@ -3304,7 +3439,7 @@ Object.assign(A, {
   faprev() { const a = S.active, f = a.follow, j = Math.max(0, f.phase === 'prep' || f.j === 0 ? f.j - 1 : f.j); if (j < 0) return; a.stretches[Math.max(0, j)].done = false; faSet('prep', Math.max(0, j), 0); saveActive(); render(); },
   fastop() { S.active.follow = null; saveActive(); render(); },
   hold(d) { const s = S.active.stretches[+d.j]; startRest(s.holdSec, `Hold: ${s.name}${s.sides ? ' (one side)' : ''}`); },
-  strdone(d) { const s = S.active.stretches[+d.j]; s.done = !s.done; saveActive(); render(); },
+  strdone(d) { snap('stretch'); const s = S.active.stretches[+d.j]; s.done = !s.done; saveActive(); render(); },
   // picker
   pick(d) { S.ui.sheet = { mode: d.mode, i: d.i != null ? +d.i : null, j: d.j != null ? +d.j : null, q: '', fm: '', fe: '', sel: [] }; S.ui.customForm = false; S.ui.form.custom = null; render(); },
   pickadd() { addPicked(); },
@@ -3537,6 +3672,10 @@ function chime(f = 660) {
   if (!actx || !settings().sound) return;
   try { const t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain(); o.frequency.value = f; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.3, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.25); o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + 0.3); } catch (e) {}
 }
+// Short buzzes for logging: a tap for each ticked set, a double pulse when an exercise or a superset round is done, and a
+// longer pattern when the workout is saved. Settings › Workouts › Haptics turns these off (rest and PR alerts still buzz).
+const HAPTIC = { tick: 18, round: [35, 70, 35], finish: [60, 90, 60, 90, 160] };
+function haptic(k) { if (!settings().haptics) return; try { if (navigator.vibrate) navigator.vibrate(HAPTIC[k]); } catch (e) {} }
 function buzz() {
   try { if (navigator.vibrate) navigator.vibrate([300, 120, 300]); } catch (e) {}
   if (!actx || !settings().sound) return;
@@ -3742,6 +3881,107 @@ document.addEventListener('visibilitychange', () => {
     if (left > 5000) { const hold = /^Hold/.test(S.rest.label || ''); engine.push.restAlert(ep, new Date(S.rest.end - 1500).toISOString(), hold ? 'Hold done' : 'Rest is over', S.rest.label || 'Time for your next set'); restPushed = true; }
   } else if (restPushed) { restPushed = false; engine.push.restCancel(ep); }
 });
+
+/* ================= friends ================= */
+// Sharing is opt-in: settings.share = {on, name, prs, week}. The app sends a small summary of only the ticked parts to
+// friend_shares (readable by every Engine account, which are all invited people); turning sharing off deletes it.
+// Notes, body data, measurements, photos and coach chats are never part of it.
+const shareCfg = () => ({ on: false, name: '', prs: true, week: true, ...(settings().share || {}) });
+function shareBlob() {
+  const c = shareCfg(), out = {};
+  if (c.prs) {
+    const names = new Set(), best = [];
+    for (const w of allW()) if (w.type === 'strength') for (const ex of w.exercises || []) names.add(ex.name);
+    for (const n of names) {
+      let b = null;
+      for (const h of exHist(n)) for (const x of h.ws) { const v = e1(x.lb || 0, x.reps, x.rpe); if (x.lb > 0 && (!b || v > b.e1)) b = { ex: n, e1: Math.round(v), lb: x.lb, reps: x.reps, date: h.date }; }
+      if (b) best.push(b);
+    }
+    best.sort((a, b) => b.e1 - a.e1);
+    const since = addDays(ymd(), -30);
+    out.prs = { best: best.slice(0, 40), recent: prLog().filter(p => p.date >= since).slice(0, 12).map(p => ({ ex: p.ex, kind: p.kind, val: p.val, date: p.date })) };
+  }
+  if (c.week) {
+    const wk = m => { const w = weekStats(m); return { weekOf: m, n: w.n, sets: w.sets, vol: Math.round(w.vol), cardioMin: Math.round(w.cardioMin) }; };
+    const m = mondayOf(ymd()); out.week = wk(m); out.last = wk(addDays(m, -7));
+  }
+  return out;
+}
+let shareT = null;
+function shareSoon() { clearTimeout(shareT); shareT = setTimeout(() => syncShare(), 3000); }
+// Sends the summary when it changed. Waits until every collection has loaded, so a half-loaded start can't share zeros.
+async function syncShare(force) {
+  if (!window.engine || !engine.signedIn() || !engine.friends || !navigator.onLine) return;
+  const c = shareCfg();
+  if (!c.on) { if (LS.get('ft.shareStop', false)) try { await engine.friends.stop(); LS.del('ft.shareStop'); } catch (e) {} return; }
+  if (!c.name.trim() || S.net.synced.size < COLS.length) return;
+  const name = c.name.trim().slice(0, 30), data = shareBlob(), key = JSON.stringify([name, data]);
+  if (!force && key === LS.get('ft.shareSent', '')) return;
+  try { await engine.friends.share(name, data); LS.set('ft.shareSent', key); S.friends = null; if (curPage() === 'pfriends') render(); } catch (e) {}
+}
+setInterval(() => syncShare(), 60000);
+setTimeout(() => syncShare(), 8000);
+const curPage = () => { const v = S.ui.stack.at(-1); return v && v.v; };
+function loadFriends() {
+  if (!window.engine || !engine.friends) return;
+  if (!navigator.onLine) { S.friends = { off: true, list: [] }; return; }
+  S.friends = { loading: true, list: [] };
+  engine.friends.list().then(list => { S.friends = { list, at: Date.now() }; render(); }).catch(() => { S.friends = { err: true, list: [] }; render(); });
+}
+// A friend's totals for the week starting on monday: their summary may be from before this week started.
+function friendWeek(d, mon) {
+  for (const w of [d.week, d.last]) if (w && w.weekOf === mon) return w;
+  return { weekOf: mon, n: 0, sets: 0, vol: 0, cardioMin: 0 };
+}
+const FB_METRICS = [['n', 'Sessions', v => fmtNum(v)], ['vol', 'Volume', v => `${fmtNum(v)} lb`], ['sets', 'Sets', v => fmtNum(v)], ['cardioMin', 'Cardio', v => `${fmtNum(v)} min`]];
+function boardRows(rows, fmt) {
+  if (!rows.length) return '';
+  const max = Math.max(1, ...rows.map(r => r.v));
+  let rank = 0, prev = null;
+  return rows.map((r, i) => { if (r.v !== prev) { rank = i + 1; prev = r.v; } return `<div class="fbr ${r.me ? 'me' : ''}"><span class="fbn">${rank}</span><span class="grow"><span class="fbt"><b>${esc(r.name)}${r.me ? ' <span class="faint">(you)</span>' : ''}</b><span>${fmt(r.v)}</span></span>${r.sub ? `<span class="sub">${r.sub}</span>` : ''}<span class="fbbar"><i style="width:${Math.round(100 * r.v / max)}%"></i></span></span></div>`; }).join('');
+}
+function vFriends() {
+  const c = shareCfg();
+  if (!S.friends || (S.friends.at && Date.now() - S.friends.at > 120000)) loadFriends();
+  const F = S.friends || { loading: true, list: [] };
+  const sw = (k, on, label) => `<label class="sw2"><input id="sh-${k}" type="checkbox" data-act-change="${k === 'on' ? 'shareon' : 'shareopt'}" data-k="${k}" ${on ? 'checked' : ''} aria-label="${esc(label)}"><i></i></label>`;
+  let h = `<div class="sec"><span class="label">Your sharing</span><div class="card slist">${srow('Share with friends', c.on ? (c.name.trim() ? 'On. Friends see only what\'s ticked below' : '<span class="warn">Add the name friends will see to start sharing</span>') : 'Off. Nothing about you is shared', sw('on', c.on, 'Share with friends'))}`;
+  if (c.on) h += `<div class="srow col"><span class="grow"><span class="t">Name friends see</span></span><input id="sh-name" class="in" maxlength="30" autocomplete="nickname" data-act-change="sharename" value="${esc(c.name)}" placeholder="e.g. Braden"></div>
+    ${srow('My lifts and PRs', 'Best set for each lift, and PRs from the last 30 days', sw('prs', c.prs, 'Share my lifts and PRs'))}
+    ${srow('My weekly totals', 'Sessions, working sets, volume and cardio minutes', sw('week', c.week, 'Share my weekly totals'))}`;
+  h += `</div><span class="sub">Anyone with an Engine account (only people you've invited) can see what you share. Notes, body weight, measurements, photos and coach chats are never shared. Turning sharing off deletes your shared copy right away.</span></div>`;
+  if (F.loading) return h + `<div class="empty">Loading friends…</div>`;
+  if (F.off) return h + `<div class="empty">You're offline. Friends' boards load when you're back online.</div>`;
+  if (F.err) return h + `<div class="empty">Couldn't load friends right now. <button class="link" data-act="friendsreload">Try again</button></div>`;
+  // Your own row uses this phone's numbers; you appear only while you share.
+  const mine = c.on && c.name.trim() ? { me: true, name: c.name.trim(), data: shareBlob() } : null;
+  const people = [...F.list.filter(f => !f.me), ...(mine ? [mine] : [])];
+  if (!F.list.some(f => !f.me)) h += `<div class="empty">No friends are sharing yet. When an invited friend turns on sharing in Profile › Friends, they show up here.</div>`;
+  if (!people.length) return h;
+  // weekly leaderboard
+  const wkPeople = people.filter(p => p.data.week);
+  if (wkPeople.length) {
+    const mk = FB_METRICS.find(m => m[0] === S.ui.fbMetric) || FB_METRICS[0], last = S.ui.fbWeek === 'last', mon = addDays(mondayOf(ymd()), last ? -7 : 0);
+    const rows = wkPeople.map(p => ({ name: p.name, me: p.me, v: friendWeek(p.data, mon)[mk[0]] || 0 })).sort((a, b) => b.v - a.v || a.name.localeCompare(b.name));
+    h += `<div class="sec"><div class="sec-h"><span class="label">Leaderboard · ${last ? 'last week' : 'this week'}</span><button class="link" data-act="fbweek" data-v="${last ? 'this' : 'last'}">${last ? 'This week' : 'Last week'}</button></div>
+      ${segOf('fbmetric', FB_METRICS.map(m => [m[0], m[1]]), mk[0])}<div class="card fb">${boardRows(rows, mk[2])}</div></div>`;
+  }
+  // lift board
+  const prPeople = people.filter(p => p.data.prs && (p.data.prs.best || []).length);
+  if (prPeople.length) {
+    const cnt = {};
+    for (const p of prPeople) for (const b of p.data.prs.best) cnt[b.ex] = (cnt[b.ex] || 0) + 1;
+    const lifts = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a] || a.localeCompare(b));
+    const lift = lifts.includes(S.ui.fbLift) ? S.ui.fbLift : lifts[0];
+    const rows = prPeople.map(p => { const b = p.data.prs.best.find(x => x.ex === lift); return b && { name: p.name, me: p.me, v: b.e1, sub: `${fmtNum(b.lb)} lb × ${b.reps} · ${fmtShort(b.date)}` }; }).filter(Boolean).sort((a, b) => b.v - a.v);
+    h += `<div class="sec"><span class="label">Lifts · estimated 1-rep max</span><select id="fb-lift" class="in" data-act-change="fblift" aria-label="Lift">${lifts.map(l => `<option ${l === lift ? 'selected' : ''} value="${esc(l)}">${esc(l)} (${cnt[l]})</option>`).join('')}</select><div class="card fb">${boardRows(rows, v => `${fmtNum(v)} lb`)}</div></div>`;
+    // Friends' PRs from the last two weeks (yours are on the PR history page).
+    const since = addDays(ymd(), -14), feed = prPeople.filter(p => !p.me).flatMap(p => (p.data.prs.recent || []).filter(r => r.date >= since).map(r => ({ ...r, who: p.name }))).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 12);
+    if (feed.length) h += `<div class="sec"><span class="label">Friends' recent PRs</span><div class="card"><div class="rows">${feed.map(r => `<div class="rowi">${ic('trophy', 'acc')}<span class="grow"><span class="t" style="display:block"><b>${esc(r.who)}</b> · ${esc(r.ex)}</span><span class="sub">${esc(r.kind)}: ${esc(r.val)}</span></span><span class="faint" style="font-size:13px">${fmtShort(r.date)}</span></div>`).join('')}</div></div></div>`;
+  }
+  if (!mine) h += `<span class="sub" style="text-align:center">Turn on sharing to appear on the boards.</span>`;
+  return h;
+}
 
 /* ================= account ================= */
 function vAuth() {
