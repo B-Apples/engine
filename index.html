@@ -233,6 +233,11 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .fb{gap:0;padding-block:6px}
 .fbr{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .fbr:last-child{border-bottom:0}
+.gbb{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:color-mix(in srgb,var(--accent) calc(var(--gb,1) * 1%),var(--surface-2));color:var(--fg)}
+.gbb[data-l="1"]{--gb:12}.gbb[data-l="2"]{--gb:24}.gbb[data-l="3"]{--gb:38}.gbb[data-l="4"]{--gb:52}.gbb[data-l="5"]{--gb:66}.gbb[data-l="6"]{--gb:82}.gbb[data-l="7"]{--gb:100;color:var(--accent-ink)}
+.gbhero{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}.gbhero .gbb{width:72px;height:72px;font-size:32px}.gbhero .grow{align-self:stretch;display:flex;flex-direction:column;gap:6px;align-items:center}.gbhero .gbbar{align-self:stretch}
+.gbbar{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}.gbbar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.gbl.on .t{font-weight:700}.gbtag{font-size:11px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent);padding:3px 7px;border-radius:6px}
 .fbr .grow{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
 .fbn{width:22px;text-align:center;color:var(--muted);font-weight:700}
 .fbr.me .fbn{color:var(--accent)}
@@ -1093,6 +1098,17 @@ const MATURITY = [
   { key: 'advanced', label: 'Advanced', rate: 0.006, text: 'Gains are slow and come block to block, under 1% a month.' }
 ];
 
+// Gym bro levels: each lift's best estimated 1RM in the last 90 days divided by body weight. A pull-up counts body weight plus
+// any added weight. The numbers are where levels 2 to 7 start; lifts with nothing logged are left out of the average.
+const GB_LEVELS = ['Newbie gainer', 'Novice', 'Gym bro', 'Lifter', 'Elite', 'Peak', 'Freak'];
+const GB_LIFTS = [
+  { k: 'squat', name: 'Squat', ex: ['Back Squat'], m: [0.75, 1.25, 1.5, 2.0, 2.5, 3.0], f: [0.5, 0.85, 1.1, 1.5, 1.9, 2.3] },
+  { k: 'bench', name: 'Bench press', ex: ['Barbell Bench Press'], m: [0.5, 0.85, 1.15, 1.5, 1.85, 2.25], f: [0.3, 0.55, 0.75, 1.0, 1.25, 1.5] },
+  { k: 'deadlift', name: 'Deadlift', ex: ['Deadlift'], m: [1.0, 1.5, 1.85, 2.4, 2.9, 3.4], f: [0.65, 1.05, 1.35, 1.8, 2.2, 2.6] },
+  { k: 'ohp', name: 'Overhead press', ex: ['Overhead Press'], m: [0.35, 0.55, 0.75, 0.95, 1.15, 1.4], f: [0.2, 0.35, 0.5, 0.65, 0.8, 1.0] },
+  { k: 'pullup', name: 'Pull-up', ex: ['Pull-Up', 'Weighted Pull-Up'], bw: true, m: [1.0, 1.2, 1.4, 1.65, 1.9, 2.2], f: [1.0, 1.1, 1.25, 1.45, 1.65, 1.9] }
+];
+
 /* ================= state & sync ================= */
 const COLS = ['workouts', 'blocks', 'templates', 'folders', 'body', 'exercises', 'meta'];
 const S = {
@@ -1300,6 +1316,33 @@ function suggest(item, ctx = {}) {
     reason = `Deload week: ${lp ? `about ${lp}% lighter` : 'same weight'}${sp ? ', fewer sets' : ''}`;
   }
   return { sets, lb, reps, reason };
+}
+// Score 0 to 6 with a fraction for progress through the level (6 is Freak, the top).
+function gbScore(r, t) {
+  if (r < t[0]) return Math.max(0, r / t[0]);
+  for (let i = 0; i < t.length - 1; i++) if (r < t[i + 1]) return i + 1 + (r - t[i]) / (t[i + 1] - t[i]);
+  return 6;
+}
+function gymLevel() {
+  return mm('gbl', () => {
+    const bw = currentBW(), std = settings().levelStd === 'f' ? 'f' : 'm', since = addDays(ymd(), -90);
+    if (!bw) return { bw: null, std, lifts: [] };
+    const lifts = GB_LIFTS.map(L => {
+      let best = null;
+      for (const ex of L.ex) for (const h of exHist(ex)) if (h.date >= since) for (const x of h.ws) {
+        if (x.reps > 12 || (!L.bw && !(x.lb > 0))) continue;
+        const v = e1((L.bw ? bw : 0) + (x.lb || 0), x.reps, x.rpe);
+        if (!best || v > best.e1) best = { e1: v, lb: x.lb || 0, reps: x.reps, date: h.date, ex };
+      }
+      if (!best) return { ...L, best: null };
+      const t = L[std], ratio = best.e1 / bw, score = gbScore(ratio, t), lvl = Math.floor(score);
+      const next = lvl < 6 ? Math.round(t[lvl] * bw - (L.bw ? bw : 0)) : null;
+      return { ...L, best, ratio, score, lvl, next };
+    });
+    const got = lifts.filter(l => l.best);
+    const score = got.length ? got.reduce((a, l) => a + l.score, 0) / got.length : null;
+    return { bw, std, lifts, score, lvl: score == null ? null : Math.min(6, Math.floor(score)) };
+  });
 }
 function liftSeries(name) {
   return mm('ls:' + name, () => {
@@ -3033,8 +3076,8 @@ function profForms() {
   if (!F.prof) { const p = profile(); F.prof = { age: p.age ?? null, ft: p.heightIn ? Math.floor(p.heightIn / 12) : null, inch: p.heightIn ? p.heightIn % 12 : null, trainingYears: p.trainingYears ?? null, goal: p.goal || '', prevBests: { ...(p.prevBests || {}) } }; }
   return F;
 }
-const PROF_PAGES = [['pfriends', 'Friends', 'people'], ['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
-const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics', pfriends: 'Friends' };
+const PROF_PAGES = [['plevel', 'Gym bro level', 'flame'], ['pfriends', 'Friends', 'people'], ['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
+const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics', pfriends: 'Friends', plevel: 'Gym bro level' };
 function profSummary(k) {
   const bl = bodyList(), st = settings();
   if (k === 'pmeas') { const m = bl.filter(b => b.meas && Object.keys(b.meas).length).at(-1); return m ? `Last measured ${fmtShort(m.date)}` : 'Not measured yet'; }
@@ -3047,6 +3090,7 @@ function profSummary(k) {
   if (k === 'pprog') { const ov = Object.keys(st.incEx || {}).length; return `+${fmtNum(st.incUpper ?? st.stepLb, 1)} lb upper, +${fmtNum(st.incLower ?? st.stepLb * 2, 1)} lb lower${ov ? ` · ${ov} custom lift${ov === 1 ? '' : 's'}` : ''}`; }
   if (k === 'ppr') return PRK.filter(p => prOn(p[0])).map(p => p[2]).join(', ') || 'None counted';
   if (k === 'pfriends') { const c = shareCfg(); return c.on && c.name.trim() ? `Sharing as ${esc(c.name.trim())}` : 'Leaderboard and PRs with friends · sharing is off'; }
+  if (k === 'plevel') { const g = gymLevel(); return g.lvl != null ? `${GB_LEVELS[g.lvl]} · level ${g.lvl + 1} of 7` : g.bw ? 'Log a squat, bench, deadlift, press or pull-up' : 'Log your body weight to get a level'; }
   if (k === 'pnotif') return notifSummary();
   if (k === 'phr') return hrSummary();
   if (k === 'pdata') { if (S.net.dbFailed || S.net.lastErr) return `<span class="warn">Sync issue</span>`; return window.engine && engine.signedIn() ? esc(engine.email() || 'Signed in') : 'Export, account'; }
@@ -3115,6 +3159,7 @@ function vProfile() {
 }
 function vProfPage(k) {
   if (k === 'pfriends') return vFriends();
+  if (k === 'plevel') return vLevel();
   const F = profForms(), st = settings();
   if (k === 'pmeas') {
     const last = bodyList().filter(b => b.meas && Object.keys(b.meas).length).at(-1);
@@ -3653,6 +3698,7 @@ Object.assign(A, {
   sel(d) { selectRow(+d.i, +d.j); },
   wundo() { undoLast(); },
   fbweek(d) { S.ui.fbWeek = d.v; render(); },
+  levelstd(d) { saveSetting({ levelStd: d.v }); },
   fbmetric(d) { S.ui.fbMetric = d.v; render(); },
   friendsreload() { loadFriends(); render(); },
   kind(d) { snap('set type'); const s = S.active.exercises[+d.i].sets[+d.j]; s.kind = s.kind === 'W' ? 'N' : 'W'; saveActive(); render(); },
@@ -4266,7 +4312,7 @@ document.addEventListener('visibilitychange', () => {
 // Sharing is opt-in: settings.share = {on, name, prs, week}. The app sends a small summary of only the ticked parts to
 // friend_shares (readable by every Engine account, which are all invited people); turning sharing off deletes it.
 // Notes, body data, measurements, photos and coach chats are never part of it.
-const shareCfg = () => ({ on: false, name: '', prs: true, week: true, ...(settings().share || {}) });
+const shareCfg = () => ({ on: false, name: '', prs: true, week: true, level: true, ...(settings().share || {}) });
 function shareBlob() {
   const c = shareCfg(), out = {};
   if (c.prs) {
@@ -4281,6 +4327,7 @@ function shareBlob() {
     const since = addDays(ymd(), -30);
     out.prs = { best: best.slice(0, 40), recent: prLog().filter(p => p.date >= since).slice(0, 12).map(p => ({ ex: p.ex, kind: p.kind, val: p.val, date: p.date })) };
   }
+  if (c.level) { const g = gymLevel(); if (g.lvl != null) out.level = { lvl: g.lvl + 1, name: GB_LEVELS[g.lvl], score: Math.round(g.score * 100) / 100, std: g.std }; }
   if (c.week) {
     const wk = m => { const w = weekStats(m); return { weekOf: m, n: w.n, sets: w.sets, vol: Math.round(w.vol), cardioMin: Math.round(w.cardioMin) }; };
     const m = mondayOf(ymd()); out.week = wk(m); out.last = wk(addDays(m, -7));
@@ -4320,6 +4367,23 @@ function boardRows(rows, fmt) {
   let rank = 0, prev = null;
   return rows.map((r, i) => { if (r.v !== prev) { rank = i + 1; prev = r.v; } return `<div class="fbr ${r.me ? 'me' : ''}"><span class="fbn">${rank}</span><span class="grow"><span class="fbt"><b>${esc(r.name)}${r.me ? ' <span class="faint">(you)</span>' : ''}</b><span>${fmt(r.v)}</span></span>${r.sub ? `<span class="sub">${r.sub}</span>` : ''}<span class="fbbar"><i style="width:${Math.round(100 * r.v / max)}%"></i></span></span></div>`; }).join('');
 }
+const gbBadge = l => `<span class="gbb" data-l="${l + 1}">${l + 1}</span>`;
+function vLevel() {
+  const g = gymLevel(), stdSeg = `<div class="sec"><span class="label">Standards</span>${segOf('levelstd', [['m', 'Men'], ['f', 'Women']], g.std)}</div>`;
+  const ladder = cur => `<div class="sec"><span class="label">The 7 levels</span><div class="card"><div class="rows">${GB_LEVELS.map((n, i) => `<div class="rowi gbl ${i === cur ? 'on' : ''}">${gbBadge(i)}<span class="grow t">${n}</span>${i === cur ? '<span class="gbtag">You</span>' : ''}</div>`).join('')}</div></div></div>`;
+  if (!g.bw) return `<div class="empty">Levels compare your lifts to your body weight. Log your weight on the Profile page to get yours.</div>` + stdSeg + ladder(-1);
+  let h;
+  if (g.lvl == null) h = `<div class="empty">No squat, bench, deadlift, overhead press or pull-up logged in the last 3 months yet. Log any of them and your level shows up here.</div>`;
+  else {
+    const frac = g.lvl < 6 ? g.score - g.lvl : 1;
+    h = `<div class="card gbhero">${gbBadge(g.lvl)}<span class="grow"><span class="sub">Level ${g.lvl + 1} of 7</span><span class="h2">${GB_LEVELS[g.lvl]}</span><span class="gbbar"><i style="width:${Math.round(frac * 100)}%"></i></span><span class="sub">${g.lvl < 6 ? `${Math.round(frac * 100)}% of the way to ${GB_LEVELS[g.lvl + 1]}` : 'Top level. Nothing left to unlock.'}</span></span></div>`;
+  }
+  h += `<div class="sec"><span class="label">Your lifts · last 3 months</span><div class="card"><div class="rows">${g.lifts.map(l => l.best
+    ? `<div class="rowi">${gbBadge(l.lvl)}<span class="grow"><span class="t" style="display:block">${l.name} · ${GB_LEVELS[l.lvl]}</span><span class="sub" style="display:block">${l.bw ? (l.best.lb ? `Body weight + ${fmtNum(l.best.lb)} lb` : 'Body weight') : `${fmtNum(l.best.lb)} lb`} × ${l.best.reps} · ${fmtNum(l.ratio, 2)}× body weight</span>${l.next != null ? `<span class="sub faint" style="display:block">${GB_LEVELS[l.lvl + 1]} at ${l.bw ? (l.next > 0 ? `+${fmtNum(l.next)} lb for 1 rep` : `1 rep at body weight`) : `${fmtNum(l.next)} lb for 1 rep`}</span>` : ''}</span></div>`
+    : `<div class="rowi">${ic('plus', 'faint')}<span class="grow"><span class="t" style="display:block">${l.name}</span><span class="sub" style="display:block">Not logged in the last 3 months, so it doesn't count</span></span></div>`).join('')}</div></div>
+    <span class="sub">Each lift uses your best estimated 1-rep max from sets of 12 reps or fewer, divided by your body weight (${fmtNum(g.bw, 1)} lb, 7-day average). Your level is the average of the lifts you've logged.</span></div>`;
+  return h + stdSeg + ladder(g.lvl ?? -1);
+}
 function vFriends() {
   const c = shareCfg();
   if (!S.friends || (S.friends.at && Date.now() - S.friends.at > 120000)) loadFriends();
@@ -4328,6 +4392,7 @@ function vFriends() {
   let h = `<div class="sec"><span class="label">Your sharing</span><div class="card slist">${srow('Share with friends', c.on ? (c.name.trim() ? 'On. Friends see only what\'s ticked below' : '<span class="warn">Add the name friends will see to start sharing</span>') : 'Off. Nothing about you is shared', sw('on', c.on, 'Share with friends'))}`;
   if (c.on) h += `<div class="srow col"><span class="grow"><span class="t">Name friends see</span></span><input id="sh-name" class="in" maxlength="30" autocomplete="nickname" data-act-change="sharename" value="${esc(c.name)}" placeholder="e.g. Braden"></div>
     ${srow('My lifts and PRs', 'Best set for each lift, and PRs from the last 30 days', sw('prs', c.prs, 'Share my lifts and PRs'))}
+    ${srow('My gym bro level', 'Your level only, not your body weight', sw('level', c.level, 'Share my gym bro level'))}
     ${srow('My weekly totals', 'Sessions, working sets, volume and cardio minutes', sw('week', c.week, 'Share my weekly totals'))}`;
   h += `</div><span class="sub">Anyone with an Engine account (only people you've invited) can see what you share. Notes, body weight, measurements, photos and coach chats are never shared. Turning sharing off deletes your shared copy right away.</span></div>`;
   if (F.loading) return h + `<div class="empty">Loading friends…</div>`;
@@ -4338,6 +4403,8 @@ function vFriends() {
   const people = [...F.list.filter(f => !f.me), ...(mine ? [mine] : [])];
   if (!F.list.some(f => !f.me)) h += `<div class="empty">No friends are sharing yet. When an invited friend turns on sharing in Profile › Friends, they show up here.</div>`;
   if (!people.length) return h;
+  const lvPeople = people.filter(p => p.data.level && p.data.level.lvl >= 1 && p.data.level.lvl <= 7).sort((a, b) => b.data.level.score - a.data.level.score || a.name.localeCompare(b.name));
+  if (lvPeople.length) h += `<div class="sec"><span class="label">Gym bro levels</span><div class="card"><div class="rows">${lvPeople.map(p => `<div class="rowi">${gbBadge(p.data.level.lvl - 1)}<span class="grow t"><b>${esc(p.name)}</b>${p.me ? ' <span class="faint">(you)</span>' : ''}</span><span class="sub">${GB_LEVELS[p.data.level.lvl - 1]}</span></div>`).join('')}</div></div></div>`;
   // weekly leaderboard
   const wkPeople = people.filter(p => p.data.week);
   if (wkPeople.length) {
