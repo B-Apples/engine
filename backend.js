@@ -281,6 +281,8 @@
     photoUrl,
     push,
     aiUsage,
-    friends: { list: friendList, share: friendShare, stop: friendStop }
+    friends: { list: friendList, share: friendShare, stop: friendStop },
+    // Pull to refresh: fetch every collection the app listens to again.
+    reload: () => Promise.all([...listeners.keys()].map(load))
   };
 })();

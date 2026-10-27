@@ -108,6 +108,10 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .stat{display:flex;flex-direction:column;gap:2px;min-width:0}
 .stat b{font-size:22px;font-weight:740;font-stretch:88%;line-height:1.1;white-space:nowrap}
 .stat span{font-size:12px;color:var(--muted)}
+.sk{display:flex;flex-direction:column;gap:22px}
+.sk-col{display:flex;flex-direction:column;gap:10px}
+.skel{display:block;border-radius:var(--r);background:linear-gradient(100deg,var(--surface) 30%,var(--surface-2) 50%,var(--surface) 70%);background-size:300% 100%;animation:shimmer 1.4s ease-in-out infinite}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:0 0}}
 .empty{border:1px dashed var(--line);border-radius:var(--r);padding:18px;color:var(--muted);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 
 /* controls */
@@ -270,13 +274,15 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .zlab{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .zlab b{color:var(--fg);font-weight:650}
 .ex{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 12px 10px;display:flex;flex-direction:column;gap:8px}
-.ex-h{display:flex;align-items:flex-start;gap:8px}
+.ex-h{display:flex;align-items:flex-start;gap:8px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:4;background:var(--surface);margin:-14px -12px 0;padding:14px 12px 6px;border-radius:var(--r) var(--r) 0 0}
+.ex-h .exprog{flex:none;align-self:center;font-size:13px;font-weight:700;color:var(--muted);background:var(--surface-2);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.ex-h .exprog.all{color:var(--accent-ink);background:var(--accent)}
 .ex-h .grow{flex:1;min-width:0}
 .ex-h h3{font-size:18px;font-weight:720;font-stretch:90%;line-height:1.2}
 .why{font-size:13.5px;color:var(--fg);background:var(--accent-soft);border-radius:8px;padding:6px 9px;align-self:flex-start}
 .last{font-size:13px;color:var(--muted)}
 .sets{display:flex;flex-direction:column;gap:2px;margin:0 -4px}
-.sh,.set{display:grid;grid-template-columns:34px minmax(0,1.25fr) minmax(0,1fr) minmax(0,.85fr) 44px;gap:6px;align-items:center;padding:0 4px}
+.sh,.set{display:grid;grid-template-columns:38px minmax(0,1.25fr) minmax(0,1fr) minmax(0,.85fr) 52px;gap:6px;align-items:center;padding:0 4px}
 .sh{font-size:11.5px;color:var(--faint);font-weight:650;letter-spacing:.06em;text-transform:uppercase;padding-bottom:2px}
 .sh span{text-align:center}
 .set{border-radius:10px;padding-block:3px;background:var(--surface);position:relative;touch-action:pan-y;transition:transform .22s cubic-bezier(.2,.8,.2,1)}
@@ -289,12 +295,12 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .swr.drag .sdel,.swr.open .sdel{visibility:visible}
 .swr.drag .set{transition:none}
 .swr.open .set{transform:translateX(-88px)}
-.set .kind{height:34px;border-radius:8px;font-weight:700;color:var(--muted);font-size:14px}
+.set .kind{height:44px;border-radius:8px;font-weight:700;color:var(--muted);font-size:14px}
 .set .kind.w{color:var(--warn)}
-.set input{width:100%;height:40px;text-align:center;border-radius:9px;border:1px solid transparent;background:var(--bg);font-size:17px;font-weight:620;padding:0 2px}
+.set input{width:100%;height:48px;text-align:center;border-radius:10px;border:1px solid transparent;background:var(--bg);font-size:18px;font-weight:620;padding:0 2px}
 .set input:focus{border-color:var(--accent);outline:none}
 .set input::placeholder{color:var(--faint);font-weight:500}
-.set .chk{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--faint)}
+.set .chk{position:relative;width:48px;height:48px;border-radius:12px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--faint)}
 .set.done .chk{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .set.done .chk.pr{background:var(--warn);border-color:var(--warn);color:#000}
 .ssg{display:flex;flex-direction:column;gap:8px;border-left:3px solid var(--accent);padding-left:10px;margin-left:-2px}
@@ -306,14 +312,14 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .set.done input{color:var(--muted)}
 .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px 4px 8px}
 .stepper .grp{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.stepper .grp button{flex:1;height:38px;font-weight:650;color:var(--fg);font-size:14px}
+.stepper .grp button{flex:1;height:48px;font-weight:700;color:var(--fg);font-size:16px}
 .stepper .grp button:active{background:var(--surface-2)}
 .stepper .grp span{font-size:11px;color:var(--faint);font-weight:650;text-transform:uppercase;letter-spacing:.05em}
 .setnote{grid-column:2/-1;font-size:13px;color:var(--muted);padding:0 4px 4px}
 .ex-f{display:flex;gap:8px}
-.ex-f .btn{flex:1}
+.ex-f .btn{flex:1;min-height:44px}
 .exmenu{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.exmenu .btn{min-height:38px;font-size:13.5px;padding:0 8px}
+.exmenu .btn{min-height:48px;font-size:14px;padding:0 8px}
 .restbar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--surface-2);border-top:1px solid var(--line);padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .restbar .in-r{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px}
 .restbar .t{font-size:24px;font-weight:760;font-stretch:85%;min-width:64px}
@@ -321,8 +327,31 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .restbar .prog{position:absolute;left:0;top:0;height:3px;background:var(--accent);transition:width .5s linear}
 .restbar.over{background:var(--accent);color:var(--accent-ink)}
 .restbar.over .lbl{color:var(--accent-ink)}
+.restbar .rx{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:44px;text-align:left}
+.restbar .btn.sm{min-height:44px;padding:0 13px}
+.rring{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);pointer-events:none;fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:100;transition:stroke-dashoffset .3s linear}
+.set.done .chk .rring{stroke:var(--fg)}
+.rring.over{stroke:var(--good);animation:ringpulse 1s ease-in-out infinite}
+@keyframes ringpulse{50%{opacity:.35}}
+.restfs{position:fixed;inset:0;z-index:35;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:calc(16px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));animation:vfade .2s ease-out;transition:background-color .3s}
+.restfs .rf-top{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));left:16px;right:12px;display:flex;align-items:center;justify-content:space-between}
+.restfs .rf-top .icon{width:48px;height:48px}
+.restfs .rf-ring{position:relative;width:min(78vw,340px);aspect-ratio:1}
+.restfs .rf-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.restfs circle{fill:none;stroke-width:10}
+.restfs .bg{stroke:var(--surface-2)}
+.restfs .fg{stroke:var(--accent);stroke-linecap:round;stroke-dasharray:100;transition:stroke-dashoffset .3s linear}
+.restfs .rf-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(64px,22vw,104px);font-weight:760;font-stretch:82%;letter-spacing:-.01em}
+.restfs .rf-n{font-size:17px;font-weight:650;color:var(--muted);text-align:center;max-width:32ch}
+.restfs .btnrow{width:100%;max-width:440px}
+.restfs .btnrow .btn{min-height:56px;font-size:16px}
+.restfs.over{background:var(--accent);color:var(--accent-ink)}
+.restfs.over .eyebrow,.restfs.over .rf-n,.restfs.over .icon{color:var(--accent-ink)}
+.restfs.over .bg{stroke:color-mix(in srgb,var(--accent-ink) 20%,transparent)}
+.restfs.over .fg{stroke:var(--accent-ink)}
+.restfs.over .btn.primary{background:var(--accent-ink);border-color:var(--accent-ink);color:var(--accent)}
 .rpe{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
-.rpe button{height:38px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-weight:650;font-size:14px}
+.rpe button{height:44px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-weight:650;font-size:14px}
 .rpe button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .dur{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .dur label{position:relative}
@@ -361,6 +390,29 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .chart .bar{fill:var(--accent)}
 .chart .bar.mute{fill:var(--surface-2)}
 .chart .tgt{fill:var(--accent);opacity:.08}
+.chart.tap{touch-action:pan-y;cursor:crosshair;-webkit-user-select:none;user-select:none}
+.chart .hl-l{stroke:var(--fg);stroke-width:1;stroke-dasharray:3 3;opacity:.6}
+.chart .hl-d{fill:var(--accent);stroke:var(--bg);stroke-width:2}
+.chart .hl-b{fill:var(--surface-2);stroke:var(--line)}
+.chart .hl-t{font-family:var(--f-ui);font-size:11.5px;fill:var(--muted)}
+.chart .hl-h{fill:var(--fg);font-weight:700}
+.chart .hl-v{fill:var(--fg);font-weight:650}
+.bm{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
+.bm text{fill:var(--faint);font-size:9px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;font-family:var(--f-ui)}
+.bm .sil{fill:var(--surface);stroke:var(--line);stroke-width:.6}
+.bm .nt{fill:var(--surface-2)}
+.bm .mu{fill:color-mix(in srgb,var(--fg) 14%,var(--surface-2));transition:fill .15s}
+.bm .mu[data-act]{cursor:pointer}
+.bm.heat .mu[style]{fill:color-mix(in srgb,var(--accent) calc(var(--lv) * 100%),color-mix(in srgb,var(--fg) 14%,var(--surface-2)))}
+.bm .mu.on{fill:var(--accent)!important}
+.bm.heat .mu.on{stroke:var(--fg);stroke-width:1.2}
+.bm .mu:focus-visible{outline:none;stroke:var(--accent);stroke-width:1.5}
+.bmap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.bmcap{font-size:14px;text-align:center;min-height:20px}
+.bmleg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.bmleg i{width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,color-mix(in srgb,var(--fg) 14%,var(--surface-2)),var(--accent))}
+.pmap{display:flex;flex-direction:column;gap:6px}
+.pmap .bm{max-width:190px}
 .hb{display:grid;grid-template-columns:92px 1fr 34px;gap:8px;align-items:center;font-size:13.5px}
 .hb .tr{position:relative;height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden}
 .hb .tr .zone{position:absolute;top:0;bottom:0;background:var(--accent-soft);border-left:1px dashed var(--accent-line);border-right:1px dashed var(--accent-line)}
@@ -403,8 +455,26 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .auth .logo b{font-size:30px;font-weight:800;letter-spacing:.01em}
 .auth .foot{text-align:center}
 .ph .wait{font-size:13px;color:var(--muted)}
-.sheet{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
-.sheet-h{display:flex;align-items:center;gap:8px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+/* Bottom sheets: panels that rise from the bottom over a dimmed screen; drag the handle down or tap outside to close. */
+.sheet{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.55);display:flex;flex-direction:column;justify-content:flex-end;padding-top:calc(env(safe-area-inset-top,0px) + 24px)}
+.sheet.dlg{z-index:45}
+.bsp{position:relative;width:100%;max-width:680px;margin:0 auto;max-height:100%;background:var(--bg);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -12px 40px rgba(0,0,0,.35);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+#sheet:not(.fit) .bsp{height:100%}
+.grab{flex:none;display:flex;justify-content:center;padding:10px 0 2px;cursor:grab;touch-action:none}
+.grab i{width:44px;height:5px;border-radius:3px;background:var(--line)}
+.dlg .bsp{touch-action:none;padding-bottom:env(safe-area-inset-bottom,0px)}
+.dlg-b{display:flex;flex-direction:column;gap:14px;padding:8px max(18px,env(safe-area-inset-right,0px)) 18px max(18px,env(safe-area-inset-left,0px))}
+.dlg-q{font-size:17px;font-weight:650;line-height:1.35}
+.dlg-q .sub{font-weight:400;margin-top:4px}
+.dlg-t{font-size:20px;font-weight:740;font-stretch:85%}
+.dlg-btns{display:flex;flex-direction:column;gap:8px}
+.dlg-btns .btn,.dlg-b .exmenu .btn{min-height:52px;font-size:15.5px}
+.dlg .btn.danger:not(.ghost){background:var(--bad);border-color:var(--bad);color:#fff}
+#dlg-t:focus{outline:none}
+.sheet.in{animation:vfade .22s ease-out}
+.sheet.in .bsp{animation:sheetup .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes sheetup{from{transform:translateY(100%)}}
+.sheet-h{display:flex;align-items:center;gap:8px;padding:4px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));touch-action:none}
 .sheet-h h2{flex:1;font-size:20px;font-weight:740;font-stretch:85%}
 .sheet-b{flex:1;overflow-y:auto;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:14px}
 .pick{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);width:100%;text-align:left}
@@ -504,6 +574,33 @@ body.logging .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .cal{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px}
 .cal i{display:block;aspect-ratio:1;border-radius:3px;background:var(--surface-2)}
 .savebar{position:sticky;bottom:calc(var(--nav-h) + 10px + env(safe-area-inset-bottom,0px));z-index:5}
+/* first-use tips */
+.tip{position:fixed;z-index:48;left:16px;right:16px;max-width:360px;margin:0 auto;display:flex;align-items:center;gap:12px;background:var(--fg);color:var(--bg);padding:11px 12px 11px 14px;border-radius:14px;font-size:14px;font-weight:550;line-height:1.35;box-shadow:0 8px 28px rgba(0,0,0,.45);animation:tipin .25s cubic-bezier(.2,1.3,.4,1)}
+.tip span{flex:1}
+.tip button{flex:none;font-weight:800;padding:6px 4px;color:inherit}
+.tip::before{content:"";position:absolute;left:var(--ax,50%);width:12px;height:12px;margin-left:-6px;background:inherit;transform:rotate(45deg);border-radius:2px}
+.tip.below::before{top:-5px}
+.tip.above::before{bottom:-5px}
+@keyframes tipin{from{opacity:0;transform:translateY(6px) scale(.97)}}
+/* pull to refresh */
+.ptr{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:15;width:40px;height:40px;margin-left:-20px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.3);transform:translateY(-60px);opacity:0;pointer-events:none}
+.ptr.back{transition:transform .25s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.ptr.ready{color:var(--accent)}
+.ptr.busy svg{animation:spin .8s linear infinite}
+/* live workout bar (shown on every tab while a workout runs) */
+.livebar{position:fixed;left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px) + 8px);z-index:19;max-width:620px;margin:0 auto;animation:barin .26s cubic-bezier(.2,.8,.2,1)}
+.lb-in{width:100%;display:flex;align-items:center;gap:12px;min-height:58px;padding:8px 14px;border-radius:16px;background:var(--accent);color:var(--accent-ink);text-align:left;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.lb-in .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.lb-t{display:flex;gap:8px;align-items:baseline;font-size:15px;white-space:nowrap;overflow:hidden}
+.lb-t b{overflow:hidden;text-overflow:ellipsis;font-weight:740}
+.lb-t span{font-variant-numeric:tabular-nums;opacity:.8;font-weight:650;font-size:14px}
+.lb-s{font-size:13px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-dot{flex:none;width:10px;height:10px;border-radius:50%;background:currentColor;animation:ringpulse 1.6s ease-in-out infinite}
+.lb-r{flex:none;font-weight:760;font-size:15px;padding:5px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent-ink) 14%,transparent);font-variant-numeric:tabular-nums}
+.lb-r.over{background:var(--accent-ink);color:var(--accent)}
+body.haslive main{padding-bottom:calc(var(--nav-h) + 98px + env(safe-area-inset-bottom,0px))}
+body.haslive .toast{bottom:calc(var(--nav-h) + 84px + env(safe-area-inset-bottom,0px))}
+body.haslive .chatbar,body.haslive .savebar{bottom:calc(var(--nav-h) + 74px + env(safe-area-inset-bottom,0px))}
 /* motion */
 @keyframes vpush{from{opacity:0;transform:translateX(32px)}}
 @keyframes vpop{from{opacity:0;transform:translateX(-32px)}}
@@ -513,7 +610,6 @@ body.logging .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 #main.a-pop{animation:vpop .28s cubic-bezier(.2,.8,.2,1)}
 #main.a-fade{animation:vfade .2s ease-out}
 #main.a-up{animation:vup .32s cubic-bezier(.2,.8,.2,1)}
-.sheet{animation:vup .3s cubic-bezier(.2,.8,.2,1)}
 .restbar{animation:barin .26s cubic-bezier(.2,.8,.2,1)}
 @keyframes barin{from{transform:translateY(100%)}}
 .toast{animation:toastin .22s cubic-bezier(.2,.8,.2,1)}
@@ -532,9 +628,14 @@ body.logging .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   <header id="hdr" class="hdr"></header>
   <main id="main"></main>
   <nav id="nav" class="nav" aria-label="Sections"></nav>
+  <div id="ptr" class="ptr" aria-hidden="true"></div>
+  <div id="livebar" class="livebar" hidden></div>
   <div id="restbar" class="restbar" hidden></div>
+  <div id="restfs" class="restfs" hidden role="dialog" aria-label="Rest timer"></div>
   <div id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-t"></div>
+  <div id="dlg" class="sheet dlg" hidden role="dialog" aria-modal="true" aria-labelledby="dlg-t"></div>
   <div id="toast" class="toast" hidden role="status"></div>
+  <div id="tip" class="tip" hidden role="status"></div>
   <div id="prb" class="prb" hidden role="status" data-act="prhide"></div>
 </div>
 
@@ -1440,6 +1541,9 @@ function monthTicks(xa, xb) {
   if (out.length > 7) return out.filter((_, i) => i % 2 === 0);
   return out;
 }
+// Charts you can touch: each chart keeps its points, so a tap or a drag along it shows that day's numbers without a re-render.
+const CH = new Map(); let chSeq = 0;
+function chartReg(c) { const id = 'c' + (++chSeq); CH.set(id, c); if (CH.size > 60) CH.delete(CH.keys().next().value); return id; }
 function lineChart(o) {
   const W = 340, H = o.h || 170, L = 38, R = 12, T = 10, B = 22;
   const xs = [], ys = [];
@@ -1452,7 +1556,14 @@ function lineChart(o) {
   const X = x => L + (x - xa) / (xb - xa) * (W - L - R);
   const Y = y => o.invert ? T + (y - tk.lo) / (tk.hi - tk.lo) * (H - T - B) : H - B - (y - tk.lo) / (tk.hi - tk.lo) * (H - T - B);
   const yf = o.yFmt || (v => fmtNum(v));
-  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Chart')}">`;
+  const snaps = new Map(), snap = (x, row, py, fc) => { let t = snaps.get(x); if (!t) snaps.set(x, t = { px: X(x), title: (fc ? 'Forecast · ' : '') + fmtD(ixd(x)), rows: [], pys: [] }); t.rows.push(row); if (py != null) t.pys.push(py); };
+  for (const ln of o.lines || []) {
+    if (ln.cls === 'proj') { ln.pts.slice(1).forEach(p => { const b = (o.band || []).find(q => q[0] === p[0]); snap(p[0], ['Likely', b ? `${yf(Math.min(b[1], b[2]))}–${yf(Math.max(b[1], b[2]))}` : yf(p[1])], Y(p[1]), true); }); continue; }
+    for (const p of ln.pts) snap(p[0], [ln.name || o.name || 'Value', yf(p[1])], Y(p[1]));
+  }
+  for (const p of o.dots || []) snap(p[0], [o.dotName || 'Logged', yf(p[1])], Y(p[1]));
+  const cid = chartReg({ W, H, T, B, L, R, tips: [...snaps.values()].sort((a, b) => a.px - b.px) });
+  let s = `<svg class="chart tap" data-chart="${cid}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Chart')}">`;
   for (const v of tk.t) s += `<line class="gl" x1="${L}" x2="${W - R}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="tx" x="${L - 6}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end">${esc(yf(v))}</text>`;
   for (const m of monthTicks(xa, xb)) s += `<text class="tx" x="${X(m.x).toFixed(1)}" y="${H - 6}" text-anchor="middle">${m.l}</text>`;
   if (o.band && o.band.length > 1) { const top = o.band.map(p => `${X(p[0]).toFixed(1)},${Y(p[2]).toFixed(1)}`), bot = o.band.slice().reverse().map(p => `${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`); s += `<polygon class="band" points="${top.concat(bot).join(' ')}"/>`; }
@@ -1472,7 +1583,8 @@ function barChart(o) {
   const tk = ticks(0, Math.max(1, o.goal || 0, ...bars.map(b => b.v)), 3);
   const bw = (W - L - R) / bars.length, Y = v => H - B - v / tk.hi * (H - T - B);
   const yf = o.yFmt || (v => fmtNum(v));
-  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Bar chart')}">`;
+  const cid = chartReg({ W, H, T, B, L, R, tips: bars.map((b, i) => ({ px: L + (i + 0.5) * bw, title: (o.tipPrefix || '') + b.label, rows: [[o.name || 'Total', yf(b.v)]].concat(o.goal ? [['Goal', yf(o.goal)]] : []), pys: [] })) });
+  let s = `<svg class="chart tap" data-chart="${cid}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Bar chart')}">`;
   for (const v of tk.t) s += `<line class="gl" x1="${L}" x2="${W - R}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="tx" x="${L - 6}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end">${esc(yf(v))}</text>`;
   const every = Math.ceil(bars.length / 6);
   bars.forEach((b, i) => {
@@ -1488,7 +1600,8 @@ function stackChart(o) {
   const W = 340, H = o.h || 150, L = 38, R = 8, T = 10, B = 22, bars = o.bars;
   const tk = ticks(0, Math.max(1, ...bars.map(b => b.parts.reduce((a, p) => a + p[0], 0))), 3);
   const bw = (W - L - R) / bars.length, Y = v => H - B - v / tk.hi * (H - T - B), yf = o.yFmt || (v => fmtNum(v));
-  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Stacked bar chart')}">`;
+  const cid = chartReg({ W, H, T, B, L, R, tips: bars.map((b, i) => ({ px: L + (i + 0.5) * bw, title: (o.tipPrefix || '') + b.label, rows: [[o.name || 'Total', yf(b.parts.reduce((a, p) => a + p[0], 0))]].concat(b.parts.filter(p => p[0] > 0).map(p => [(o.partName || (c => c))(p[1]), yf(p[0])])), pys: [] })) });
+  let s = `<svg class="chart tap" data-chart="${cid}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label || 'Stacked bar chart')}">`;
   for (const v of tk.t) s += `<line class="gl" x1="${L}" x2="${W - R}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="tx" x="${L - 6}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end">${esc(yf(v))}</text>`;
   const every = Math.ceil(bars.length / 6);
   bars.forEach((b, i) => {
@@ -1516,10 +1629,65 @@ function md(t) {
   return `<div class="md">${h}</div>`;
 }
 
+/* ================= muscle map ================= */
+// A front and a back figure. Each main muscle is a region that can be shaded (Balance), picked (exercise picker) or marked.
+// Shapes are drawn for the figure's left side and mirrored; [muscle or null, shape, mirror?].
+const BODY_SHAPES = {
+  front: [
+    ['', '<path d="M50 21.5c-3.6 0-4.4 3.4-5.4 6.2-4.8 2.2-11.4 2.6-16 5.6-4.6 3.2-5.2 10-6.2 16.4-1.4 9.6-3 19.6-4 29.6-.8 7.6-1.8 13.6-1.4 18.6.8 3.4 5 3 5.6-.4 1-5.8 3-13 5-22 1.6-6 3.4-13.6 5.2-19.4 1.4 6 2.6 15.6 3.4 27.4-1 8.2-2 14.4-2 20.6-1 14.4-.4 30.6 2 43.6.6 8-.4 14-.4 22.4 0 10 1.4 19.6 2 24.8-.6 3.2 1.6 5.2 5.4 5.2 2.6 0 3.2-2.8 2.8-6 .4-10 1.4-21.6 1-31.8 0-6 1-12 1-21.8.4-12 .8-26 1.6-34z"/>', 1],
+    [null, '<ellipse cx="50" cy="13" rx="8" ry="10"/>'], [null, '<path d="M45.5 22h9v7h-9z"/>'],
+    ['Traps', '<path d="M45 28.5 37 33.5l8.5-.6z"/>', 1],
+    ['Shoulders', '<ellipse cx="31" cy="40" rx="6.4" ry="8" transform="rotate(20 31 40)"/>', 1],
+    ['Chest', '<path d="M49.2 34c-6.2-.6-11.4 1.6-12.6 6-.6 6 1.4 11.4 6.4 12.4 3 .6 6.2-.8 6.2-2.4z"/>', 1],
+    ['Biceps', '<ellipse cx="27.4" cy="57.5" rx="4.8" ry="10" transform="rotate(12 27.4 57.5)"/>', 1],
+    ['Forearms', '<ellipse cx="23.2" cy="79.5" rx="4.3" ry="12" transform="rotate(14 23.2 79.5)"/>', 1],
+    [null, '<circle cx="19.6" cy="95.5" r="3.6"/>', 1],
+    ['Core', '<path d="M43 55h14c1.4 0 2.2.9 2.2 2.2v26c0 6-4.2 10.2-9.2 10.2s-9.2-4.2-9.2-10.2v-26C40.8 55.9 41.6 55 43 55z"/>'],
+    ['Core', '<path d="M39.6 57c-2.4 7-2.6 18-.6 27.5l.8-.2V57.2z"/>', 1],
+    ['Quads', '<path d="M41.6 97.5c-5.4 4-6.6 17.5-5.2 33.5.8 9.6 3.8 15.6 7.4 15.6 3-.2 4.8-6.2 4.8-16.4 0-15-1-28.6-7-32.7z"/>', 1],
+    [null, '<circle cx="43" cy="151.5" r="3.4"/>', 1],
+    ['Calves', '<path d="M39.4 157.5c-2.2 8-1.8 22 .8 34.5h3.8c2.2-12.4 2.6-26.6.8-34.5z"/>', 1],
+    [null, '<ellipse cx="42.2" cy="197" rx="4.4" ry="2.6"/>', 1]
+  ],
+  back: [
+    ['', '<path d="M50 21.5c-3.6 0-4.4 3.4-5.4 6.2-4.8 2.2-11.4 2.6-16 5.6-4.6 3.2-5.2 10-6.2 16.4-1.4 9.6-3 19.6-4 29.6-.8 7.6-1.8 13.6-1.4 18.6.8 3.4 5 3 5.6-.4 1-5.8 3-13 5-22 1.6-6 3.4-13.6 5.2-19.4 1.4 6 2.6 15.6 3.4 27.4-1 8.2-2 14.4-2 20.6-1 14.4-.4 30.6 2 43.6.6 8-.4 14-.4 22.4 0 10 1.4 19.6 2 24.8-.6 3.2 1.6 5.2 5.4 5.2 2.6 0 3.2-2.8 2.8-6 .4-10 1.4-21.6 1-31.8 0-6 1-12 1-21.8.4-12 .8-26 1.6-34z"/>', 1],
+    [null, '<ellipse cx="50" cy="13" rx="8" ry="10"/>'], [null, '<path d="M45.5 22h9v5h-9z"/>'],
+    ['Traps', '<path d="M50 24.5 39.4 33c4.6 2.2 7.6 9.4 10.6 25 3-15.6 6-22.8 10.6-25z"/>'],
+    ['Shoulders', '<ellipse cx="31" cy="40" rx="6.4" ry="8" transform="rotate(20 31 40)"/>', 1],
+    ['Back', '<path d="M38.2 39.5c-2.6 11-1.2 24.6 6.4 36.4l4.4-1.6V60.5c-2.8-10-6-18-10.8-21z"/>', 1],
+    ['Back', '<path d="M45 77.5h10l.8 13.5H44.2z"/>'],
+    ['Triceps', '<ellipse cx="27.4" cy="57.5" rx="4.8" ry="10" transform="rotate(12 27.4 57.5)"/>', 1],
+    ['Forearms', '<ellipse cx="23.2" cy="79.5" rx="4.3" ry="12" transform="rotate(14 23.2 79.5)"/>', 1],
+    [null, '<circle cx="19.6" cy="95.5" r="3.6"/>', 1],
+    ['Glutes', '<ellipse cx="43.6" cy="101" rx="7.4" ry="8.6"/>', 1],
+    ['Hamstrings', '<path d="M37.2 111.5c-1.6 12-.4 26 3.2 36.5h6c2-10.4 2.6-24.4 2-36.5z"/>', 1],
+    [null, '<circle cx="43.4" cy="152" r="3.2"/>', 1],
+    ['Calves', '<ellipse cx="42.4" cy="169" rx="5.6" ry="13"/>', 1],
+    [null, '<ellipse cx="42.2" cy="197" rx="4.4" ry="2.6"/>', 1]
+  ]
+};
+// o.level: muscle -> 0..1 shade; o.sel: muscle drawn in full accent; o.act: tapping a muscle sends that action with data-m.
+function bodyMap(o = {}) {
+  const fig = side => {
+    const byM = new Map(), neutral = [], sil = [];
+    for (const [m, sh, mir] of BODY_SHAPES[side]) { const g = sh + (mir ? `<g transform="matrix(-1 0 0 1 100 0)">${sh}</g>` : ''); if (m) byM.set(m, (byM.get(m) || '') + g); else (m === '' ? sil : neutral).push(g); }
+    let h = `<g class="sil">${sil.join('')}</g><g class="nt">${neutral.join('')}</g>`;
+    for (const [m, g] of byM) {
+      const lv = o.level ? o.level[m] || 0 : 0, on = o.sel === m;
+      h += `<g class="mu ${on ? 'on' : ''}" ${lv ? `style="--lv:${lv.toFixed(2)}"` : ''} ${o.act ? `data-act="${o.act}" data-m="${m}" role="button" tabindex="0" aria-pressed="${on}"` : ''} aria-label="${m}${o.label ? ': ' + esc(o.label(m)) : ''}">${g}</g>`;
+    }
+    return h;
+  };
+  return `<svg class="bm ${o.level ? 'heat' : ''}" viewBox="0 0 214 214" role="${o.act ? 'group' : 'img'}" aria-label="${esc(o.aria || 'Muscle map')}"><g transform="translate(2 2)">${fig('front')}</g><g transform="translate(112 2)">${fig('back')}</g><text x="52" y="212" text-anchor="middle">Front</text><text x="162" y="212" text-anchor="middle">Back</text></svg>`;
+}
+
 /* ================= icons ================= */
 const IC = {
   star: '<path d="M12 3.6l2.5 5.2 5.7.8-4.1 4 1 5.7L12 16.6l-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/>',
   chart: '<path d="M4 20h16M7 16.5v-5M12 16.5V6.5M17 16.5v-8"/>',
+  refresh: '<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v4.5H15"/>',
+  expand: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+  body: '<circle cx="12" cy="4.5" r="2"/><path d="M8 8.5h8l-1 6h-2l-.5 6h-1l-.5-6H9z"/>',
   layout: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 9.5h16M10 9.5V20"/>',
   today: '<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
   train: '<path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/>',
@@ -1569,7 +1737,7 @@ function render() {
   let ss = null, se = null; try { ss = ae.selectionStart; se = ae.selectionEnd; } catch (e) {}
   if (S.ui.auth) {
     document.body.classList.remove('logging');
-    $('#hdr').hidden = true; $('#nav').hidden = true; $('#sheet').hidden = true; $('#restbar').hidden = true;
+    $('#hdr').hidden = true; $('#nav').hidden = true; $('#sheet').hidden = true; $('#dlg').hidden = true; $('#tip').hidden = true; $('#restbar').hidden = true; $('#livebar').hidden = true;
     $('#main').innerHTML = vAuth();
     if (aid) { const el = document.getElementById(aid); if (el) el.focus({ preventScroll: true }); }
     return;
@@ -1578,12 +1746,19 @@ function render() {
   const v = curView(), anim = viewAnim(v);
   document.body.classList.toggle('logging', v.v === 'log');
   $('#hdr').innerHTML = header(v);
+  dlgNext = null;
   $('#main').innerHTML = view(v);
   if (anim) { const m = $('#main'); m.classList.remove('a-push', 'a-pop', 'a-fade', 'a-up'); void m.offsetWidth; m.classList.add('a-' + anim); }
   const nav = $('#nav'); nav.hidden = v.v === 'log'; nav.innerHTML = navBar();
-  const sh = $('#sheet'), opening = !!S.ui.sheet && sh.hidden; sh.hidden = !S.ui.sheet; sh.innerHTML = S.ui.sheet ? sheet() : '';
+  const lb = $('#livebar'), live = !!S.active && v.v !== 'log';
+  lb.hidden = !live; document.body.classList.toggle('haslive', live); lb.innerHTML = live ? liveBar() : '';
+  const sh = $('#sheet'), opening = !!S.ui.sheet && sh.hidden; sh.hidden = !S.ui.sheet; sh.innerHTML = S.ui.sheet ? `<div class="bsp">${GRAB}${sheet()}</div>` : '';
+  sh.classList.toggle('fit', !!S.ui.sheet && S.ui.sheet.mode === 'replace');
   // A sheet that just opened takes focus on its title (not the search box, which would pop up the phone keyboard).
-  if (opening) { const t = sh.querySelector('#sheet-t'); if (t) t.focus({ preventScroll: true }); }
+  if (opening) { sheetIn(sh); const t = sh.querySelector('#sheet-t'); if (t) t.focus({ preventScroll: true }); }
+  const dg = $('#dlg'), dOpen = !!dlgNext && dg.hidden; dg.hidden = !dlgNext; dg.innerHTML = dlgNext ? `<div class="bsp">${GRAB}<div class="dlg-b">${dlgNext.html}</div></div>` : ''; dg.dataset.close = dlgNext ? dlgNext.close : '';
+  if (dOpen) { sheetIn(dg); const t = dg.querySelector('#dlg-t'); if (t) t.focus({ preventScroll: true }); }
+  clearTimeout(tipT); tipT = setTimeout(tipCheck, tipCur ? 0 : 900);
   if (aid) { const el = document.getElementById(aid); if (el && el !== document.activeElement) { el.focus({ preventScroll: true }); try { if (ss != null) el.setSelectionRange(ss, se); } catch (e) {} } }
   tick();
 }
@@ -1660,11 +1835,27 @@ function toast(msg, ms = 3200, undo) {
   if (undo) t.innerHTML = `<span>${esc(msg)}</span><button data-act="undo">Undo</button>`; else t.textContent = msg;
   t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; undoFn = null; }, ms);
 }
+// Confirmations open as a bottom sheet over the screen; the view keeps its own button in place underneath.
+let dlgNext = null;
+const GRAB = '<div class="grab" aria-hidden="true"><i></i></div>';
 function confirmBox(key, q, yesAct, yesLabel, data = '', danger = false) {
   if (S.ui.confirm !== key) return '';
-  return `<div class="confirm"><div>${q}</div><div class="btnrow"><button class="btn ${danger ? 'danger' : 'primary'}" data-act="${yesAct}" ${data}>${yesLabel}</button><button class="btn ghost" data-act="cancel">Cancel</button></div></div>`;
+  dlgNext = { close: 'cancel', html: `<div class="dlg-q" id="dlg-t" tabindex="-1">${q}</div><div class="dlg-btns"><button class="btn ${danger ? 'danger' : 'primary'}" data-act="${yesAct}" ${data}>${yesLabel}</button><button class="btn ghost" data-act="cancel">Cancel</button></div>` };
+  return '';
 }
-const loadingBox = () => S.net.loading ? `<div class="empty">Loading your training data…</div>` : '';
+function sheetIn(el) { el.classList.remove('in'); void el.offsetWidth; el.classList.add('in'); clearTimeout(el._inT); el._inT = setTimeout(() => el.classList.remove('in'), 360); }
+// Skeleton screens: grey shapes where the content will land, so nothing jumps around when your data arrives.
+const firstLoad = () => S.net.loading && !S.workouts.size && !S.blocks.size && !S.templates.size;
+const sk = (h, w = '100%', r) => `<span class="skel" style="height:${h}px;width:${w}${r ? ';border-radius:' + r : ''}"></span>`;
+function skeleton(kind) {
+  const lines = n => `<div class="sk-col">${Array.from({ length: n }, (_, i) => sk(13, i === n - 1 ? '58%' : '92%', '6px')).join('')}</div>`;
+  let h = '';
+  if (kind === 'today') h = `<div class="weekstrip">${Array.from({ length: 7 }, () => sk(64, '100%', '12px')).join('')}</div>${sk(150)}<div class="sk-col">${sk(12, '30%', '6px')}${sk(92)}</div>${sk(70)}<div class="stats">${sk(46)}${sk(46)}${sk(46)}</div>`;
+  else if (kind === 'prog') h = `${sk(110)}<div class="sk-col">${sk(12, '45%', '6px')}${sk(170)}</div>${lines(3)}<div class="sk-col">${sk(12, '40%', '6px')}${sk(150)}</div>`;
+  else if (kind === 'train') h = `<div class="sk-col">${sk(12, '35%', '6px')}<div class="tgrid">${sk(96)}${sk(96)}${sk(96)}${sk(96)}</div></div>`;
+  else h = lines(kind || 3);
+  return `<div class="sk" aria-busy="true" aria-label="Loading">${h}</div>`;
+}
 
 /* ================= Today ================= */
 function vToday() {
@@ -1673,7 +1864,7 @@ function vToday() {
   let h = `<div class="sec"><div class="sec-h"><div class="eyebrow">${fmtLong(today)}</div><button class="link" data-act="opencal">Calendar</button></div>`;
   if (b) h += `<div class="h3">${esc(b.name)}${wk >= 1 && wk <= b.weeks ? ` <span class="sub">· Week ${wk} of ${b.weeks}${isDeload(b, wk) ? ' · Deload' : ''}</span>` : ''}</div>`;
   h += `</div>`;
-  h += loadingBox();
+  if (firstLoad()) return h + skeleton('today');
   if (S.active) h += `<div class="card"><div class="eyebrow acc">${S.active.editingId ? 'Editing' : 'In progress'}</div><div class="h2">${esc(S.active.title || TYPES[S.active.type])}</div>${S.active.editingId ? '' : `<div class="sub">Started ${fmtMin((Date.now() - S.active.startedAt) / 60000)} ago</div>`}<button class="btn primary" data-act="resume">Resume</button></div>`;
   // The cards below follow the order and visibility picked in Settings › Today screen.
   const part = {};
@@ -1780,7 +1971,7 @@ function vCal() {
 /* ================= Train ================= */
 function vTrain() {
   let h = `<div class="sec"><span class="label">Start a session</span><div class="grid3">${['strength', 'run', 'ride', 'swim', 'stretch'].map(t => `<button class="btn" data-act="startempty" data-type="${t}">${TYPES[t]}</button>`).join('')}<button class="btn ghost" data-act="go" data-v="library">Library</button></div></div>`;
-  h += loadingBox();
+  if (firstLoad()) return h + skeleton('train');
   h += `<div class="sec"><div class="sec-h"><span class="label">Ask the coach</span></div><button class="card coachbtn" data-act="coach">${ic('chat', 'acc')}<span class="grow"><b>Build or tweak a block with Claude</b><span class="sub">Describe what you want. Claude drafts it, you review it before anything changes.</span></span>${ic('chev')}</button></div>`;
   h += savedSection();
   h += `<div class="sec"><span class="label">Mobility routines</span><div class="tgrid">${ROUTINES.map(r => `<button class="tile rtile" data-act="routine" data-id="${r.id}">${ic('mobility', 'acc')}<span class="t">${esc(r.name)}</span><span class="sub">${esc(r.focus)}</span><span class="faint" style="font-size:12.5px">${r.stretches.length} stretches · about ${stretchMin(r.stretches)} min</span></button>`).join('')}</div></div>`;
@@ -2187,8 +2378,9 @@ function finishBox(a) {
   let h = '';
   if (S.ui.confirm === 'finish') {
     const warn = a.type === 'strength' && !nDone ? '<div class="warn">No sets are ticked yet. Only ticked sets are saved.</div>' : '';
-    h += `<div class="confirm" id="finishbox"><div><b>${a.editingId ? 'Save changes?' : 'Finish and save this workout?'}</b>${nDone != null ? `<div class="sub">${nDone} sets ticked.</div>` : ''}</div>${warn}<div class="btnrow"><button class="btn primary" data-act="finish">${a.editingId ? 'Save' : 'Finish workout'}</button><button class="btn ghost" data-act="cancel">Keep going</button></div></div>`;
-  } else h += `<button class="btn primary wide" data-act="ask" data-k="finish">${a.editingId ? 'Save changes' : 'Finish workout'}</button>`;
+    dlgNext = { close: 'cancel', html: `<div class="dlg-q" id="dlg-t" tabindex="-1">${a.editingId ? 'Save changes?' : 'Finish and save this workout?'}${nDone != null ? `<div class="sub">${nDone} sets ticked.</div>` : ''}</div>${warn}<div class="dlg-btns"><button class="btn primary" data-act="finish">${a.editingId ? 'Save' : 'Finish workout'}</button><button class="btn ghost" data-act="cancel">Keep going</button></div>` };
+  }
+  h += `<button class="btn primary wide" data-act="ask" data-k="finish">${a.editingId ? 'Save changes' : 'Finish workout'}</button>`;
   h += confirmBox('discard', a.editingId ? 'Discard your edits?' : 'Discard this workout? Nothing will be saved.', 'discard', 'Discard', '', true) || `<button class="btn ghost danger" data-act="ask" data-k="discard">${a.editingId ? 'Discard edits' : 'Discard workout'}</button>`;
   return h;
 }
@@ -2208,14 +2400,16 @@ function logStrength(a) {
 function exCard(ex, i, g) {
   const hist = exHist(ex.name).filter(x => x.wid !== S.active.editingId && x.ws.length);
   const last = hist[0];
-  const step = settings().stepLb;
-  let h = `<section class="ex" id="ex-${i}"><div class="ex-h"><div class="grow"><h3>${groupTag(g)}${esc(ex.name)}</h3><div class="sub">${esc(ex.muscle)}${g ? '' : ` · rest ${fmtClock(ex.restSec)}`}${ex.plan ? ` · plan ${ex.plan.sets}×${ex.plan.repLow === ex.plan.repHigh ? ex.plan.repLow : ex.plan.repLow + '–' + ex.plan.repHigh}${ex.plan.rpe ? ' @ RPE ' + ex.plan.rpe : ''}` : ''}</div></div><button class="icon" data-act="exmenu" data-i="${i}" aria-label="Exercise options" aria-expanded="${S.ui.exMenu === i}">${ic('more')}</button></div>`;
+  const step = settings().stepLb, wk = ex.sets.filter(x => x.kind !== 'W'), wkDone = wk.filter(x => x.done).length;
+  let h = `<section class="ex" id="ex-${i}"><div class="ex-h"><div class="grow"><h3>${groupTag(g)}${esc(ex.name)}</h3><div class="sub">${esc(ex.muscle)}${g ? '' : ` · rest ${fmtClock(ex.restSec)}`}${ex.plan ? ` · plan ${ex.plan.sets}×${ex.plan.repLow === ex.plan.repHigh ? ex.plan.repLow : ex.plan.repLow + '–' + ex.plan.repHigh}${ex.plan.rpe ? ' @ RPE ' + ex.plan.rpe : ''}` : ''}</div></div>${wk.length ? `<span class="exprog ${wkDone === wk.length ? 'all' : ''}" aria-label="${wkDone} of ${wk.length} working sets done">${wkDone}/${wk.length}</span>` : ''}<button class="icon" data-act="exmenu" data-i="${i}" aria-label="Exercise options" aria-expanded="${S.ui.exMenu === i}">${ic('more')}</button></div>`;
   if (S.ui.exMenu === i) {
-    h += `<div class="exmenu"><button class="btn" data-act="exmove" data-i="${i}" data-d="-1">Move up</button><button class="btn" data-act="exmove" data-i="${i}" data-d="1">Move down</button><button class="btn" data-act="pick" data-mode="swap" data-i="${i}">Swap</button>
+    let h = `<div class="dlg-t" id="dlg-t" tabindex="-1">${esc(ex.name)}</div><span class="sub" style="margin-top:-10px">Rest ${fmtClock(g ? S.active.exercises[g.end].restSec : ex.restSec)}${g ? ' after each round' : ''}</span><div class="exmenu"><button class="btn" data-act="exmove" data-i="${i}" data-d="-1">Move up</button><button class="btn" data-act="exmove" data-i="${i}" data-d="1">Move down</button><button class="btn" data-act="pick" data-mode="swap" data-i="${i}">Swap</button>
       <button class="btn" data-act="exrest" data-i="${i}" data-d="-5">Rest −5s</button><button class="btn" data-act="exrest" data-i="${i}" data-d="5">Rest +5s</button><button class="btn" data-act="exnote" data-i="${i}">Note</button></div>`;
     const xs = S.active.exercises, linkedNext = g && !g.last, canLink = i + 1 < xs.length && !linkedNext;
     if (canLink || g) h += `<div class="btnrow">${canLink ? `<button class="btn sm" data-act="exlink" data-i="${i}">${ic('link')}${g ? 'Add next to ' + groupName(g).toLowerCase() : 'Superset with next'}</button>` : ''}${g ? `<button class="btn sm" data-act="exunlink" data-i="${i}">Take out of ${groupName(g).toLowerCase()}</button>` : ''}</div>`;
-    h += confirmBox('exdel' + i, `Remove ${esc(ex.name)} from this workout?`, 'exdel', 'Remove', `data-i="${i}"`, true) || `<button class="btn sm ghost danger" data-act="ask" data-k="exdel${i}">Remove exercise</button>`;
+    h += `<button class="btn ghost danger" data-act="ask" data-k="exdel${i}">Remove exercise</button>`;
+    dlgNext = { close: 'exmenuclose', html: h };
+    confirmBox('exdel' + i, `Remove ${esc(ex.name)} from this workout?`, 'exdel', 'Remove', `data-i="${i}"`, true);
   }
   if (ex.reason) h += `<div class="why">${esc(ex.reason)}</div>`;
   if (last) h += `<div class="last">Last time (${fmtShort(last.date)}): ${last.ws.map(s => `${fmtNum(s.lb || 0)}×${s.reps}${s.rpe != null ? ' @' + s.rpe : ''}`).join(', ')}</div>`;
@@ -2231,7 +2425,7 @@ function exCard(ex, i, g) {
       <input id="s${i}-${j}-lb" inputmode="decimal" data-root="active" data-bind="${pfx}.lb" data-num value="${s.lb ?? ''}" placeholder="lb" aria-label="Weight in pounds">
       <input id="s${i}-${j}-r" inputmode="numeric" data-root="active" data-bind="${pfx}.reps" data-num value="${s.reps ?? ''}" placeholder="reps" aria-label="Reps">
       <input id="s${i}-${j}-p" inputmode="decimal" data-root="active" data-bind="${pfx}.rpe" data-num value="${s.rpe ?? ''}" placeholder="${ex.plan && ex.plan.rpe && s.kind !== 'W' ? ex.plan.rpe : '–'}" aria-label="RPE">
-      <button class="chk ${s.done && s.pr ? 'pr' : ''}" data-act="done" data-i="${i}" data-j="${j}" aria-pressed="${!!s.done}" aria-label="${s.done && s.pr ? 'Set done, new PR (' + s.pr + ')' : 'Mark set done'}">${ic(s.done && s.pr ? 'trophy' : 'check')}</button></div></div>`;
+      <button class="chk ${s.done && s.pr ? 'pr' : ''}" data-act="done" data-i="${i}" data-j="${j}" aria-pressed="${!!s.done}" aria-label="${s.done && s.pr ? 'Set done, new PR (' + s.pr + ')' : 'Mark set done'}">${ic(s.done && s.pr ? 'trophy' : 'check')}${S.rest && S.rest.at === i + '-' + j ? RRING : ''}</button></div></div>`;
     if (s.note && !(sel && S.ui.noteOpen === `s${i}-${j}`)) h += `<div class="setnote">${esc(s.note)}</div>`;
     if (sel && S.ui.noteOpen === `s${i}-${j}`) h += `<input id="sn-${i}-${j}" class="in" data-root="active" data-bind="${pfx}.note" value="${esc(s.note || '')}" placeholder="Note for set ${s.kind === 'W' ? '(warm-up)' : n}">`;
   });
@@ -2410,7 +2604,7 @@ function evalBlock(w, fresh) {
   const id = w.id, busy = S.ui.evalBusy[id], txt = S.ui.evalText[id], err = S.ui.evalErr[id];
   let h = `<div class="sec" id="evalsec"><span class="label">Claude's evaluation</span>`;
   if (w.evaluation && w.evaluation.text && !busy) h += `<div class="card">${md(w.evaluation.text)}</div>`;
-  else if (busy) h += `<div class="card" id="eval-${id}">${txt ? md(txt) : '<span class="sub">Thinking…</span>'}</div>`;
+  else if (busy) h += `<div class="card" id="eval-${id}">${txt ? md(txt) : `<span class="sub">Thinking…</span>${skeleton(4)}`}</div>`;
   else if (w.evalPending) h += `<div class="empty"><span>Waiting for a connection. It runs as soon as you're back online with the app open.</span></div>`;
   else {
     if (err) h += `<div class="sub warn">${esc(err)}</div>`;
@@ -2631,7 +2825,12 @@ function progBalance() {
   const avg = m => (m4.cnt[m] || 0) / nW, avgLbl = nW === 1 ? 'this week so far' : `${nW}-week avg`;
   const shown = MUSCLES.filter(m => (m !== 'Full body' && m !== 'Forearms') || wk.cnt[m] || m4.cnt[m]);
   const mx = Math.max(24, ...shown.map(m => Math.max(wk.cnt[m] || 0, avg(m))));
-  let h = `<div class="sec"><div class="sec-h"><span class="label">Working sets per muscle</span><span class="faint" style="font-size:12.5px">Last 7 days</span></div><div class="bal">${shown.map(m => {
+  // body map: each muscle shaded by its sets in the last 7 days, full colour at the top of its target range
+  const lvl = {}; for (const m of MUSCLES) lvl[m] = Math.min(1, (wk.cnt[m] || 0) / setTarget(m)[1]);
+  const bsel = MUSCLES.includes(S.ui.balM) ? S.ui.balM : null, bv = bsel ? wk.cnt[bsel] || 0 : 0, [blo, bhi] = bsel ? setTarget(bsel) : [0, 0];
+  const cap = bsel ? `<b>${bsel}</b> · ${bv} set${bv === 1 ? '' : 's'} in the last 7 days · <span class="${bv < blo ? 'warn' : bv > bhi ? '' : 'good'}">${bv < blo ? 'below' : bv > bhi ? 'above' : 'inside'} the ${blo}–${bhi} target</span>` : '<span class="sub">Tap a muscle to see its sets</span>';
+  let h = `<div class="sec"><span class="label">This week on the body</span><div class="bmap">${bodyMap({ level: lvl, sel: bsel, act: 'balm', aria: 'Working sets per muscle in the last 7 days', label: m => `${wk.cnt[m] || 0} sets` })}<div class="bmcap">${cap}</div><div class="bmleg"><span>0 sets</span><i></i><span>Top of target</span></div></div></div>`;
+  h += `<div class="sec"><div class="sec-h"><span class="label">Working sets per muscle</span><span class="faint" style="font-size:12.5px">Last 7 days</span></div><div class="bal">${shown.map(m => {
     const v = wk.cnt[m] || 0, a = avg(m), [lo, hi] = setTarget(m);
     return `<div class="hb2" role="img" aria-label="${m}: ${v} sets in the last 7 days, ${avgLbl} ${fmtNum(a, 1)}, target ${lo} to ${hi}"><span>${m}</span><span class="tr"><span class="zone" style="left:${lo / mx * 100}%;width:${(hi - lo) / mx * 100}%"></span><span class="fill" style="width:${Math.min(100, v / mx * 100)}%"></span>${nW > 1 ? `<span class="avg" style="left:${Math.min(100, a / mx * 100)}%"></span>` : ''}</span><span class="v"><b>${v}</b>${nW > 1 ? `<small>avg ${fmtNum(a, a < 10 ? 1 : 0)}</small>` : ''}</span></div>`;
   }).join('')}</div><div class="legend"><span><i></i>Last 7 days</span>${nW > 1 ? `<span><i class="tick"></i>${nW}-week average</span>` : ''}<span><i class="band"></i>Target (10–20 big muscles, 6–12 small)</span></div></div>`;
@@ -2655,7 +2854,7 @@ function progBalance() {
 function vProg() {
   const tab = S.ui.prog;
   let h = `<div class="seg" role="group" aria-label="Progression view">${[['strength', 'Strength'], ['balance', 'Balance'], ['cardio', 'Cardio'], ['body', 'Body']].map(([k, l]) => `<button data-act="progtab" data-k="${k}" aria-pressed="${tab === k}">${l}</button>`).join('')}</div>`;
-  h += loadingBox();
+  if (firstLoad()) return h + skeleton('prog');
   if (tab === 'strength') h += progStrength();
   else if (tab === 'balance') h += progBalance();
   else if (tab === 'cardio') h += progCardio();
@@ -2677,7 +2876,7 @@ function progStrength() {
   // weekly volume
   const mon = mondayOf(ymd()), bars = [];
   for (let i = 11; i >= 0; i--) { const m = addDays(mon, -7 * i); bars.push({ label: fmtShort(m).replace(' ', ' '), v: weekStats(m).vol }); }
-  h += `<div class="sec"><span class="label">Weekly volume (lb, working sets)</span>${barChart({ bars, yFmt: v => v >= 1000 ? fmtNum(v / 1000) + 'k' : fmtNum(v), label: 'Weekly lifting volume, last 12 weeks' })}</div>`;
+  h += `<div class="sec"><span class="label">Weekly volume (lb, working sets)</span>${barChart({ bars, yFmt: v => v >= 1000 ? fmtNum(v / 1000) + 'k' : fmtNum(v), name: 'Volume (lb)', tipPrefix: 'Week of ', label: 'Weekly lifting volume, last 12 weeks' })}</div>`;
   // PR board
   h += `<div class="sec"><div class="sec-h"><span class="label">PR board</span><button class="link" data-act="prs">All PRs (${prLog().length})</button></div><div class="scrollx"><table class="tbl"><thead><tr><th>Lift</th><th class="r">Top set</th><th class="r">e1RM</th><th class="r">Date</th></tr></thead><tbody>${lifts.slice(0, 12).map(l => { const hs = exHist(l.name).filter(x => x.ws.length); if (!hs.length) return ''; const hv = hs.reduce((a, x) => x.top > a.top ? x : a, hs[0]); const topSet = hv.ws.filter(s => (s.lb || 0) === hv.top).sort((a, b) => b.reps - a.reps)[0]; const be = hs.reduce((a, x) => x.best > a.best ? x : a, hs[0]); return `<tr><td>${esc(l.name)}</td><td class="r">${hv.top ? fmtNum(hv.top) + '×' + topSet.reps : (Math.max(...hs.map(x => x.maxReps)) + ' reps')}</td><td class="r">${be.best ? fmtNum(be.best) : '–'}</td><td class="r faint">${fmtShort(be.best ? be.date : hv.date)}</td></tr>`; }).join('')}</tbody></table></div></div>`;
   const st = stalled();
@@ -2694,7 +2893,7 @@ function liftDetail(name) {
   const lines = [{ pts: s, cls: '', marks: s.length < 30, end: true }];
   let band = null;
   if (f) { lines.push({ pts: [[Math.max(s.at(-1)[0], today), f.cur], ...f.points.map(p => [p.x, p.mid])], cls: 'proj' }); band = [[Math.max(s.at(-1)[0], today), f.cur, f.cur], ...f.points.map(p => [p.x, p.lo, p.hi])]; }
-  h += lineChart({ lines, band, label: `${name} estimated 1RM over time with 6-month forecast` });
+  h += lineChart({ lines, band, name: bw ? 'Best reps' : 'Est. 1RM', label: `${name} estimated 1RM over time with 6-month forecast` });
   h += `<div class="legend"><span><i></i>${bw ? 'Best reps' : 'Est. 1RM'} per session</span>${f ? '<span><i class="dash"></i>Forecast</span><span><i class="band"></i>Likely range</span>' : ''}</div>`;
   if (f) h += `<div class="stats"><div class="stat"><b class="fc">${fcRange(f.points[0])}</b><span>In 1 month</span></div><div class="stat"><b class="fc">${fcRange(f.points[2])}</b><span>In 3 months</span></div><div class="stat"><b class="fc">${fcRange(f.points[5])}</b><span>In 6 months</span></div></div>`;
   else h += `<span class="sub">Forecasts start after 3 sessions.</span>`;
@@ -2721,6 +2920,7 @@ function vPRs() {
 function vExercise(name) {
   const f = isFav(name), info = exInfo(name), own = (settings().incEx || {})[name] > 0;
   return `<div class="sec"><div class="sec-h"><span class="sub">${esc(info.muscle)}${info.equip ? ' · ' + esc(info.equip) : ''}</span><button class="btn sm ${f ? '' : 'ghost'}" data-act="fav" data-name="${esc(name)}" aria-pressed="${f}">${ic('star', f ? 'fill' : '')}${f ? 'Favourite' : 'Add to favourites'}</button></div>
+    <div class="bmap" style="padding:4px 0 8px">${bodyMap({ sel: info.muscle, aria: `Main muscle: ${info.muscle}` })}</div>
     <div class="card slist">${srow('Add per step', own ? `Your amount for this lift (default ${fmtNum(incAuto(name), 1)} lb)` : `Default for ${info.lower ? 'lower' : 'upper'}-body lifts. Change it for just this lift`, `<span class="ctl2" style="align-items:center">${own ? `<button class="link" data-act="incexclear" data-name="${esc(name)}">Reset</button>` : ''}<div class="pm"><button data-act="incex" data-name="${esc(name)}" data-d="-1" aria-label="Less">−</button><b>${fmtNum(incFor(name), 1)} lb</b><button data-act="incex" data-name="${esc(name)}" data-d="1" aria-label="More">+</button></div></span>`)}</div>
     ${liftDetail(name)}</div>`;
 }
@@ -2739,13 +2939,13 @@ function progCardio() {
   const bars = [];
   for (let i = 11; i >= 0; i--) { const m = addDays(mon, -7 * i); bars.push({ label: fmtShort(m).replace(' ', ' '), v: kmBy(weekStats(m), sp) }); }
   const gk = goalOf(sp) && (sp === 'swim' ? goalOf(sp) / 1000 : goalOf(sp));
-  h += `<div class="sec"><span class="label">${cfg.label} distance per week (km)</span>${barChart({ bars, goal: gk, yFmt: v => fmtNum(v, 1), label: `${cfg.label} weekly distance, last 12 weeks` })}${gk ? `<div class="legend"><span><i class="mute" style="height:0;border-top:2px dashed var(--fg);background:none"></i>Weekly goal</span></div>` : ''}</div>`;
+  h += `<div class="sec"><span class="label">${cfg.label} distance per week (km)</span>${barChart({ bars, goal: gk, yFmt: v => fmtNum(v, 1), name: 'Distance (km)', tipPrefix: 'Week of ', label: `${cfg.label} weekly distance, last 12 weeks` })}${gk ? `<div class="legend"><span><i class="mute" style="height:0;border-top:2px dashed var(--fg);background:none"></i>Weekly goal</span></div>` : ''}</div>`;
   h += cardioZones(sp, mon);
   const s = cardioSeries(sp), f = cardioForecast(sp);
   if (s.length) {
     const lines = [{ pts: s, marks: s.length < 30, end: true }]; let band = null; const t0 = dix(today);
     if (f) { lines.push({ pts: [[Math.max(s.at(-1)[0], t0), f.cur], ...f.points.map(p => [p.x, p.mid])], cls: 'proj' }); band = [[Math.max(s.at(-1)[0], t0), f.cur, f.cur], ...f.points.map(p => [p.x, p.lo, p.hi])]; }
-    h += `<div class="sec"><span class="label">${cfg.label} ${cfg.metric.toLowerCase()} (${cfg.unit})${cfg.lower ? ' · higher on the chart is faster' : ''}</span>${lineChart({ lines, band, invert: cfg.lower, yFmt: cfg.fmt, label: `${cfg.label} ${cfg.metric} trend with forecast` })}<div class="legend"><span><i></i>Per session</span>${f ? '<span><i class="dash"></i>Forecast</span><span><i class="band"></i>Likely range</span>' : ''}</div>`;
+    h += `<div class="sec"><span class="label">${cfg.label} ${cfg.metric.toLowerCase()} (${cfg.unit})${cfg.lower ? ' · higher on the chart is faster' : ''}</span>${lineChart({ lines, band, invert: cfg.lower, yFmt: cfg.fmt, name: cfg.metric, label: `${cfg.label} ${cfg.metric} trend with forecast` })}<div class="legend"><span><i></i>Per session</span>${f ? '<span><i class="dash"></i>Forecast</span><span><i class="band"></i>Likely range</span>' : ''}</div>`;
     const lo = p => cfg.lower ? cfg.fmt(p.hi) + '–' + cfg.fmt(p.lo) : cfg.fmt(p.lo) + '–' + cfg.fmt(p.hi);
     if (f) h += `<div class="stats"><div class="stat"><b class="fc">${lo(f.points[0])}</b><span>Avg ${cfg.metric.toLowerCase()} in 1 mo</span></div><div class="stat"><b class="fc">${lo(f.points[2])}</b><span>In 3 mo</span></div><div class="stat"><b class="fc">${lo(f.points[5])}</b><span>In 6 mo</span></div></div>`;
     const best = cfg.lower ? Math.min(...s.map(p => p[1])) : Math.max(...s.map(p => p[1]));
@@ -2769,7 +2969,7 @@ function cardioZones(sp, mon) {
   let h = `<div class="sec"><span class="label">${cfg.label} · time in heart rate zones (min per week)</span>`;
   if (any) {
     const last4 = bars.slice(-4).reduce((a, b) => { b.parts.forEach((p, k) => a[k] += p[0]); return a; }, [0, 0, 0, 0, 0]), tot = last4.reduce((a, b) => a + b, 0);
-    h += stackChart({ bars, yFmt: v => fmtNum(v), label: `${cfg.label} minutes per heart rate zone, last 8 weeks` });
+    h += stackChart({ bars, yFmt: v => fmtNum(v), name: 'Minutes', tipPrefix: 'Week of ', partName: c => c.toUpperCase(), label: `${cfg.label} minutes per heart rate zone, last 8 weeks` });
     h += `<div class="zleg">${ZONE_NAMES.map((n, k) => `<span><i class="z${k + 1}"></i>Z${k + 1} ${n}</span>`).join('')}</div>`;
     if (tot) { const easy = Math.round((last4[0] + last4[1]) / tot * 100); h += `<span class="sub">Last 4 weeks: <b>${easy}% easy</b> (zones 1–2), ${100 - easy}% moderate to hard. ${easy >= 75 ? 'A good base for building fitness.' : 'Most endurance plans keep about 80% easy, so slow a few sessions down.'}</span>`; }
   } else h += `<div class="empty" style="padding:14px"><span>Zones fill in when your watch streams heart rate during a session, or when you type in the minutes per zone from Garmin.</span></div>`;
@@ -2802,7 +3002,7 @@ function progBody() {
     const f = forecast(wa.map(p => [p.x, p.avg]), { exp: 0, damp: 0.8, uPerMonth: 0.006, window: 42 });
     const lines = [{ pts: wa.map(p => [p.x, p.avg]), end: true }]; let band = null;
     if (f) { const t0 = Math.max(wa.at(-1).x, dix(today)); lines.push({ pts: [[t0, f.cur], ...f.points.map(p => [p.x, p.mid])], cls: 'proj' }); band = [[t0, f.cur, f.cur], ...f.points.map(p => [p.x, p.lo, p.hi])]; }
-    h += `<div class="sec"><span class="label">Body weight (lb)</span>${lineChart({ lines, band, dots: wa.map(p => [p.x, p.raw]), yFmt: v => fmtNum(v), label: 'Body weight with 7-day average and forecast' })}<div class="legend"><span><i></i>7-day average</span><span><i class="mute" style="width:6px;height:6px;border-radius:50%"></i>Weigh-ins</span>${f ? '<span><i class="dash"></i>Trend forecast</span>' : ''}</div>`;
+    h += `<div class="sec"><span class="label">Body weight (lb)</span>${lineChart({ lines, band, dots: wa.map(p => [p.x, p.raw]), yFmt: v => fmtNum(v), name: '7-day avg', dotName: 'Weigh-in', label: 'Body weight with 7-day average and forecast' })}<div class="legend"><span><i></i>7-day average</span><span><i class="mute" style="width:6px;height:6px;border-radius:50%"></i>Weigh-ins</span>${f ? '<span><i class="dash"></i>Trend forecast</span>' : ''}</div>`;
     if (f) h += `<div class="stats"><div class="stat"><b class="fc">${fcRange(f.points[0], v => fmtNum(v))}</b><span>In 1 month</span></div><div class="stat"><b class="fc">${fcRange(f.points[2], v => fmtNum(v))}</b><span>In 3 months</span></div><div class="stat"><b class="fc">${fcRange(f.points[5], v => fmtNum(v))}</b><span>In 6 months</span></div></div><span class="sub">The weight forecast follows your recent trend and flattens out over time. It doesn't assume any diet change.</span>`;
     h += `</div>`;
   } else {
@@ -2814,7 +3014,7 @@ function progBody() {
     else pts = bl.filter(b => b.meas && b.meas[sel] != null).map(b => [dix(b.date), b.meas[sel]]);
     const cm = sel.startsWith('cm:') ? um.find(m => 'cm:' + m.id === sel) : null;
     const unit = cm ? cm.unit : sel === 'bodyFat' ? '%' : sel === 'lean' ? 'lb' : 'in';
-    h += pts.length ? `<div class="sec"><span class="label">${esc(label)}${unit ? ` (${esc(unit)})` : ''}</span>${lineChart({ lines: [{ pts, marks: true, end: true }], yFmt: v => fmtNum(v, 1), label: `${label} over time` })}<span class="sub">Latest ${fmtNum(pts.at(-1)[1], 1)}${unit ? ' ' + esc(unit) : ''}${pts.length > 1 ? `, ${sgn(pts.at(-1)[1] - pts[0][1])} since ${fmtShort(ixd(pts[0][0]))}` : ''}.</span></div>` : `<div class="empty">No ${esc(label.toLowerCase())} entries yet.</div>`;
+    h += pts.length ? `<div class="sec"><span class="label">${esc(label)}${unit ? ` (${esc(unit)})` : ''}</span>${lineChart({ lines: [{ pts, marks: true, end: true }], yFmt: v => fmtNum(v, 1), name: label, label: `${label} over time` })}<span class="sub">Latest ${fmtNum(pts.at(-1)[1], 1)}${unit ? ' ' + esc(unit) : ''}${pts.length > 1 ? `, ${sgn(pts.at(-1)[1] - pts[0][1])} since ${fmtShort(ixd(pts[0][0]))}` : ''}.</span></div>` : `<div class="empty">No ${esc(label.toLowerCase())} entries yet.</div>`;
   }
   // measurements table
   const mrows = MEAS.map(([k, l]) => { const e = bl.filter(b => b.meas && b.meas[k] != null); if (!e.length) return ''; const last = e.at(-1), first = e[0]; return `<tr><td>${esc(l)}</td><td class="r"><b>${fmtNum(last.meas[k], 2)}</b></td><td class="r">${e.length > 1 ? sgn(last.meas[k] - first.meas[k]) : '–'}</td><td class="r faint">${fmtShort(last.date)}</td></tr>`; }).join('');
@@ -2876,6 +3076,7 @@ function vSettings() {
     ${srow('Rest, accessories', 'Each exercise can override these', restPm('restAccessory'))}
     ${slink('pprog', 'Progression rules', 'prog')}
     ${slink('ppr', 'Personal records', 'trophy')}
+    ${srow('Full-screen rest timer', 'A big countdown while you rest. Tap the arrow to shrink it', swc('restFull', st.restFull === true, 'Full-screen rest timer'))}
     ${srow('Sound when rest ends', 'Vibrates too', swc('sound', st.sound, 'Sound when rest ends'))}
     ${srow('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'))}
     ${srow('Auto warm-ups', 'Compound lifts start with a warm-up ramp to your first working weight', swc('autoWarm', st.autoWarm, 'Auto warm-ups'))}
@@ -2889,6 +3090,7 @@ function vSettings() {
     ${srow('Claude requests', aiSummary(), '')}</div></div>`;
   h += `<div class="sec"><span class="label">Time zone</span><div class="card slist"><div class="srow col"><span class="grow"><span class="t">Time zone</span><span class="sub">Your check-in and workout reminders follow it</span></span>${tzSelect()}</div></div></div>`;
   h += `<div class="sec"><span class="label">Alerts and devices</span><div class="card slist">${slink('pnotif', 'Notifications', 'bell')}${slink('phr', 'Heart rate monitor', 'heart')}</div></div>`;
+  h += `<div class="sec"><span class="label">Help</span><div class="card slist">${srow('Feature tips', 'Short tips the first time you meet a feature', '<button class="btn sm" data-act="tipsreset">Show again</button>')}</div></div>`;
   h += `<div class="sec"><span class="label">Account</span><div class="card slist">${slink('pdata', 'Data and account', 'cloud')}</div></div>`;
   h += `<span class="sub" style="text-align:center">Units: pounds, kilometres, pool metres, inches.</span><div class="brand">${ic('fibre')}<span>Engine</span></div>`;
   return h;
@@ -3025,7 +3227,7 @@ const sampleCount = () => COLS.reduce((n, c) => n + [...S[c].values()].filter(d 
 // Photos live in a private storage bucket; the backend hands out signed links and caches them on the phone.
 function photoImg(id, alt) {
   const src = window.engine ? engine.photoUrl(id) : '/_blob/' + id;
-  return src ? `<img src="${esc(src)}" alt="${esc(alt)}">` : `<span class="wait">${navigator.onLine ? 'Loading…' : 'Offline'}</span>`;
+  return src ? `<img src="${esc(src)}" alt="${esc(alt)}">` : navigator.onLine ? '<span class="skel" style="position:absolute;inset:0;border-radius:0"></span>' : '<span class="wait">Offline</span>';
 }
 window.addEventListener('engine:photo', () => schedule());
 function photosCard() {
@@ -3104,7 +3306,7 @@ function sheet() {
     return `<div class="sheet-h"><h2 id="sheet-t" tabindex="-1">Workout in progress</h2></div><div class="sheet-b"><p>You already have <b>${esc(S.active.title || TYPES[S.active.type])}</b> running. What do you want to do?</p><div class="btnrow"><button class="btn primary" data-act="resume">Resume it</button></div><button class="btn danger" data-act="replaceactive">Discard it and start the new one</button><button class="btn ghost" data-act="closesheet">Cancel</button></div>`;
   }
   const stretch = isStretchPick(sh), multi = isMultiPick(sh);
-  const filters = stretch ? '' : `<div class="grid2"><select id="pick-fm" class="in" data-act-change="pickfm" aria-label="Filter by muscle"><option value="">All muscles</option>${[...MUSCLES, 'Other'].map(m => `<option ${sh.fm === m ? 'selected' : ''}>${m}</option>`).join('')}</select><select id="pick-fe" class="in" data-act-change="pickfe" aria-label="Filter by equipment"><option value="">All equipment</option>${EQUIP.map(x => `<option ${sh.fe === x ? 'selected' : ''}>${x}</option>`).join('')}</select></div>`;
+  const filters = stretch ? '' : `<div class="grid2"><select id="pick-fm" class="in" data-act-change="pickfm" aria-label="Filter by muscle"><option value="">All muscles</option>${[...MUSCLES, 'Other'].map(m => `<option ${sh.fm === m ? 'selected' : ''}>${m}</option>`).join('')}</select><select id="pick-fe" class="in" data-act-change="pickfe" aria-label="Filter by equipment"><option value="">All equipment</option>${EQUIP.map(x => `<option ${sh.fe === x ? 'selected' : ''}>${x}</option>`).join('')}</select></div><div id="pick-map">${pickMap()}</div>`;
   return `<div class="sheet-h"><button class="icon" data-act="closesheet" aria-label="Close">${ic('x')}</button><h2 id="sheet-t" tabindex="-1">${stretch ? 'Add stretches' : sh.mode.includes('swap') ? 'Swap exercise' : 'Add exercises'}</h2></div>
     <div class="sheet-b"><input id="pick-q" class="in" type="search" placeholder="Search" value="${esc(sh.q || '')}" data-pickq autocomplete="off">${filters}<div id="pick-list">${pickList()}</div></div>
     ${multi ? `<div class="sheet-f" id="pick-bar">${pickBar()}</div>` : ''}`;
@@ -3151,8 +3353,13 @@ function pickList() {
   if (q && !lib.some(e => e.name.toLowerCase() === q)) h += S.ui.customForm ? customFormHtml('pick') : `<button class="btn" style="margin-top:12px" data-act="customform">Create “${esc(sh.q.trim())}”</button>`;
   return h;
 }
-// Redraw only the list and bar so the sheet keeps its scroll position.
-function refreshPick() { const l = $('#pick-list'); if (l) l.innerHTML = pickList(); const b = $('#pick-bar'); if (b) b.innerHTML = pickBar(); }
+// Tap a muscle on the figure to filter the list to it; tap it again to clear.
+function pickMap() {
+  const on = LS.get('ft.pickMap', true), sh = S.ui.sheet;
+  return `<div class="pmap">${on ? bodyMap({ sel: sh.fm, act: 'pickm', aria: 'Filter by muscle' }) : ''}<button class="btn sm ghost" data-act="pickmap" style="align-self:center">${ic('body')}${on ? 'Hide body map' : 'Show body map'}</button></div>`;
+}
+// Redraw only the list, bar and map so the sheet keeps its scroll position.
+function refreshPick() { const l = $('#pick-list'); if (l) l.innerHTML = pickList(); const b = $('#pick-bar'); if (b) b.innerHTML = pickBar(); const m = $('#pick-map'); if (m) m.innerHTML = pickMap(); const f = $('#pick-fm'); if (f) f.value = S.ui.sheet.fm || ''; }
 function togglePick(name) { const sel = S.ui.sheet.sel, k = sel.indexOf(name); if (k >= 0) sel.splice(k, 1); else sel.push(name); refreshPick(); }
 const stretchItem = name => ({ name, holdSec: 45, sides: /hip|pigeon|lunge|quad|calf|hamstring|shoulder|sleeper|thread|figure|lat|triceps|neck|90\/90|spiderman|world/i.test(name) });
 function addPicked() {
@@ -3210,7 +3417,36 @@ document.addEventListener('change', e => {
   if (t.dataset.bind && (t.tagName === 'SELECT' || t.type === 'checkbox' || t.type === 'date')) bindInput(t);
   const ac = t.dataset.actChange; if (ac && C[ac]) C[ac](t);
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.ui.sheet) A.closesheet(); });
+document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!$('#dlg').hidden) sheetClose($('#dlg')); else if (S.ui.sheet) A.closesheet(); });
+// Dragging a sheet down: from its handle or header (or anywhere on a short dialog); let go far or fast enough and it closes.
+let bs = null;
+function sheetClose(el) { if (el.id === 'sheet') A.closesheet(); else { const f = A[el.dataset.close]; if (f) f({}); } }
+function sheetDismiss(el) {
+  const p = el.querySelector('.bsp'), done = () => sheetClose(el);
+  if (!p || !p.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return done();
+  p.style.transition = 'none';
+  p.animate([{ transform: p.style.transform || 'translateY(0)' }, { transform: 'translateY(100%)' }], { duration: 180, easing: 'ease-in', fill: 'forwards' }).finished.then(done, done);
+}
+document.addEventListener('pointerdown', e => {
+  const el = e.target.closest && e.target.closest('.sheet'), p = el && el.querySelector('.bsp');
+  if (!p || !p.contains(e.target) || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  if (!e.target.closest('.grab, .sheet-h') && !(el.id === 'dlg' && !e.target.closest('input, select, textarea'))) return;
+  bs = { el, p, id: e.pointerId, y: e.clientY, dy: 0, t: Date.now(), on: false };
+}, { passive: true });
+document.addEventListener('pointermove', e => {
+  if (!bs || e.pointerId !== bs.id) return;
+  const dy = e.clientY - bs.y;
+  if (!bs.on) { if (dy < -8) { bs = null; return; } if (dy < 8) return; bs.on = true; bs.p.style.transition = 'none'; }
+  bs.dy = Math.max(0, dy); bs.p.style.transform = `translateY(${bs.dy}px)`;
+}, { passive: true });
+['pointerup', 'pointercancel'].forEach(t => document.addEventListener(t, e => {
+  if (!bs || e.pointerId !== bs.id) return;
+  const g = bs; bs = null; if (!g.on) return;
+  swEnd = Date.now();
+  if (t === 'pointerup' && (g.dy > 110 || (g.dy > 40 && g.dy / (Date.now() - g.t) > 0.5))) sheetDismiss(g.el);
+  else { g.p.style.transition = ''; g.p.style.transform = ''; }
+}));
+document.addEventListener('click', e => { if (e.target.classList && e.target.classList.contains('sheet')) sheetDismiss(e.target); });
 document.addEventListener('focusin', e => {
   const t = e.target;
   if (t.dataset && t.dataset.root === 'active' && S.active) undoField = { id: t.id, v: t.type === 'checkbox' ? t.checked : t.value, a: clone(S.active) };
@@ -3246,6 +3482,54 @@ function swUp(e) {
   swEnd = Date.now();
 }
 document.addEventListener('pointerup', swUp); document.addEventListener('pointercancel', swUp);
+// Pull to refresh on Today and Progression: drag down from the top of the page to fetch the latest from your account.
+const PTR_GO = 64;
+let ptr = null, ptrBusy = false;
+const ptrOn = () => !S.ui.auth && !S.ui.sheet && $('#dlg').hidden && !S.ui.stack.length && !(S.ui.inLog && S.active) && (S.ui.tab === 'today' || S.ui.tab === 'prog');
+function ptrShow(d, cls) { const el = $('#ptr'); if (!el.firstChild) el.innerHTML = ic('refresh'); el.className = 'ptr ' + (cls || ''); el.style.transform = `translateY(${d - 60}px)`; el.style.opacity = Math.min(1, d / 40); el.firstChild.style.transform = cls === 'busy' ? '' : `rotate(${d * 4}deg)`; }
+document.addEventListener('touchstart', e => {
+  ptr = null; if (ptrBusy || !ptrOn() || window.scrollY > 2 || e.touches.length > 1 || e.target.closest('svg.chart, .wipe, input, textarea, select, .swr')) return;
+  ptr = { x: e.touches[0].clientX, y: e.touches[0].clientY, d: 0, on: false };
+}, { passive: true });
+document.addEventListener('touchmove', e => {
+  if (!ptr) return;
+  const dx = e.touches[0].clientX - ptr.x, dy = e.touches[0].clientY - ptr.y;
+  if (!ptr.on) { if (dy < 10 || Math.abs(dx) > dy) { if (Math.abs(dx) > 10 || dy < -10) ptr = null; return; } if (window.scrollY > 2) { ptr = null; return; } ptr.on = true; }
+  ptr.d = Math.min(110, Math.max(0, dy - 10) * 0.55); ptrShow(ptr.d, ptr.d >= PTR_GO ? 'ready' : '');
+}, { passive: true });
+document.addEventListener('touchend', () => { const g = ptr; ptr = null; if (!g || !g.on) return; if (g.d >= PTR_GO) ptrRefresh(); else ptrShow(0, 'back'); });
+async function ptrRefresh() {
+  ptrBusy = true; ptrShow(PTR_GO, 'back busy');
+  const t0 = Date.now();
+  try { if (navigator.onLine) await Promise.race([Promise.all([flush(), window.engine && engine.reload ? engine.reload() : null]), new Promise(r => setTimeout(r, 8000))]); } catch (e) {}
+  await new Promise(r => setTimeout(r, Math.max(0, 600 - (Date.now() - t0))));
+  ptrBusy = false; memo.clear(); ptrShow(0, 'back'); render();
+  toast(navigator.onLine ? 'Up to date' : 'You\'re offline. Showing what\'s saved on this phone.', 1600);
+}
+// Chart scrubbing: press on a chart to see the nearest point, drag sideways to move along it; tapping elsewhere clears it.
+let chDrag = null;
+function chartAt(svg, clientX) {
+  const c = CH.get(svg.dataset.chart); if (!c || !c.tips.length) return;
+  const r = svg.getBoundingClientRect(), x = (clientX - r.left) / r.width * c.W;
+  let t = c.tips[0]; for (const q of c.tips) if (Math.abs(q.px - x) < Math.abs(t.px - x)) t = q;
+  if (svg.dataset.at === String(t.px)) return; svg.dataset.at = t.px;
+  const old = svg.querySelector('.hl'); if (old) old.remove();
+  const NS = 'http://www.w3.org/2000/svg', g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'hl');
+  g.innerHTML = `<line class="hl-l" x1="${t.px}" x2="${t.px}" y1="${c.T}" y2="${c.H - c.B}"/>${t.pys.map(y => `<circle class="hl-d" cx="${t.px}" cy="${y.toFixed(1)}" r="4.5"/>`).join('')}<rect class="hl-b" rx="6"/><text class="hl-t" y="${c.T + 16}"><tspan class="hl-h" x="0">${esc(t.title)}</tspan>${t.rows.map(rw => `<tspan x="0" dy="14">${esc(rw[0])} <tspan class="hl-v">${esc(rw[1])}</tspan></tspan>`).join('')}</text>`;
+  svg.appendChild(g);
+  const tx = g.querySelector('.hl-t'), bb = tx.getBBox(), pad = 7, w = bb.width + pad * 2;
+  let left = t.px + 10; if (left + w > c.W - 2) left = t.px - 10 - w; left = Math.max(c.L, left);
+  tx.querySelectorAll('tspan[x]').forEach(n => n.setAttribute('x', left + pad));
+  const rb = g.querySelector('.hl-b'); rb.setAttribute('x', left); rb.setAttribute('y', bb.y - 5); rb.setAttribute('width', w); rb.setAttribute('height', bb.height + 10);
+}
+function chartClear() { document.querySelectorAll('svg.chart .hl').forEach(g => { g.parentNode.removeAttribute('data-at'); g.remove(); }); }
+document.addEventListener('pointerdown', e => {
+  const svg = e.target.closest && e.target.closest('svg.chart[data-chart]');
+  if (!svg) { chartClear(); return; }
+  chDrag = { svg, id: e.pointerId }; chartAt(svg, e.clientX);
+}, { passive: true });
+document.addEventListener('pointermove', e => { if (chDrag && e.pointerId === chDrag.id) chartAt(chDrag.svg, e.clientX); }, { passive: true });
+['pointerup', 'pointercancel'].forEach(t => document.addEventListener(t, e => { if (chDrag && e.pointerId === chDrag.id) chDrag = null; }));
 // The click that ends a drag shouldn't also select the set or tick it.
 document.addEventListener('click', e => { if (Date.now() - swEnd < 350) { swEnd = 0; e.stopPropagation(); e.preventDefault(); } }, true);
 // Selecting a set only moves the highlight and the stepper; no re-render, so the keyboard stays open.
@@ -3324,7 +3608,7 @@ Object.assign(A, {
   },
   undo() { const f = undoFn; undoFn = null; $('#toast').hidden = true; if (f) f(); },
   cancel() { S.ui.confirm = null; render(); },
-  ask(d) { S.ui.confirm = d.k; render(); if (d.k === 'finish') setTimeout(() => { const el = $('#finishbox'); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 30); },
+  ask(d) { S.ui.confirm = d.k; render(); },
   statusinfo() { toast(!S.net.online ? `You're offline. ${outbox.length ? outbox.length + ' change' + (outbox.length === 1 ? ' is' : 's are') + ' saved on this phone and' : 'Everything is saved on this phone and new changes'} sync when you reconnect.` : outbox.length ? 'Sending your latest changes…' : S.net.lastErr || (S.net.dbFailed ? 'Engine can\'t reach your synced data right now. Changes stay on this phone.' : 'All changes saved to your account' + (S.net.savedAt ? ` · last save ${new Date(S.net.savedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : '') + '.')); },
   session(d) { go('session', { id: d.id }); },
   day(d) { S.ui.day = d.d === ymd() ? null : d.d; render(); },
@@ -3395,7 +3679,7 @@ Object.assign(A, {
     const restSec = g ? xs[g.end].restSec : ex.restSec;
     if (!say) haptic(g ? (midRound ? 'tick' : 'round') : ex.sets.every(x => x.done) ? 'round' : 'tick');
     if (midRound) { S.rest = null; tick(); toast(`Next: ${nextName}`, 1800); }
-    else if (xs.some(e2 => e2.sets.some(x => !x.done))) { $('#toast').hidden = true; startRest(s.kind === 'W' ? Math.min(60, restSec) : restSec, `Next: ${nextName}`); }
+    else if (xs.some(e2 => e2.sets.some(x => !x.done))) { $('#toast').hidden = true; startRest(s.kind === 'W' ? Math.min(60, restSec) : restSec, `Next: ${nextName}`, i + '-' + j); }
     saveActive(); render();
     const ck = $(`.set[data-i="${i}"][data-j="${j}"] .chk`); if (ck) ck.classList.add('pop');
     if (g && ni >= 0 && ni !== i) setTimeout(() => { const el = $(`#ex-${ni} .set.sel`); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 30);
@@ -3423,6 +3707,7 @@ Object.assign(A, {
   addwarm(d) { snap('add warm-up'); const ex = S.active.exercises[+d.i]; const w = ex.sets.find(x => x.kind !== 'W'); const nW = ex.sets.filter(x => x.kind === 'W').length; const st = settings().stepLb; const lb = w && w.lb ? Math.max(0, roundTo(w.lb * (0.5 + 0.2 * nW), st)) : null; ex.sets.splice(nW, 0, { kind: 'W', lb, reps: nW ? 3 : 5, rpe: null, done: false, tLb: lb }); S.ui.sel = { e: +d.i, s: nW }; saveActive(); render(); },
   setnote(d) { const i = +d.i; if (S.ui.sel.e !== i) S.ui.sel = { e: i, s: Math.max(0, S.active.exercises[i].sets.findIndex(x => !x.done)) }; const k = `s${S.ui.sel.e}-${S.ui.sel.s}`; S.ui.noteOpen = S.ui.noteOpen === k ? null : k; render(); setTimeout(() => { const el = document.getElementById(`sn-${S.ui.sel.e}-${S.ui.sel.s}`); if (el) el.focus(); }, 30); },
   exmenu(d) { S.ui.exMenu = S.ui.exMenu === +d.i ? null : +d.i; S.ui.confirm = null; render(); },
+  exmenuclose() { S.ui.exMenu = null; S.ui.confirm = null; render(); },
   exmove(d) { const i = +d.i, j = i + +d.d, xs = S.active.exercises; if (j < 0 || j >= xs.length) return; snap('move exercise'); [xs[i], xs[j]] = [xs[j], xs[i]]; normGroups(xs); S.ui.exMenu = j; S.ui.sel = { e: -1, s: -1 }; saveActive(); render(); },
   exlink(d) { snap('superset'); toggleLink(S.active.exercises, +d.i); S.ui.exMenu = null; saveActive(); render(); },
   exunlink(d) { snap('superset'); const xs = S.active.exercises, i = +d.i; delete xs[i].group; normGroups(xs); S.ui.exMenu = null; saveActive(); render(); },
@@ -3431,6 +3716,8 @@ Object.assign(A, {
   exdel(d) { const nm = S.active.exercises[+d.i].name; snap('remove exercise'); S.active.exercises.splice(+d.i, 1); normGroups(S.active.exercises); S.ui.exMenu = null; S.ui.confirm = null; S.ui.sel = { e: -1, s: -1 }; saveActive(); render(); toast(`Removed ${nm}`, 5000, undoLast); },
   resttime(d) { if (S.rest) { S.rest.end += +d.d * 1000; S.rest.total += +d.d; S.rest.fired = false; tick(); } },
   restskip() { S.rest = null; tick(); },
+  restfull() { if (S.rest) { S.rest.full = true; tick(); } },
+  restmin() { if (S.rest) { S.rest.full = false; tick(); } },
   lstr(d) { snap('hold time', 'lstr' + d.j); const s = S.active.stretches[+d.j]; s.holdSec = clamp(s.holdSec + +d.d, 5, 600); saveActive(); render(); },
   routine(d) { const r = ROUTINES.find(x => x.id === d.id); if (!r) return; begin(fillSession({ id: uid('w'), type: 'stretch', title: r.name, date: ymd(), startedAt: Date.now(), notes: '', rpe: null }, { type: 'stretch', stretches: r.stretches })); },
   fastart() { const a = S.active, j = a.stretches.findIndex(s => !s.done); if (j < 0) return; S.rest = null; faSet('prep', j, 0); chime(); saveActive(); window.scrollTo(0, 0); render(); },
@@ -3441,9 +3728,14 @@ Object.assign(A, {
   hold(d) { const s = S.active.stretches[+d.j]; startRest(s.holdSec, `Hold: ${s.name}${s.sides ? ' (one side)' : ''}`); },
   strdone(d) { snap('stretch'); const s = S.active.stretches[+d.j]; s.done = !s.done; saveActive(); render(); },
   // picker
-  pick(d) { S.ui.sheet = { mode: d.mode, i: d.i != null ? +d.i : null, j: d.j != null ? +d.j : null, q: '', fm: '', fe: '', sel: [] }; S.ui.customForm = false; S.ui.form.custom = null; render(); },
+  pick(d) { S.ui.exMenu = null; S.ui.sheet = { mode: d.mode, i: d.i != null ? +d.i : null, j: d.j != null ? +d.j : null, q: '', fm: '', fe: '', sel: [] }; S.ui.customForm = false; S.ui.form.custom = null; render(); },
   pickadd() { addPicked(); },
   pickclear() { S.ui.sheet.sel = []; refreshPick(); },
+  pickm(d) { const sh = S.ui.sheet; sh.fm = sh.fm === d.m ? '' : d.m; S.ui.customForm = false; refreshPick(); },
+  pickmap() { LS.set('ft.pickMap', !LS.get('ft.pickMap', true)); refreshPick(); },
+  tipok(d) { tipSeen(d.id); },
+  tipsreset() { LS.del('ft.tips'); saveSetting({ tipsSeen: [] }); tipCur = null; toast('Tips will show again as you go'); },
+  balm(d) { S.ui.balM = S.ui.balM === d.m ? null : d.m; render(); },
   closesheet() { S.ui.sheet = null; S.ui.pendingStart = null; S.ui.customForm = false; render(); },
   pickex(d) { pickEx(d.name); },
   pickstretch(d) { const sh = S.ui.sheet; if (sh.q && d.name === sh.q.trim()) { sh.q = ''; const el = $('#pick-q'); if (el) el.value = ''; } togglePick(d.name); },
@@ -3646,23 +3938,109 @@ function applyLayout(st) {
   link('icon', dir + 'icon.svg'); link('apple-touch-icon', dir + 'apple-touch-icon.png');
 }
 
+/* ================= first-use tips ================= */
+// One short tip at a time, pointing at a feature the first time it's on screen. "Got it" (or using the feature) hides it for good on every device.
+const TIPS = [
+  { id: 'kind', sel: '.set .kind', text: 'Tap a set number to turn that set into a warm-up.' },
+  { id: 'swipe', sel: '.swr', text: 'Swipe a set to the left to delete it.' },
+  { id: 'exmenu', sel: '.ex-h [data-act=exmenu]', text: 'Exercise options: move, swap, superset, rest time and notes.' },
+  { id: 'restfs', sel: '#restbar .rx', text: 'Tap the timer to make it full screen.' },
+  { id: 'live', sel: '#livebar .lb-in', text: 'Your workout keeps running. Tap here to jump back in.' },
+  { id: 'week', sel: '.weekstrip .wd.today', text: 'Tap a day to see its plan. Pull down from the top to refresh.' },
+  { id: 'chart', sel: '#main svg.chart[data-chart]', text: 'Tap or drag along a chart to see the numbers for that day.' },
+  { id: 'balmap', sel: '#main svg.bm[role=group]', text: 'Tap a muscle to see its sets this week.' },
+  { id: 'pickmap', sel: '#sheet #pick-map svg.bm', text: 'Tap a muscle to show only its exercises.' }
+];
+let tipCur = null, tipT = null;
+const tipsSeen = () => new Set([...(settings().tipsSeen || []), ...LS.get('ft.tips', [])]);
+function tipSeen(id) {
+  const all = [...new Set([...tipsSeen(), id])]; LS.set('ft.tips', all);
+  if (!(settings().tipsSeen || []).includes(id)) saveSetting({ tipsSeen: all });
+  if (tipCur === id) { tipCur = null; $('#tip').hidden = true; clearTimeout(tipT); tipT = setTimeout(tipCheck, 1500); }
+}
+function tipTarget(t) {
+  const top = $('#hdr').getBoundingClientRect().bottom, nav = $('#nav'), bot = nav.hidden ? innerHeight : nav.getBoundingClientRect().top;
+  const inLayer = sel => /#sheet|#dlg/.test(sel);
+  if (!inLayer(t.sel) && (S.ui.sheet || !$('#dlg').hidden)) return null;
+  for (const el of document.querySelectorAll(t.sel)) {
+    if (el.closest('[hidden]')) continue;
+    const r = el.getBoundingClientRect();
+    if (r.width && r.top >= (el.closest('#sheet, #livebar, #restbar') ? 0 : top) && r.bottom <= (el.closest('#livebar, #restbar') ? innerHeight : bot)) return el;
+  }
+  return null;
+}
+function tipCheck() {
+  const tip = $('#tip');
+  if (S.ui.auth || S.net.loading || (S.rest && S.rest.full && S.ui.inLog)) { tip.hidden = true; return; }
+  const seen = tipsSeen();
+  let t = tipCur && TIPS.find(x => x.id === tipCur), el = t && tipTarget(t);
+  if (!el) { tipCur = null; for (const x of TIPS) if (!seen.has(x.id) && (el = tipTarget(x))) { t = x; break; } }
+  if (!el) { tip.hidden = true; return; }
+  if (tipCur !== t.id) { tipCur = t.id; tip.innerHTML = `<span>${esc(t.text)}</span><button data-act="tipok" data-id="${t.id}">Got it</button>`; tip.hidden = false; }
+  const r = el.getBoundingClientRect(), h = tip.offsetHeight, w = tip.offsetWidth, below = r.bottom + h + 14 < innerHeight - 70 && !el.closest('#livebar, #restbar');
+  tip.classList.toggle('below', below); tip.classList.toggle('above', !below);
+  tip.style.top = (below ? r.bottom + 10 : r.top - h - 10) + 'px';
+  const left = Math.max(16, Math.min(innerWidth - w - 16, r.left + r.width / 2 - w / 2));
+  tip.style.left = left + 'px'; tip.style.right = 'auto'; tip.style.margin = '0';
+  tip.style.setProperty('--ax', Math.max(18, Math.min(w - 18, r.left + r.width / 2 - left)) + 'px');
+}
+let tipRaf = 0;
+const tipSoon = () => { if (!tipRaf) tipRaf = requestAnimationFrame(() => { tipRaf = 0; tipCheck(); }); };
+addEventListener('scroll', tipSoon, true); addEventListener('resize', tipSoon);
+// Using the feature a tip points at counts as having seen it.
+document.addEventListener('click', e => { const t = tipCur && TIPS.find(x => x.id === tipCur); if (t && e.target.closest && e.target.closest(t.sel)) tipSeen(t.id); }, true);
+
 /* ================= timers, rest, sound, wake lock ================= */
-function startRest(sec, label) { S.rest = { end: Date.now() + sec * 1000, total: sec, label, fired: false }; tick(); }
+function startRest(sec, label, at) { S.rest = { end: Date.now() + sec * 1000, total: sec, label, fired: false, at: at || null, full: settings().restFull === true }; tick(); }
+// The ring that drains around the set you just ticked.
+const RRING = '<svg class="rring" id="rring" viewBox="0 0 54 54" aria-hidden="true"><rect x="1.5" y="1.5" width="51" height="51" rx="14" pathLength="100"/></svg>';
 function tick() {
   tickFollow();
   const el = $('#elapsed'); if (el && S.active) el.textContent = fmtHMS((Date.now() - S.active.startedAt) / 1000);
-  const rb = $('#restbar');
-  if (!S.rest || !(S.ui.inLog && S.active) || S.ui.auth) { rb.hidden = true; return; }
-  const left = (S.rest.end - Date.now()) / 1000;
-  if (left <= 0 && !S.rest.fired) { S.rest.fired = true; buzz(); }
-  if (left < -8) { S.rest = null; rb.hidden = true; return; }
-  rb.hidden = false;
+  let left = 0;
+  if (S.rest && S.active) {
+    left = (S.rest.end - Date.now()) / 1000;
+    if (left <= 0 && !S.rest.fired) { S.rest.fired = true; buzz(); }
+    if (left < -8) S.rest = null;
+  }
+  tickLive(left);
+  const rb = $('#restbar'), fs = $('#restfs'), ring = $('#rring');
+  if (!S.rest || !(S.ui.inLog && S.active) || S.ui.auth) { rb.hidden = true; fs.hidden = true; if (ring && !S.rest) ring.remove(); return; }
   const over = left <= 0;
-  rb.classList.toggle('over', over);
   const pct = over ? 100 : 100 - left / S.rest.total * 100;
   const t = over ? 'Go' : fmtClock(Math.ceil(left));
-  if (!rb.firstChild) rb.innerHTML = `<div class="prog" id="rb-p"></div><div class="in-r"><span class="t" id="rb-t"></span><span class="lbl" id="rb-l"></span><button class="btn sm" data-act="resttime" data-d="-5">−5s</button><button class="btn sm" data-act="resttime" data-d="15">+15s</button><button class="btn sm" data-act="restskip">Skip</button></div>`;
+  if (ring) { ring.style.strokeDashoffset = over ? 0 : pct; ring.classList.toggle('over', over); }
+  rb.hidden = !!S.rest.full; fs.hidden = !S.rest.full;
+  if (S.rest.full) {
+    if (!fs.firstChild) fs.innerHTML = `<div class="rf-top"><span class="eyebrow" id="rf-e"></span><button class="icon" data-act="restmin" aria-label="Shrink the rest timer">${ic('down')}</button></div><div class="rf-ring"><svg viewBox="0 0 200 200" aria-hidden="true"><circle class="bg" cx="100" cy="100" r="90"/><circle class="fg" id="rf-c" cx="100" cy="100" r="90" pathLength="100"/></svg><b id="rf-t"></b></div><div class="rf-n" id="rf-n"></div><div class="btnrow"><button class="btn" data-act="resttime" data-d="-5">−5s</button><button class="btn" data-act="resttime" data-d="15">+15s</button><button class="btn primary" data-act="restskip">Skip rest</button></div>`;
+    fs.classList.toggle('over', over);
+    $('#rf-c').style.strokeDashoffset = over ? 0 : pct; $('#rf-t').textContent = t;
+    $('#rf-e').textContent = over ? 'Rest is over' : 'Resting'; $('#rf-n').textContent = S.rest.label || '';
+    return;
+  }
+  rb.classList.toggle('over', over);
+  if (!rb.firstChild) rb.innerHTML = `<div class="prog" id="rb-p"></div><div class="in-r"><button class="rx" data-act="restfull" aria-label="Full-screen rest timer"><span class="t" id="rb-t"></span><span class="lbl" id="rb-l"></span>${ic('expand')}</button><button class="btn sm" data-act="resttime" data-d="-5">−5s</button><button class="btn sm" data-act="resttime" data-d="15">+15s</button><button class="btn sm" data-act="restskip">Skip</button></div>`;
   $('#rb-p').style.width = pct + '%'; $('#rb-t').textContent = t; $('#rb-l').textContent = over ? 'Rest is over' : (S.rest.label || 'Rest');
+}
+// While a workout runs and you're elsewhere in the app, a bar above the tabs shows the clock and what's next; tap it to go back.
+function liveNow(a) {
+  if (a.type === 'stretch') { const st = (a.stretches || []).find(x => !x.done); return st ? st.name : 'All stretches done'; }
+  if (a.type !== 'strength') return TYPES[a.type];
+  const xs = a.exercises, sel = S.ui.sel;
+  let e = xs[sel.e] && xs[sel.e].sets[sel.s] && !xs[sel.e].sets[sel.s].done ? sel.e : xs.findIndex(x => x.sets.some(y => !y.done));
+  if (e < 0) return xs.length ? 'All sets done' : 'No exercises yet';
+  const ex = xs[e], s = e === sel.e && ex.sets[sel.s] && !ex.sets[sel.s].done ? ex.sets[sel.s] : ex.sets.find(y => !y.done), wk = ex.sets.filter(x => x.kind !== 'W');
+  return `${ex.name} · ${s.kind === 'W' ? 'warm-up' : `set ${wk.indexOf(s) + 1} of ${wk.length}`}`;
+}
+function liveBar() {
+  const a = S.active;
+  return `<button class="lb-in" data-act="resume" aria-label="Back to your workout"><span class="lb-dot" aria-hidden="true"></span><span class="grow"><span class="lb-t"><b>${esc(a.title || TYPES[a.type])}</b><span id="lb-c">${a.editingId ? 'Editing' : ''}</span></span><span class="lb-s">${esc(liveNow(a))}</span></span><span class="lb-r" id="lb-r" hidden></span>${ic('up')}</button>`;
+}
+function tickLive(left) {
+  const lb = $('#livebar'); if (!lb || lb.hidden || !S.active) return;
+  const c = $('#lb-c'); if (c && !S.active.editingId) c.textContent = fmtHMS((Date.now() - S.active.startedAt) / 1000);
+  const r = $('#lb-r'); if (!r) return;
+  r.hidden = !S.rest; if (S.rest) { r.textContent = left > 0 ? 'Rest ' + fmtClock(Math.ceil(left)) : 'Go'; r.classList.toggle('over', left <= 0); }
 }
 setInterval(tick, 250);
 let actx = null;
