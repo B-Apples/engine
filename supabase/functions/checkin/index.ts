@@ -88,7 +88,7 @@ async function buildPrompt(db: SupabaseClient, job: Job) {
     }),
     workoutsThisWeek: workouts.filter((w: Doc) => w.date >= start).map(slim),
     workoutsPrevious3Weeks: workouts.filter((w: Doc) => w.date < start).map(slim),
-    bodyLast8Weeks: body.map((e: Doc) => ({ date: e.id, weightLb: e.weightLb ?? null, bodyFat: e.bodyFat ?? null, measurementsIn: e.meas ?? null })),
+    bodyLast8Weeks: body.map((e: Doc) => ({ date: e.id, weightLb: e.weightLb ?? null, bodyFat: e.bodyFat ?? null, measurementsIn: e.meas ?? null, ...(e.cm ? { customMetrics: customMetrics(m.settings, e.cm) } : {}) })),
     lastCheckIn: coach?.kind === "checkin" && coach.weekOf && coach.weekOf < end ? { weekOf: coach.weekOf, note: coach.note } : null,
   };
   const prompt = `You are an experienced strength and conditioning coach writing an athlete's weekly check-in. It covers the 7 days ending ${DAYS[weekday(end)]} ${end} and sets up the next 7 days. The athlete reads it on their phone.
@@ -105,8 +105,21 @@ ${JSON.stringify(ctx)}`;
   return { prompt, settings: m.settings ?? {}, trained: ctx.workoutsThisWeek.length };
 }
 
-async function ask(client: Anthropic, prompt: string) {
+// The athlete's own metrics (grip strength, vertical jump...) are stored by id; name them for Claude.
+function customMetrics(settings: Doc | undefined, cm: Record<string, number>) {
+  const defs = new Map<string, Doc>((settings?.metrics ?? []).map((d: Doc) => [d.id, d]));
+  return Object.entries(cm).filter(([id]) => defs.has(id) && !defs.get(id)!.removed).map(([id, v]) => ({ name: defs.get(id)!.name, unit: defs.get(id)!.unit || null, value: v, higherIsBetter: defs.get(id)!.higher !== false }));
+}
+// Coach style from Settings; the same wording is in the evaluate function, which also runs coach chat.
+const STYLE: Record<string, string> = {
+  blunt: "The athlete chose a short and blunt coaching style. This overrides any length in the request: write about half as many words as it asks for, at most 2 bullet points per section, no praise or softening. Just the numbers and what to do next.",
+  detailed: "The athlete chose a detailed and encouraging coaching style. You may write up to about half again as many words as the request asks for. Explain the reasoning behind each point, and give specific credit for what went well before what to fix.",
+};
+
+async function ask(client: Anthropic, prompt: string, style?: string) {
+  const system = STYLE[style ?? ""];
   const stream = client.beta.messages.stream({
+    ...(system ? { system } : {}),
     model: MODEL,
     max_tokens: 16000,
     output_config: { effort: "medium" },
@@ -128,7 +141,7 @@ async function ask(client: Anthropic, prompt: string) {
 async function run(db: SupabaseClient, client: Anthropic, job: Job, record: boolean) {
   try {
     const { prompt, settings } = await buildPrompt(db, job);
-    const note = await ask(client, prompt);
+    const note = await ask(client, prompt, settings.coachStyle);
     const { error } = await db.from("docs").upsert({ user_id: job.user_id, col: "meta", id: "coach", data: { note, updatedAt: Date.now(), weekOf: job.week_of, kind: "checkin" }, updated_at: new Date().toISOString() });
     if (error) throw new Error(`save: ${error.message}`);
     if (record) await db.from("checkin_runs").update({ done_at: new Date().toISOString() }).eq("user_id", job.user_id).eq("week_of", job.week_of);
