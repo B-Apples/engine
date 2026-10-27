@@ -1,7 +1,7 @@
 /* Engine service worker. The app shell is cached per version so Engine opens with no signal; tools/stamp.py
    rewrites VERSION from the shell files' contents before each publish, which is what makes phones pick up an update.
    Supabase data, auth and evaluations always go to the network (the app keeps its own offline copy and outbox). */
-const VERSION = '6bac9a6527d3';
+const VERSION = '0735defa22ac';
 const SHELL = 'engine-shell-' + VERSION;
 const RUNTIME = 'engine-runtime';
 const FILES = ['./', 'index.html', 'config.js', 'backend.js', 'vendor/supabase.js', 'manifest.webmanifest',
@@ -63,19 +63,21 @@ self.addEventListener('fetch', e => {
   if (url.hostname.endsWith('.supabase.co') && url.pathname.startsWith('/storage/v1/object/sign/')) return e.respondWith(cacheFirst(req, true));
 });
 
-// Workout reminders and rest alerts, sent by the "push" Edge Function. A newer alert with the same tag replaces the old one.
+// Workout reminders, rest alerts and Social notifications, sent by the "push" Edge Function. A newer alert with the same tag replaces the old one.
 self.addEventListener('push', e => {
   let d = {};
   try { d = e.data ? e.data.json() : {}; } catch (x) { d = { title: 'Engine', body: e.data ? e.data.text() : '' }; }
   e.waitUntil(self.registration.showNotification(d.title || 'Engine', {
     body: d.body || '', tag: d.tag || undefined, renotify: !!d.tag, icon: 'icons/icon-192.png', badge: 'icons/badge-96.png',
-    vibrate: d.kind === 'rest' ? [300, 120, 300] : [150], requireInteraction: false, data: { url: './' }
+    vibrate: d.kind === 'rest' ? [300, 120, 300] : [150], requireInteraction: false, data: { url: d.kind === 'social' ? './#social' : './', social: d.kind === 'social' }
   }));
 });
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => {
-    const c = cs.find(x => 'focus' in x);
-    return c ? c.focus() : self.clients.openWindow('./');
+    const c = cs.find(x => 'focus' in x), d = e.notification.data || {};
+    // Friend requests, props and comments open the Social tab.
+    if (c && d.social) c.postMessage({ open: 'social' });
+    return c ? c.focus() : self.clients.openWindow(d.url || './');
   }));
 });

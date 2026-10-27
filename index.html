@@ -233,6 +233,41 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .fb{gap:0;padding-block:6px}
 .fbr{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .fbr:last-child{border-bottom:0}
+.fbr{width:100%;text-align:left}
+/* social */
+.navi{position:relative;display:inline-flex}.ndot{position:absolute;top:-2px;right:-4px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--bg)}
+.bellb{position:relative}.bcount{position:absolute;top:4px;right:2px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:10.5px;font-weight:750;font-style:normal;display:grid;place-items:center}
+.av{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:720;font-size:15px;color:#0B0D10;letter-spacing:.02em}
+.av.sm{width:30px;height:30px;font-size:12px}.av.lg{width:64px;height:64px;font-size:24px}
+.post{gap:12px}.post-h{display:flex;align-items:center;gap:8px;min-width:0}
+.post-a,.srow .post-a{display:flex;flex-direction:row;align-items:center;gap:12px;text-align:left;min-width:0;flex:1}.post-a .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.post-t{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;margin:0}.clamp6{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.pgrid{display:grid;gap:4px;border-radius:12px;overflow:hidden;margin-inline:-2px}.pgrid.n1{grid-template-columns:1fr}.pgrid.n2,.pgrid.n4{grid-template-columns:1fr 1fr}.pgrid.n3{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr}.pgrid.n3 .pph:first-child{grid-row:span 2}
+.pph{position:relative;aspect-ratio:1;background:var(--surface-2);overflow:hidden;padding:0}.pgrid.n1 .pph{aspect-ratio:4/3}.pgrid.n3 .pph:first-child{aspect-ratio:auto}.pph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.att{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface-2)}.att .stat b{font-size:19px}.att .btn.sm{align-self:flex-start}.att .link{align-self:flex-start;color:var(--accent);font-size:13.5px;font-weight:600}
+.exl{display:flex;flex-direction:column}.exl .cmp{padding:6px 0;font-size:14px}
+.post-f{display:flex;align-items:center;gap:6px;margin:0 -6px -4px;min-width:0}
+.pbtn{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 10px;border-radius:999px;color:var(--muted);font-weight:650;font-size:14px}.pbtn:active{background:var(--surface-2)}.pbtn.on{color:var(--accent)}.pbtn svg.ic{width:20px;height:20px}
+.badges{display:flex;flex-wrap:wrap;gap:6px}.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 7px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:12.5px;font-weight:650}.badge svg.ic{width:15px;height:15px;color:var(--accent)}
+.streak{display:inline-flex;align-items:center;gap:3px;font-weight:700;font-size:14px;color:var(--accent)}.streak svg.ic{width:17px;height:17px}
+.chip.live{color:var(--fg);gap:8px;border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}.chip.live .lb-dot{width:8px;height:8px;color:var(--accent)}
+.vis{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:none;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.prof-h{display:flex;align-items:center;gap:14px;min-width:0}.prof-h .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.prof p{margin:0;line-height:1.45;overflow-wrap:anywhere}
+.avs{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.avs .av{width:30px;height:30px;font-size:12px}
+.h2h-head{display:flex;align-items:center;justify-content:space-around;gap:10px}.h2h-head>span{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}.h2h-head b{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.h2h{display:flex;flex-direction:column;gap:6px;padding:10px 0;border-bottom:1px solid var(--line)}.h2h:last-child{border-bottom:0}.h2h-l{display:flex;justify-content:space-between;gap:10px;align-items:baseline;min-width:0}.h2h-l .t{font-weight:620;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.h2h-l .sub{font-size:12px;white-space:nowrap}
+.h2h-r{display:flex;flex-direction:column;gap:4px}.h2h-b{display:flex;align-items:center;gap:8px}.h2h-b i{display:block;height:8px;border-radius:4px;background:var(--muted);min-width:3px}.h2h-b.me i{background:var(--accent)}.h2h-b b{font-size:13px;white-space:nowrap}
+.cms{display:flex;flex-direction:column}.cm{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}.cm:last-child{border-bottom:0}.cm .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.cm-t{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.4}.cm .icon{width:32px;height:32px;margin:-4px -6px 0 0}
+.cphotos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.cph{aspect-ratio:1}.cpx{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;display:grid;place-items:center}.cpx svg.ic{width:15px;height:15px}
+.pend{flex-direction:row;align-items:center;gap:10px;color:var(--muted);font-size:14px}.pend svg.ic{color:var(--accent)}
+.ntext{line-height:1.35}.srow.unread .ntext b{color:var(--accent)}.srow.unread{background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 8%,transparent),transparent)}
+.seg.mini3{align-self:stretch}.seg.mini3 button{min-height:32px;font-size:13px}
+.pview{display:flex;justify-content:center;margin:-4px -4px 0}.pview img{max-width:100%;max-height:70vh;border-radius:12px;object-fit:contain}
+.gbb{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:color-mix(in srgb,var(--accent) calc(var(--gb,1) * 1%),var(--surface-2));color:var(--fg)}
+.gbb[data-l="1"]{--gb:12}.gbb[data-l="2"]{--gb:24}.gbb[data-l="3"]{--gb:38}.gbb[data-l="4"]{--gb:52}.gbb[data-l="5"]{--gb:66}.gbb[data-l="6"]{--gb:82}.gbb[data-l="7"]{--gb:100;color:var(--accent-ink)}
+.gbhero{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}.gbhero .gbb{width:72px;height:72px;font-size:32px}.gbhero .grow{align-self:stretch;display:flex;flex-direction:column;gap:6px;align-items:center}.gbhero .gbbar{align-self:stretch}
+.gbbar{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}.gbbar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.gbl.on .t{font-weight:700}.gbtag{font-size:11px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent);padding:3px 7px;border-radius:6px}
 .fbr .grow{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
 .fbn{width:22px;text-align:center;color:var(--muted);font-weight:700}
 .fbr.me .fbn{color:var(--accent)}
@@ -1093,6 +1128,17 @@ const MATURITY = [
   { key: 'advanced', label: 'Advanced', rate: 0.006, text: 'Gains are slow and come block to block, under 1% a month.' }
 ];
 
+// Gym bro levels: each lift's best estimated 1RM in the last 90 days divided by body weight. A pull-up counts body weight plus
+// any added weight. The numbers are where levels 2 to 7 start; lifts with nothing logged are left out of the average.
+const GB_LEVELS = ['Newbie gainer', 'Novice', 'Gym bro', 'Lifter', 'Elite', 'Peak', 'Freak'];
+const GB_LIFTS = [
+  { k: 'squat', name: 'Squat', ex: ['Back Squat'], m: [0.75, 1.25, 1.5, 2.0, 2.5, 3.0], f: [0.5, 0.85, 1.1, 1.5, 1.9, 2.3] },
+  { k: 'bench', name: 'Bench press', ex: ['Barbell Bench Press'], m: [0.5, 0.85, 1.15, 1.5, 1.85, 2.25], f: [0.3, 0.55, 0.75, 1.0, 1.25, 1.5] },
+  { k: 'deadlift', name: 'Deadlift', ex: ['Deadlift'], m: [1.0, 1.5, 1.85, 2.4, 2.9, 3.4], f: [0.65, 1.05, 1.35, 1.8, 2.2, 2.6] },
+  { k: 'ohp', name: 'Overhead press', ex: ['Overhead Press'], m: [0.35, 0.55, 0.75, 0.95, 1.15, 1.4], f: [0.2, 0.35, 0.5, 0.65, 0.8, 1.0] },
+  { k: 'pullup', name: 'Pull-up', ex: ['Pull-Up', 'Weighted Pull-Up'], bw: true, m: [1.0, 1.2, 1.4, 1.65, 1.9, 2.2], f: [1.0, 1.1, 1.25, 1.45, 1.65, 1.9] }
+];
+
 /* ================= state & sync ================= */
 const COLS = ['workouts', 'blocks', 'templates', 'folders', 'body', 'exercises', 'meta'];
 const S = {
@@ -1306,6 +1352,33 @@ function suggest(item, ctx = {}) {
     reason = `Deload week: ${lp ? `about ${lp}% lighter` : 'same weight'}${sp ? ', fewer sets' : ''}`;
   }
   return { sets, lb, reps, reason };
+}
+// Score 0 to 6 with a fraction for progress through the level (6 is Freak, the top).
+function gbScore(r, t) {
+  if (r < t[0]) return Math.max(0, r / t[0]);
+  for (let i = 0; i < t.length - 1; i++) if (r < t[i + 1]) return i + 1 + (r - t[i]) / (t[i + 1] - t[i]);
+  return 6;
+}
+function gymLevel() {
+  return mm('gbl', () => {
+    const bw = currentBW(), std = settings().levelStd === 'f' ? 'f' : 'm', since = addDays(ymd(), -90);
+    if (!bw) return { bw: null, std, lifts: [] };
+    const lifts = GB_LIFTS.map(L => {
+      let best = null;
+      for (const ex of L.ex) for (const h of exHist(ex)) if (h.date >= since) for (const x of h.ws) {
+        if (x.reps > 12 || (!L.bw && !(x.lb > 0))) continue;
+        const v = e1((L.bw ? bw : 0) + (x.lb || 0), x.reps, x.rpe);
+        if (!best || v > best.e1) best = { e1: v, lb: x.lb || 0, reps: x.reps, date: h.date, ex };
+      }
+      if (!best) return { ...L, best: null };
+      const t = L[std], ratio = best.e1 / bw, score = gbScore(ratio, t), lvl = Math.floor(score);
+      const next = lvl < 6 ? Math.round(t[lvl] * bw - (L.bw ? bw : 0)) : null;
+      return { ...L, best, ratio, score, lvl, next };
+    });
+    const got = lifts.filter(l => l.best);
+    const score = got.length ? got.reduce((a, l) => a + l.score, 0) / got.length : null;
+    return { bw, std, lifts, score, lvl: score == null ? null : Math.min(6, Math.floor(score)) };
+  });
 }
 function liftSeries(name) {
   return mm('ls:' + name, () => {
@@ -3060,8 +3133,8 @@ function profForms() {
   if (!F.prof) { const p = profile(); F.prof = { age: p.age ?? null, ft: p.heightIn ? Math.floor(p.heightIn / 12) : null, inch: p.heightIn ? p.heightIn % 12 : null, trainingYears: p.trainingYears ?? null, goal: p.goal || '', prevBests: { ...(p.prevBests || {}) } }; }
   return F;
 }
-const PROF_PAGES = [['psocial', 'Social and privacy', 'people'], ['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
-const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics', psocial: 'Social and privacy' };
+const PROF_PAGES = [['plevel', 'Gym bro level', 'flame'], ['psocial', 'Social and privacy', 'people'], ['pmeas', 'Measurements', 'ruler'], ['pmetrics', 'Custom metrics', 'chart'], ['pphotos', 'Progress photos', 'camera'], ['pbg', 'Training background', 'idcard']];
+const PAGE_TITLES = { pmeas: 'Measurements', pphotos: 'Progress photos', pbg: 'Training background', settings: 'Settings', pappear: 'Appearance', pnotif: 'Notifications', phr: 'Heart rate', pdata: 'Data & account', ptoday: 'Today screen', ptabs: 'Tabs and start screen', pprog: 'Progression rules', ppr: 'Personal records', pmetrics: 'Custom metrics', psocial: 'Social and privacy', plevel: 'Gym bro level' };
 function profSummary(k) {
   const bl = bodyList(), st = settings();
   if (k === 'pmeas') { const m = bl.filter(b => b.meas && Object.keys(b.meas).length).at(-1); return m ? `Last measured ${fmtShort(m.date)}` : 'Not measured yet'; }
@@ -3073,6 +3146,7 @@ function profSummary(k) {
   if (k === 'ptabs') { const n = k => TABS.find(t => t[0] === k)[1]; return `${tabOrder().map(n).join(', ')} · opens on ${n(startTab())}`; }
   if (k === 'pprog') { const ov = Object.keys(st.incEx || {}).length; return `+${fmtNum(st.incUpper ?? st.stepLb, 1)} lb upper, +${fmtNum(st.incLower ?? st.stepLb * 2, 1)} lb lower${ov ? ` · ${ov} custom lift${ov === 1 ? '' : 's'}` : ''}`; }
   if (k === 'ppr') return PRK.filter(p => prOn(p[0])).map(p => p[2]).join(', ') || 'None counted';
+  if (k === 'plevel') { const g = gymLevel(); return g.lvl != null ? `${GB_LEVELS[g.lvl]} · level ${g.lvl + 1} of 7` : g.bw ? 'Log a squat, bench, deadlift, press or pull-up' : 'Log your body weight to get a level'; }
   if (k === 'psocial') { const me = soMe(); return me ? `@${esc(me.username)} · ${PRIV.filter(([x]) => privOf(x) !== 'me').length} of ${PRIV.length} stats shared` : 'Set up your profile in the Social tab'; }
   if (k === 'pnotif') return notifSummary();
   if (k === 'phr') return hrSummary();
@@ -3142,6 +3216,7 @@ function vProfile() {
 }
 function vProfPage(k) {
   if (k === 'psocial') return vSocialSettings();
+  if (k === 'plevel') return vLevel();
   const F = profForms(), st = settings();
   if (k === 'pmeas') {
     const last = bodyList().filter(b => b.meas && Object.keys(b.meas).length).at(-1);
@@ -3669,6 +3744,7 @@ Object.assign(A, {
   sel(d) { selectRow(+d.i, +d.j); },
   wundo() { undoLast(); },
   fbweek(d) { S.ui.fbWeek = d.v; render(); },
+  levelstd(d) { saveSetting({ levelStd: d.v }); },
   fbmetric(d) { S.ui.fbMetric = d.v; render(); },
   kind(d) { snap('set type'); const s = S.active.exercises[+d.i].sets[+d.j]; s.kind = s.kind === 'W' ? 'N' : 'W'; saveActive(); render(); },
   done(d) {
@@ -4305,17 +4381,46 @@ const sdrop = (...keys) => { for (const k of keys) { const e = SC.get(k); if (e)
 const sdropAll = () => { for (const e of SC.values()) e.at = 0; };
 const soMeE = () => sget('me', () => engine.social.me(), 300000);
 const soMe = () => soMeE().data;
-const soFriendsList = () => sget('friends', () => engine.social.friends(), 60000).data || [];
+const soFriendsE = () => sget('friends', () => engine.social.friends(), 60000);
+const soFriendsList = () => soFriendsE().data || [];
 const soRel = id => { const f = soFriendsList().find(x => x.user_id === id); return f ? f.status : id === myId() ? 'me' : 'none'; };
 const soFriendIds = () => soFriendsList().filter(f => f.status === 'friends').map(f => f.user_id);
 // Week totals, "training now" and streaks for everyone on your friends list.
-function friendStats() { const ids = soFriendIds(); return sget('fstats', () => ids.length ? engine.social.stats(ids, ['week', 'live', 'streak']) : {}, 60000).data || {}; }
+function friendStats() {
+  if (soFriendsE().data === undefined) return (SC.get('fstats') || {}).data || {};
+  return sget('fstats', () => { const ids = soFriendIds(); return ids.length ? engine.social.stats(ids, ['week', 'live', 'streak', 'level']) : {}; }, 60000).data || {};
+}
+const soUnread = () => SOC() && soMe() ? sget('unread', () => engine.social.unread(), 60000).data || 0 : 0;
+// Phone storage Social uses; cleared when you sign out or another account signs in.
+const SO_LS = ['ft.so', 'ft.postq', 'ft.statSent', 'ft.live'];
+function photoDlg() {
+  const v = S.ui.photoView, src = soPhoto(v.paths[v.i]);
+  return { close: 'photoclose', html: `<div class="pview" id="dlg-t" tabindex="-1">${src ? `<img src="${esc(src)}" alt="Photo ${v.i + 1} of ${v.paths.length}">` : '<span class="skel" style="height:60vh"></span>'}</div><div class="dlg-btns">${v.paths.length > 1 ? `<button class="btn" data-act="photonext" data-d="-1" aria-label="Previous photo">${ic('back')}</button><span class="faint" style="align-self:center">${v.i + 1} / ${v.paths.length}</span><button class="btn" data-act="photonext" data-d="1" aria-label="Next photo"><span style="display:inline-flex;transform:scaleX(-1)">${ic('back')}</span></button>` : ''}<button class="btn ghost" data-act="photoclose">Close</button></div>` };
+}
 const soErr = e => !navigator.onLine ? 'You\'re offline' : (e && e.message) || 'Something went wrong';
+
+const gbBadge = l => `<span class="gbb" data-l="${l + 1}">${l + 1}</span>`;
+function vLevel() {
+  const g = gymLevel(), stdSeg = `<div class="sec"><span class="label">Standards</span>${segOf('levelstd', [['m', 'Men'], ['f', 'Women']], g.std)}</div>`;
+  const ladder = cur => `<div class="sec"><span class="label">The 7 levels</span><div class="card"><div class="rows">${GB_LEVELS.map((n, i) => `<div class="rowi gbl ${i === cur ? 'on' : ''}">${gbBadge(i)}<span class="grow t">${n}</span>${i === cur ? '<span class="gbtag">You</span>' : ''}</div>`).join('')}</div></div></div>`;
+  if (!g.bw) return `<div class="empty">Levels compare your lifts to your body weight. Log your weight on the Profile page to get yours.</div>` + stdSeg + ladder(-1);
+  let h;
+  if (g.lvl == null) h = `<div class="empty">No squat, bench, deadlift, overhead press or pull-up logged in the last 3 months yet. Log any of them and your level shows up here.</div>`;
+  else {
+    const frac = g.lvl < 6 ? g.score - g.lvl : 1;
+    h = `<div class="card gbhero">${gbBadge(g.lvl)}<span class="grow"><span class="sub">Level ${g.lvl + 1} of 7</span><span class="h2">${GB_LEVELS[g.lvl]}</span><span class="gbbar"><i style="width:${Math.round(frac * 100)}%"></i></span><span class="sub">${g.lvl < 6 ? `${Math.round(frac * 100)}% of the way to ${GB_LEVELS[g.lvl + 1]}` : 'Top level. Nothing left to unlock.'}</span></span></div>`;
+  }
+  h += `<div class="sec"><span class="label">Your lifts · last 3 months</span><div class="card"><div class="rows">${g.lifts.map(l => l.best
+    ? `<div class="rowi">${gbBadge(l.lvl)}<span class="grow"><span class="t" style="display:block">${l.name} · ${GB_LEVELS[l.lvl]}</span><span class="sub" style="display:block">${l.bw ? (l.best.lb ? `Body weight + ${fmtNum(l.best.lb)} lb` : 'Body weight') : `${fmtNum(l.best.lb)} lb`} × ${l.best.reps} · ${fmtNum(l.ratio, 2)}× body weight</span>${l.next != null ? `<span class="sub faint" style="display:block">${GB_LEVELS[l.lvl + 1]} at ${l.bw ? (l.next > 0 ? `+${fmtNum(l.next)} lb for 1 rep` : `1 rep at body weight`) : `${fmtNum(l.next)} lb for 1 rep`}</span>` : ''}</span></div>`
+    : `<div class="rowi">${ic('plus', 'faint')}<span class="grow"><span class="t" style="display:block">${l.name}</span><span class="sub" style="display:block">Not logged in the last 3 months, so it doesn't count</span></span></div>`).join('')}</div></div>
+    <span class="sub">Each lift uses your best estimated 1-rep max from sets of 12 reps or fewer, divided by your body weight (${fmtNum(g.bw, 1)} lb, 7-day average). Your level is the average of the lifts you've logged.</span></div>`;
+  return h + stdSeg + ladder(g.lvl ?? -1);
+}
 
 /* ---------- privacy, streaks and badges ---------- */
 // Each stat is Everyone, Friends (which includes people in your groups) or Only me. Only me sends nothing.
-const PRIV = [['streak', 'Streak and badges', 'Weekly streak, total sessions and badges'], ['week', 'Weekly totals', 'Sessions, working sets, volume and cardio for the last 8 weeks'], ['prs', 'Lifts and PRs', 'Best set for each lift, and PRs from the last 30 days'], ['history', 'Recent sessions', 'Your last 12 sessions with their totals (no notes)'], ['program', 'Current block', 'Its name, week and weekly schedule'], ['live', 'Training now', 'Shows friends when you\'re mid-workout'], ['body', 'Weight and body fat', 'Your 7-day average weight, body fat and 30-day change'], ['meas', 'Measurements', 'Your latest tape measurements']];
-const PRIV_DEF = { streak: 'friends', week: 'friends', prs: 'friends', history: 'friends', program: 'friends', live: 'friends', body: 'me', meas: 'me' };
+const PRIV = [['streak', 'Streak and badges', 'Weekly streak, total sessions and badges'], ['week', 'Weekly totals', 'Sessions, working sets, volume and cardio for the last 8 weeks'], ['prs', 'Lifts and PRs', 'Best set for each lift, and PRs from the last 30 days'], ['level', 'Gym bro level', 'Your level only, not your body weight'], ['history', 'Recent sessions', 'Your last 12 sessions with their totals (no notes)'], ['program', 'Current block', 'Its name, week and weekly schedule'], ['live', 'Training now', 'Shows friends when you\'re mid-workout'], ['body', 'Weight and body fat', 'Your 7-day average weight, body fat and 30-day change'], ['meas', 'Measurements', 'Your latest tape measurements']];
+const PRIV_DEF = { level: 'friends', streak: 'friends', week: 'friends', prs: 'friends', history: 'friends', program: 'friends', live: 'friends', body: 'me', meas: 'me' };
 const VIS = [['everyone', 'Everyone'], ['friends', 'Friends'], ['me', 'Only me']];
 const privOf = k => { const p = (settings().privacy || {})[k]; return ['everyone', 'friends', 'me'].includes(p) ? p : PRIV_DEF[k]; };
 const visName = v => v === 'everyone' ? 'Everyone' : v === 'friends' ? 'Friends' : 'Only you';
@@ -4377,6 +4482,7 @@ function statData(k) {
   if (k === 'week') { const m = mondayOf(ymd()); return { weeks: Array.from({ length: 8 }, (_, i) => { const mon = addDays(m, -7 * i), w = weekStats(mon); return { weekOf: mon, n: w.n, sets: w.sets, vol: Math.round(w.vol), cardioMin: Math.round(w.cardioMin), km: r1(w.km) }; }) }; }
   if (k === 'history') { const l = allW().slice(0, 12); return l.length ? { list: l.map(w => ({ date: w.date, type: w.type, title: w.title || TYPES[w.type], stat: wStat(w), prs: ((w.summary || {}).prs || []).length, min: w.durationMin || null })) } : null; }
   if (k === 'streak') return { ...streakInfo(), badges: earnedBadges() };
+  if (k === 'level') { const g = gymLevel(); return g.lvl == null ? null : { lvl: g.lvl + 1, name: GB_LEVELS[g.lvl], score: Math.round(g.score * 100) / 100, std: g.std }; }
   if (k === 'program') { const b = activeBlock(); if (!b) return null; const w = blockWeek(b); return { name: b.name, focus: b.focus || '', week: w, weeks: b.weeks, deload: isDeload(b, w), days: (b.days || []).map(d => ({ wd: d.weekday, title: d.title, type: d.type })) }; }
   if (k === 'body') { const bw = currentBW(), lbf = [...bodyList()].reverse().find(b => b.bodyFat != null), d30 = bodyChange30(); if (bw == null && !lbf) return null; return { weightLb: bw == null ? null : r1(bw), bodyFat: lbf ? lbf.bodyFat : null, d30: d30 == null ? null : r1(d30) }; }
   if (k === 'meas') { const m = bodyList().filter(b => b.meas && Object.keys(b.meas).length).at(-1); return m ? { date: m.date, meas: m.meas } : null; }
@@ -4579,6 +4685,8 @@ function soFriends() {
   let h = `<div class="sec"><span class="label">Add friends</span><input id="so-q" class="in" type="search" placeholder="Search by username" value="${esc(S.ui.soQ || '')}" data-soq autocomplete="off" autocapitalize="off" spellcheck="false"><div id="so-res">${soResults()}</div></div>`;
   if (inc.length) h += `<div class="sec"><span class="label">Friend requests</span><div class="card slist">${inc.map(f => `<div class="srow"><button class="post-a grow" data-act="souser" data-id="${f.user_id}">${av(f.name, f.user_id)}<span class="grow"><span class="t ell">${esc(f.name)}</span><span class="sub ell">@${esc(f.username)}</span></span></button><button class="btn sm primary" data-act="soaccept" data-id="${f.user_id}">Accept</button><button class="btn sm ghost" data-act="sodecline" data-id="${f.user_id}">Decline</button></div>`).join('')}</div></div>`;
   h += leaderboard(fr, fs);
+  const myLv = privOf('level') !== 'me' && statData('level'), lvs = [...fr.map(f => ({ id: f.user_id, name: f.name, l: fs[f.user_id] && fs[f.user_id].level && fs[f.user_id].level.data })).filter(x => x.l && x.l.lvl >= 1 && x.l.lvl <= 7), ...(myLv ? [{ id: me.user_id, name: me.name, me: true, l: myLv }] : [])].sort((a, b) => b.l.score - a.l.score || a.name.localeCompare(b.name));
+  if (lvs.length > 1) h += `<div class="sec"><span class="label">Gym bro levels</span><div class="card slist">${lvs.map(x => `<button class="srow" data-act="souser" data-id="${x.id}">${gbBadge(x.l.lvl - 1)}<span class="grow"><span class="t ell">${esc(x.name)}${x.me ? ' <span class="faint">(you)</span>' : ''}</span></span><span class="sub">${GB_LEVELS[x.l.lvl - 1]}</span></button>`).join('')}</div></div>`;
   h += `<div class="sec"><div class="sec-h"><span class="label">Friends${fr.length ? ' · ' + fr.length : ''}</span><button class="link" data-act="souser" data-id="${me.user_id}">Your profile</button></div>`;
   if (!fr.length) h += `<div class="empty">Search for a friend's username above to send a request. They need an Engine account first, so add their email to your invite list.</div>`;
   else h += `<div class="card slist">${fr.map(f => { const st = fs[f.user_id] || {}, l = liveNowOf(st), sk = st.streak && st.streak.data; return `<button class="srow" data-act="souser" data-id="${f.user_id}">${av(f.name, f.user_id)}<span class="grow"><span class="t ell">${esc(f.name)}</span><span class="sub ell">${l ? `<span class="acc">Training now · ${esc(l.title)}</span>` : '@' + esc(f.username)}</span></span>${sk && sk.weeks ? `<span class="streak">${ic('flame')}${sk.weeks}</span>` : ''}${ic('chev', 'chev')}</button>`; }).join('')}</div>`;
@@ -4623,8 +4731,10 @@ function vUser(id) {
   else h += `<div class="btnrow"><button class="btn primary" data-act="soadd" data-u="${esc(pr.username)}">${ic('plus')}Add friend</button></div>`;
   h += `</div>`;
   confirmBox('unfriend', `Remove ${esc(pr.name)} from your friends? You'll stop seeing each other's posts and friends-only stats.`, 'sounfriend', 'Remove friend', `data-id="${id}"`, true);
+  const lv = st.level && st.level.data;
+  if (lv && lv.lvl >= 1 && lv.lvl <= 7) h += `<div class="sec"><span class="label">Gym bro level ${tag('level')}</span><button class="card coachbtn" ${mine ? 'data-act="profpage" data-k="plevel"' : ''}>${gbBadge(lv.lvl - 1)}<span class="grow"><b>${esc(GB_LEVELS[lv.lvl - 1])}</b><span class="sub">Level ${lv.lvl} of 7 · ${lv.std === 'f' ? 'women\'s' : 'men\'s'} standards</span></span></button></div>`;
   const sk = st.streak && st.streak.data;
-  if (sk) h += `<div class="sec"><span class="label">Streak and badges ${tag('streak')}</span><div class="stats"><div class="stat"><b>${ic('flame', 'acc')} ${sk.weeks}</b><span>Week streak</span></div><div class="stat"><b>${sk.best}</b><span>Best streak</span></div><div class="stat"><b>${fmtNum(sk.total)}</b><span>Sessions</span></div></div><span class="sub">Goal: ${sk.goal} session${sk.goal === 1 ? '' : 's'} a week · ${sk.thisWeek} so far this week</span>${(sk.badges || []).length ? `<div class="badges">${sk.badges.slice().reverse().map(badgeChip).join('')}</div>` : ''}</div>`;
+  if (sk) h += `<div class="sec"><span class="label">Streak and badges ${tag('streak')}</span><div class="stats"><div class="stat"><b>${ic('flame', 'acc')} ${sk.weeks}</b><span>Week streak</span></div><div class="stat"><b>${sk.best}</b><span>Best streak</span></div><div class="stat"><b>${fmtNum(sk.total)}</b><span>Sessions</span></div></div><span class="sub">Goal: ${sk.goal} session${sk.goal === 1 ? '' : 's'} a week · ${sk.thisWeek} so far this week</span>${(sk.badges || []).length ? `<div class="badges">${(S.ui.allBadges === id ? sk.badges.slice().reverse() : sk.badges.slice().reverse().slice(0, 6)).map(badgeChip).join('')}${sk.badges.length > 6 && S.ui.allBadges !== id ? `<button class="badge" data-act="allbadges" data-id="${id}">+${sk.badges.length - 6} more</button>` : ''}</div>` : ''}</div>`;
   const wk = weekOfStat(st, mondayOf(ymd()));
   if (st.week) { const w = wk || { n: 0, sets: 0, vol: 0, cardioMin: 0 }; h += `<div class="sec"><span class="label">This week ${tag('week')}</span><div class="stats"><div class="stat"><b>${w.n}</b><span>Sessions</span></div><div class="stat"><b>${fmtNum(w.sets)}</b><span>Working sets</span></div><div class="stat"><b>${fmtNum(w.cardioMin)}</b><span>Cardio min</span></div></div><span class="sub">Volume ${fmtNum(w.vol)} lb</span></div>`; }
   const pg = st.program && st.program.data;
@@ -4641,7 +4751,7 @@ function vUser(id) {
   if (bd) h += `<div class="sec"><span class="label">Body ${tag('body')}</span>${stat3([[bd.weightLb != null ? fmtNum(bd.weightLb, 1) : '–', 'Weight (lb)'], [bd.bodyFat != null ? fmtNum(bd.bodyFat, 1) + '%' : '–', 'Body fat'], [bd.d30 == null ? '–' : (bd.d30 > 0 ? '+' : '') + fmtNum(bd.d30, 1), '30 days (lb)']])}</div>`;
   const ms = st.meas && st.meas.data;
   if (ms) h += `<div class="sec"><span class="label">Measurements · ${fmtShort(ms.date)} ${tag('meas')}</span><div class="grid2">${MEAS.filter(([k]) => ms.meas[k] != null).map(([k, l]) => `<div class="cmp"><span>${esc(l)}</span><span>${fmtNum(ms.meas[k], 2)}"</span></div>`).join('')}</div></div>`;
-  if (!mine && !sk && !st.week && !ps && !hi && !pg && !bd && !ms) h += `<div class="empty">${rel === 'friends' ? `${esc(pr.name)} keeps their stats private.` : `Add ${esc(pr.name)} as a friend to see the stats they share with friends.`}</div>`;
+  if (!mine && !lv && !sk && !st.week && !ps && !hi && !pg && !bd && !ms) h += `<div class="empty">${rel === 'friends' ? `${esc(pr.name)} keeps their stats private.` : `Add ${esc(pr.name)} as a friend to see the stats they share with friends.`}</div>`;
   const f = sget('ufeed:' + id, () => engine.social.feed({ user: id }), 60000);
   if (f.data && f.data.length) h += `<div class="sec"><span class="label">Posts</span>${f.data.map(p => postCard(p)).join('')}</div>`;
   return h;
@@ -4655,6 +4765,8 @@ function vCompare(id) {
   let h = `<div class="h2h-head"><span>${av(me.name, me.user_id)}<b>You</b></span><span class="faint">vs</span><span>${av(them.name, id)}<b>${esc(them.name)}</b></span></div>`;
   const mon = mondayOf(ymd()), wa = weekStats(mon), wb = weekOfStat(st, mon) || (st.week ? { n: 0, sets: 0, vol: 0, cardioMin: 0 } : null);
   if (wb) h += `<div class="sec"><span class="label">This week</span><div class="card">${bar('Sessions', wa.n, wb.n, v => fmtNum(v))}${bar('Working sets', wa.sets, wb.sets, v => fmtNum(v))}${bar('Volume', Math.round(wa.vol), wb.vol, v => fmtNum(v) + ' lb')}${bar('Cardio', Math.round(wa.cardioMin), wb.cardioMin, v => fmtNum(v) + ' min')}</div></div>`;
+  const la = mine.level && mine.level.data, lb2 = st.level && st.level.data;
+  if (la && lb2) h += `<div class="sec"><span class="label">Gym bro level</span><div class="card">${bar('Level', la.score + 1, lb2.score + 1, v => GB_LEVELS[Math.min(6, Math.floor(v - 1))])}</div></div>`;
   const sa = streakInfo(), sb = st.streak && st.streak.data;
   if (sb) h += `<div class="sec"><span class="label">Consistency</span><div class="card">${bar('Week streak', sa.weeks, sb.weeks, v => fmtNum(v))}${bar('Best streak', sa.best, sb.best, v => fmtNum(v))}${bar('Total sessions', sa.total, sb.total, v => fmtNum(v))}</div></div>`;
   const pa = (mine.prs && mine.prs.data && mine.prs.data.best) || [], pb = (st.prs && st.prs.data && st.prs.data.best) || [];
@@ -4722,7 +4834,7 @@ function openCompose(o = {}) {
   S.ui.sheet = { mode: 'compose' }; render();
 }
 function composeSheet() {
-  const c = S.ui.form.compose || { photos: [] }, groups = (SC.get('groups') || {}).data || [];
+  const c = S.ui.form.compose || { photos: [] }, groups = sget('groups', () => engine.social.groups(), 60000).data || [];
   const title = c.finishing ? 'Post workout' : c.kind === 'workout' ? 'Post this workout' : c.kind === 'block' ? 'Share block' : 'New post';
   const att = c.finishing ? attHtml('workout', wPost({ ...buildDoc(S.active, true), id: 'preview' }), 'preview', true, true) : attHtml(c.kind, c.data, 'preview', true, true);
   return `<div class="sheet-h"><button class="icon" data-act="closesheet" aria-label="Close">${ic('x')}</button><h2 id="sheet-t" tabindex="-1">${title}</h2></div>
@@ -4762,6 +4874,7 @@ Object.assign(A, {
   notifs() { S.ui.markedRead = false; sdrop('notifs'); go('notifs'); },
   compare(d) { go('compare', { id: d.id }); },
   compose(d) { openCompose({ group: d.group || '' }); },
+  allbadges(d) { S.ui.allBadges = d.id; render(); },
   attmore(d) { S.ui.openAtt = S.ui.openAtt === d.id ? null : d.id; render(); },
   feedmore() {
     const e = SC.get('feed'), last = e && e.data && e.data.at(-1); if (!last) return;
