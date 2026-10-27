@@ -397,11 +397,11 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .chart .hl-t{font-family:var(--f-ui);font-size:11.5px;fill:var(--muted)}
 .chart .hl-h{fill:var(--fg);font-weight:700}
 .chart .hl-v{fill:var(--fg);font-weight:650}
-.bm{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
+.bm{display:block;width:100%;max-width:340px;height:auto;margin:0 auto}
 .bm text{fill:var(--faint);font-size:9px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;font-family:var(--f-ui)}
 .bm .sil{fill:var(--surface);stroke:var(--line);stroke-width:.6}
 .bm .nt{fill:var(--surface-2)}
-.bm .mu{fill:color-mix(in srgb,var(--fg) 14%,var(--surface-2));transition:fill .15s}
+.bm .mu{fill:color-mix(in srgb,var(--fg) 14%,var(--surface-2));stroke:var(--bg);stroke-width:.5;stroke-linejoin:round;transition:fill .15s}
 .bm .mu[data-act]{cursor:pointer}
 .bm.heat .mu[style]{fill:color-mix(in srgb,var(--accent) calc(var(--lv) * 100%),color-mix(in srgb,var(--fg) 14%,var(--surface-2)))}
 .bm .mu.on{fill:var(--accent)!important}
@@ -412,7 +412,7 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .bmleg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
 .bmleg i{width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,color-mix(in srgb,var(--fg) 14%,var(--surface-2)),var(--accent))}
 .pmap{display:flex;flex-direction:column;gap:6px}
-.pmap .bm{max-width:190px}
+.pmap .bm{max-width:220px}
 .hb{display:grid;grid-template-columns:92px 1fr 34px;gap:8px;align-items:center;font-size:13.5px}
 .hb .tr{position:relative;height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden}
 .hb .tr .zone{position:absolute;top:0;bottom:0;background:var(--accent-soft);border-left:1px dashed var(--accent-line);border-right:1px dashed var(--accent-line)}
@@ -1636,33 +1636,35 @@ const BODY_SHAPES = {
   front: [
     ['', '<path d="M50 21.5c-3.6 0-4.4 3.4-5.4 6.2-4.8 2.2-11.4 2.6-16 5.6-4.6 3.2-5.2 10-6.2 16.4-1.4 9.6-3 19.6-4 29.6-.8 7.6-1.8 13.6-1.4 18.6.8 3.4 5 3 5.6-.4 1-5.8 3-13 5-22 1.6-6 3.4-13.6 5.2-19.4 1.4 6 2.6 15.6 3.4 27.4-1 8.2-2 14.4-2 20.6-1 14.4-.4 30.6 2 43.6.6 8-.4 14-.4 22.4 0 10 1.4 19.6 2 24.8-.6 3.2 1.6 5.2 5.4 5.2 2.6 0 3.2-2.8 2.8-6 .4-10 1.4-21.6 1-31.8 0-6 1-12 1-21.8.4-12 .8-26 1.6-34z"/>', 1],
     [null, '<ellipse cx="50" cy="13" rx="8" ry="10"/>'], [null, '<path d="M45.5 22h9v7h-9z"/>'],
-    ['Traps', '<path d="M45 28.5 37 33.5l8.5-.6z"/>', 1],
-    ['Shoulders', '<ellipse cx="31" cy="40" rx="6.4" ry="8" transform="rotate(20 31 40)"/>', 1],
-    ['Chest', '<path d="M49.2 34c-6.2-.6-11.4 1.6-12.6 6-.6 6 1.4 11.4 6.4 12.4 3 .6 6.2-.8 6.2-2.4z"/>', 1],
-    ['Biceps', '<ellipse cx="27.4" cy="57.5" rx="4.8" ry="10" transform="rotate(12 27.4 57.5)"/>', 1],
-    ['Forearms', '<ellipse cx="23.2" cy="79.5" rx="4.3" ry="12" transform="rotate(14 23.2 79.5)"/>', 1],
+    ['Traps', '<path d="M45.2 27.2c-2.5 2-6 3.8-9.6 4.8l9.8.4z"/>', 1],
+    ['Shoulders', '<path d="M36 32.8c-4.6-.6-8.8 1.6-10.2 6-.8 3-.6 6.2.4 8.6 2.4-1.6 5-3.8 7.2-6.6 1.4-2.2 2.6-5 2.6-8z"/>', 1],
+    ['Chest', '<path d="M49.4 33.4c-4-.4-8.4.2-11.6 1.8-1.4 1.4-1.8 3-1.6 4.8 4.2-.6 8.8-.8 13.2-.4z"/><path d="M49.4 41c-4.6-.4-9.4-.2-13.2.6.4 4 2 8 5.6 10.4 2.6 1.4 5.4 1.2 7.6-.6z"/>', 1],
+    ['Core', '<path d="M37.4 53.2l3 1.2-.4 2.6-3-1.2zM37.6 58l3 1.2-.4 2.6-3-1.2z"/>', 1],
+    ['Core', '<path d="M43.8 54.4h5.2c.4 0 .6.3.6.6v5.6h-6.4v-5.2c0-.6.2-1 .6-1zM43.2 61.4h6.4v6h-6.4zM43.2 68.2h6.4v6.2h-6.4zM43.4 75.2h6.2V90c-3.2 0-5.8-2.8-6.2-6.2z"/>', 1],
+    ['Core', '<path d="M41.6 56c-2.4 6-3 15.2-1.4 24.6l2.4 3.6V56z"/>', 1],
+    ['Biceps', '<path d="M29.4 48.4c-2.6 2.4-4 6.6-4.2 11.4 0 2.6.8 4.4 2.2 5.2 1.8-1 3.4-3.8 4-7.6.4-3.4-.2-6.6-2-9z"/><path d="M24.8 60.4c-.8 2-1 4-.6 5.6l1.8-.4c-.6-1.6-.6-3.4-.2-5z"/>', 1],
+    ['Forearms', '<path d="M24.2 66.6c-2.8 2.6-4.6 7-5.4 12.6-.6 4.4-.6 8.6 0 12h2.6c1.2-4 3-8.8 4.2-13.4.8-3.6 0-8.4-1.4-11.2z"/><path d="M26.8 68c.6 4-.2 9-1.6 13.2-.8 2.6-1.8 5.6-2.6 9.6l1.4.2c2-5 4-9.6 4.4-14.4.2-3.4-.4-6.6-1.6-8.6z"/>', 1],
     [null, '<circle cx="19.6" cy="95.5" r="3.6"/>', 1],
-    ['Core', '<path d="M43 55h14c1.4 0 2.2.9 2.2 2.2v26c0 6-4.2 10.2-9.2 10.2s-9.2-4.2-9.2-10.2v-26C40.8 55.9 41.6 55 43 55z"/>'],
-    ['Core', '<path d="M39.6 57c-2.4 7-2.6 18-.6 27.5l.8-.2V57.2z"/>', 1],
-    ['Quads', '<path d="M41.6 97.5c-5.4 4-6.6 17.5-5.2 33.5.8 9.6 3.8 15.6 7.4 15.6 3-.2 4.8-6.2 4.8-16.4 0-15-1-28.6-7-32.7z"/>', 1],
-    [null, '<circle cx="43" cy="151.5" r="3.4"/>', 1],
-    ['Calves', '<path d="M39.4 157.5c-2.2 8-1.8 22 .8 34.5h3.8c2.2-12.4 2.6-26.6.8-34.5z"/>', 1],
+    ['Quads', '<path d="M43.6 99.4c-2.6 6-3.4 15.6-2.6 25.6.4 5 1.6 9.6 3.4 12 1.6-2.6 2.4-7 2.4-12.4 0-9.8-1.2-19.4-3.2-25.2z"/><path d="M39.4 101.8c-2.6 7-3.6 17-2.6 27.6.6 6 2.2 10.4 4.4 12.6-1.6-6-2.2-14-1.8-22.4.2-6.6.6-12.6 0-17.8z"/><path d="M47.4 128c-1.6 3.6-2 8.6-1.4 12.4.8 2.6 2.4 4 3.6 3.6.4-3.6-.4-10.6-2.2-16z"/>', 1],
+    [null, '<path d="M48.2 102.6c-1 6-1.2 14-.8 20l1.8-3c.2-6 0-11.6-1-17z"/>', 1],
+    [null, '<circle cx="43" cy="151.5" r="3.2"/>', 1],
+    ['Calves', '<path d="M37.6 157.8c-1.8 5.4-2 12.4-.6 18.4l2.2 2.4c-.8-6.4-.6-14.2-1.6-20.8z"/><path d="M46.6 158c1.4 5 1.6 11 .6 16.6l-1.6 1.6c.4-6 .6-12.4 1-18.2z"/>', 1],
+    [null, '<path d="M41.4 158.4c-.8 9-.6 19 .8 30.4h2c.4-11.6.4-21.4-1-30.4z"/>', 1],
     [null, '<ellipse cx="42.2" cy="197" rx="4.4" ry="2.6"/>', 1]
   ],
   back: [
     ['', '<path d="M50 21.5c-3.6 0-4.4 3.4-5.4 6.2-4.8 2.2-11.4 2.6-16 5.6-4.6 3.2-5.2 10-6.2 16.4-1.4 9.6-3 19.6-4 29.6-.8 7.6-1.8 13.6-1.4 18.6.8 3.4 5 3 5.6-.4 1-5.8 3-13 5-22 1.6-6 3.4-13.6 5.2-19.4 1.4 6 2.6 15.6 3.4 27.4-1 8.2-2 14.4-2 20.6-1 14.4-.4 30.6 2 43.6.6 8-.4 14-.4 22.4 0 10 1.4 19.6 2 24.8-.6 3.2 1.6 5.2 5.4 5.2 2.6 0 3.2-2.8 2.8-6 .4-10 1.4-21.6 1-31.8 0-6 1-12 1-21.8.4-12 .8-26 1.6-34z"/>', 1],
     [null, '<ellipse cx="50" cy="13" rx="8" ry="10"/>'], [null, '<path d="M45.5 22h9v5h-9z"/>'],
-    ['Traps', '<path d="M50 24.5 39.4 33c4.6 2.2 7.6 9.4 10.6 25 3-15.6 6-22.8 10.6-25z"/>'],
-    ['Shoulders', '<ellipse cx="31" cy="40" rx="6.4" ry="8" transform="rotate(20 31 40)"/>', 1],
-    ['Back', '<path d="M38.2 39.5c-2.6 11-1.2 24.6 6.4 36.4l4.4-1.6V60.5c-2.8-10-6-18-10.8-21z"/>', 1],
-    ['Back', '<path d="M45 77.5h10l.8 13.5H44.2z"/>'],
-    ['Triceps', '<ellipse cx="27.4" cy="57.5" rx="4.8" ry="10" transform="rotate(12 27.4 57.5)"/>', 1],
-    ['Forearms', '<ellipse cx="23.2" cy="79.5" rx="4.3" ry="12" transform="rotate(14 23.2 79.5)"/>', 1],
+    ['Traps', '<path d="M50 23.4l-4.6 3.6c-2 1.8-4.6 3.2-7.6 4.4 3.8 1.6 7 4.4 9 8.4L50 45.8z"/><path d="M50 46.6l-3.2-5.4c-.6 6 .4 13 3.2 19.4z"/>', 1],
+    ['Shoulders', '<path d="M36 32.8c-4.4-.6-8.6 1.6-10 6-.8 3-.6 6 .4 8.4 2.6-2.2 5-4.6 6.8-7.4 1.4-2.2 2.6-4.4 2.8-7z"/>', 1],
+    ['Back', '<path d="M38.8 35.4c-1.6 2.4-2 5.6-1.2 8.6 2.6.4 5.2 0 7.4-1.4-1.4-3.4-3.6-6-6.2-7.2z"/><path d="M37.2 45.6c-1 7.6.6 16.6 5 24.8 1.6 3 3.6 5.4 5.6 6.6l.4-10.8c-2.4-7.2-6.2-15.4-11-20.6z"/><path d="M48.6 62.4c-1.6 5-2 11.4-1.2 18.8.4 3.6 1.4 6.6 2.4 8.6h.2V64z"/>', 1],
+    ['Triceps', '<path d="M29.2 48.2c-2.6 2.4-4 6.6-4.2 11.4 0 2.6.8 4.4 2.2 5.2 1.8-1 3.4-3.8 4-7.6.4-3.4-.2-6.6-2-9z"/><path d="M31.8 47.8c1.6 3.4 2 7.4 1 11.4-.4 1.8-1.2 3.4-2.2 4.6.8-4.6.6-10.6-.6-15z"/>', 1],
+    ['Forearms', '<path d="M24.2 66.6c-2.8 2.6-4.6 7-5.4 12.6-.6 4.4-.6 8.6 0 12h2.6c1.2-4 3-8.8 4.2-13.4.8-3.6 0-8.4-1.4-11.2z"/><path d="M26.8 68c.6 4-.2 9-1.6 13.2-.8 2.6-1.8 5.6-2.6 9.6l1.4.2c2-5 4-9.6 4.4-14.4.2-3.4-.4-6.6-1.6-8.6z"/>', 1],
     [null, '<circle cx="19.6" cy="95.5" r="3.6"/>', 1],
-    ['Glutes', '<ellipse cx="43.6" cy="101" rx="7.4" ry="8.6"/>', 1],
-    ['Hamstrings', '<path d="M37.2 111.5c-1.6 12-.4 26 3.2 36.5h6c2-10.4 2.6-24.4 2-36.5z"/>', 1],
-    [null, '<circle cx="43.4" cy="152" r="3.2"/>', 1],
-    ['Calves', '<ellipse cx="42.4" cy="169" rx="5.6" ry="13"/>', 1],
+    ['Glutes', '<path d="M38.4 88.4c-1.4 2.6-1.8 5.4-1.2 8 2.4-2.4 5.6-4 9.2-4.6-2-1.8-5-3-8-3.4z"/><path d="M37 97.6c-1 4.6.4 9.6 4 12.6 2.8 2.2 6.2 2.4 8.6 1V93.6c-5.2-.2-9.6 1.4-12.6 4z"/>', 1],
+    ['Hamstrings', '<path d="M38.4 113.6c-1.6 9-1 20 1.6 29.6l2.6 3c-.6-10.6-.4-21.4-.6-31.6z"/><path d="M43.4 113.6c-.4 10.4 0 21.6 1 32l3 .2c1.6-9.8 1.8-21 .4-31.4z"/>', 1],
+    [null, '<circle cx="43.4" cy="151.5" r="3"/>', 1],
+    ['Calves', '<path d="M39.6 155.6c-2.4 3.6-3.4 9-2.8 14.2.4 2.6 1.4 4.6 3 5.6 1.2-2.8 1.8-7 1.6-11.4-.2-3.4-.6-6.2-1.8-8.4z"/><path d="M44.6 155.2c-1.6 2.6-2.4 6.6-2 11 .2 3.6 1.4 7.6 3.2 9 1.4-2.4 2-6.4 1.6-10.4-.4-4-1.4-7.6-2.8-9.6z"/><path d="M38.4 176.6c.4 4.4 1.4 8.6 2.6 12h3.4c.6-3.8 1.2-7.6 1.2-11.4-2.2 1-4.8 1-7.2-.6z"/>', 1],
     [null, '<ellipse cx="42.2" cy="197" rx="4.4" ry="2.6"/>', 1]
   ]
 };
