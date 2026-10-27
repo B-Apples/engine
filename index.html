@@ -219,6 +219,8 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .sess ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
 .sess li{display:flex;justify-content:space-between;gap:12px;font-size:14.5px}
 .sess li span:last-child{color:var(--muted);white-space:nowrap}
+.sess-ed{color:var(--faint);display:flex}
+#sheet .card.daycard{padding:0;border:0;background:none;box-shadow:none}
 .sess li .gtag,.card.flat .gtag{min-width:24px;height:19px;font-size:11.5px;margin-right:6px;vertical-align:1px}
 .donepill{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:650;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px;white-space:nowrap}
 .coach{border-left:0;background:var(--surface)}
@@ -730,6 +732,9 @@ const LS = {
   del(k) { try { localStorage.removeItem(k); } catch (e) {} }
 };
 const clone = o => JSON.parse(JSON.stringify(o));
+// JSON with object keys sorted. The server stores documents as jsonb, which reorders keys, so a copy that comes back
+// from sync only matches what the app wrote when compared this way.
+const canon = o => JSON.stringify(o, (k, v) => v && typeof v === 'object' && !Array.isArray(v) ? Object.fromEntries(Object.keys(v).sort().map(x => [x, v[x]])) : v);
 function getPath(o, p) { return p.split('.').reduce((a, k) => a == null ? a : a[k], o); }
 function setPath(o, p, v) { const ks = p.split('.'); let a = o; for (let i = 0; i < ks.length - 1; i++) { if (a[ks[i]] == null) a[ks[i]] = {}; a = a[ks[i]]; } a[ks.at(-1)] = v; }
 
@@ -1785,6 +1790,7 @@ const IC = {
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   x: '<path d="M6 6l12 12M18 6L6 18"/>',
   chev: '<path d="M9 5l7 7-7 7"/>',
+  edit: '<path d="M4.5 19.5l1-4.2L15.8 5a1.9 1.9 0 0 1 2.7 0l.5.5a1.9 1.9 0 0 1 0 2.7L8.7 18.5z"/><path d="M13.5 7.3l3.2 3.2"/>',
   up: '<path d="M6 15l6-6 6 6"/>',
   down: '<path d="M6 9l6 6 6-6"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
@@ -2047,7 +2053,9 @@ function sessCard(b, d, w, date) {
   if (done) foot = `<button class="btn" data-act="session" data-id="${done.id}">View summary</button>`;
   else if (date === today) foot = `<button class="btn primary" data-act="startplan" data-key="${d.key}">Start ${esc(TYPES[d.type].toLowerCase())}</button>`;
   else if (date > today && d.type === 'strength') foot = `<span class="faint" style="font-size:12.5px">Weights are your current targets and update after each session.</span>`;
-  return `<div class="card sess"><div class="top"><div><div class="eyebrow">${meta1}${dl ? ' · Deload' : ''}</div><h2>${esc(d.title)}</h2></div>${pill}</div>${body}${foot}</div>`;
+  // A session that isn't done opens in the session editor as a sheet; one that's done opens its summary from the button.
+  const edit = !done && b.id && S.blocks.has(b.id);
+  return `<div class="card sess" ${edit ? `data-act="dayedit" data-id="${b.id}" data-key="${d.key}" aria-label="Edit ${esc(d.title)}"` : ''}><div class="top"><div><div class="eyebrow">${meta1}${dl ? ' · Deload' : ''}</div><h2>${esc(d.title)}</h2></div>${pill || (edit ? `<span class="sess-ed">${ic('edit')}</span>` : '')}</div>${body}${foot}</div>`;
 }
 const fmtLong = s => { const d = pd(s); return `${DOWL[d.getDay()]}, ${MONL[d.getMonth()]} ${d.getDate()}`; };
 // Everything for one date: planned sessions, anything else logged, and body entries.
@@ -2277,14 +2285,14 @@ function vBlock() {
   return h;
 }
 // tpl: editing a saved workout (no weekday, no remove button); the same editor serves block days.
-function dayEditor(d, i, tpl = false) {
+function dayEditor(d, i, tpl = false, inSheet = false) {
   const p = `days.${i}`;
   const typeSel = `<label class="field"><span>Type</span><select id="d${i}-type" class="in" data-act-change="daytype" data-i="${i}">${Object.keys(TYPES).map(t => `<option value="${t}" ${d.type === t ? 'selected' : ''}>${TYPES[t]}</option>`).join('')}</select></label>`;
   let h = `<div class="card daycard">`;
   if (tpl) h += `<label class="field"><span>Workout name</span><input id="d${i}-title" class="in" data-root="draft" data-bind="${p}.title" value="${esc(d.title)}" placeholder="e.g. Full-Body Express"></label><div class="grid2">${typeSel}<label class="field"><span>Folder</span><select id="d-folder" class="in" data-root="draft" data-bind="folderId"><option value="">No folder</option>${allF().map(f => `<option value="${f.id}" ${S.ui.draft.folderId === f.id ? 'selected' : ''}>${esc(f.name)}</option>`).join('')}</select></label></div>`;
   else h += `<div class="grid2"><label class="field"><span>Day</span><select id="d${i}-wd" class="in" data-root="draft" data-bind="${p}.weekday" data-num data-rerender>${[1, 2, 3, 4, 5, 6, 0].map(x => `<option value="${x}" ${d.weekday === x ? 'selected' : ''}>${DOWL[x]}</option>`).join('')}</select></label>
     ${typeSel}</div>
-    <div style="display:flex;gap:8px;align-items:flex-end"><label class="field" style="flex:1"><span>Session name</span><input id="d${i}-title" class="in" data-root="draft" data-bind="${p}.title" value="${esc(d.title)}"></label><button class="icon" data-act="delday" data-i="${i}" aria-label="Remove session">${ic('x')}</button></div>`;
+    <div style="display:flex;gap:8px;align-items:flex-end"><label class="field" style="flex:1"><span>Session name</span><input id="d${i}-title" class="in" data-root="draft" data-bind="${p}.title" value="${esc(d.title)}"></label>${inSheet ? '' : `<button class="icon" data-act="delday" data-i="${i}" aria-label="Remove session">${ic('x')}</button>`}</div>`;
   if (d.type === 'strength') {
     const items = d.items || [], gi = groupInfo(items);
     items.forEach((it, j) => {
@@ -2310,6 +2318,16 @@ function dayEditor(d, i, tpl = false) {
     h += `<button class="btn sm" data-act="pick" data-mode="blockstretch" data-i="${i}">+ Add stretch</button>`;
   }
   return h + `</div>`;
+}
+
+// Today's session, opened from its card: the same editor as the block's weekly schedule, in a sheet. Saving changes
+// this session in the block, so it applies every week the block runs.
+function dayEditSheet() {
+  const sh = S.ui.sheet, b = S.ui.draft, d = b && b.days[sh.i];
+  if (!d) return '';
+  return `<div class="sheet-h"><button class="icon" data-act="closesheet" aria-label="Close">${ic('x')}</button><h2 id="sheet-t" tabindex="-1">Edit session</h2></div>
+    <div class="sheet-b"><span class="sub">${esc(b.name)} · changes apply every ${DOWL[d.weekday]} of the block</span>${dayEditor(d, sh.i, false, true)}<button class="btn ghost" data-act="dayeditblock">Edit the whole block</button></div>
+    <div class="sheet-f"><button class="btn ghost" data-act="closesheet">Cancel</button><button class="btn primary" style="flex:1" data-act="savedayedit">Save session</button></div>`;
 }
 
 /* ================= saved workouts ================= */
@@ -3431,6 +3449,7 @@ function sheet() {
   const sh = S.ui.sheet;
   if (sh.mode === 'compose') return composeSheet();
   if (sh.mode === 'gadd') return groupAddSheet();
+  if (sh.mode === 'dayedit') return dayEditSheet();
   if (sh.mode === 'replace') {
     return `<div class="sheet-h"><h2 id="sheet-t" tabindex="-1">Workout in progress</h2></div><div class="sheet-b"><p>You already have <b>${esc(S.active.title || TYPES[S.active.type])}</b> running. What do you want to do?</p><div class="btnrow"><button class="btn primary" data-act="resume">Resume it</button></div><button class="btn danger" data-act="replaceactive">Discard it and start the new one</button><button class="btn ghost" data-act="closesheet">Cancel</button></div>`;
   }
@@ -3444,7 +3463,7 @@ const isStretchPick = sh => sh.mode === 'logstretch' || sh.mode === 'blockstretc
 const isMultiPick = sh => ['add', 'blockadd', 'logstretch', 'blockstretch'].includes(sh.mode);
 function pickBar() {
   const sh = S.ui.sheet, n = sh.sel.length, what = isStretchPick(sh) ? 'stretch' : 'exercise';
-  const dest = S.ui.inLog ? 'workout' : (S.ui.stack.at(-1) || {}).v === 'block' ? 'session' : 'workout';
+  const dest = S.ui.inLog ? 'workout' : sh.back || (S.ui.stack.at(-1) || {}).v === 'block' ? 'session' : 'workout';
   if (!n) return `<button class="btn primary wide" disabled>Select ${what === 'stretch' ? 'stretches' : 'exercises'}</button>`;
   return `<button class="btn ghost" data-act="pickclear">Clear</button><button class="btn primary" style="flex:1" data-act="pickadd">Add ${n} ${n === 1 ? what : what === 'stretch' ? 'stretches' : 'exercises'} to ${dest}</button>`;
 }
@@ -3493,7 +3512,7 @@ function togglePick(name) { const sel = S.ui.sheet.sel, k = sel.indexOf(name); i
 const stretchItem = name => ({ name, holdSec: 45, sides: /hip|pigeon|lunge|quad|calf|hamstring|shoulder|sleeper|thread|figure|lat|triceps|neck|90\/90|spiderman|world/i.test(name) });
 function addPicked() {
   const sh = S.ui.sheet, names = sh.sel.slice(); if (!names.length) return;
-  S.ui.sheet = null; S.ui.customForm = false; S.ui.form.custom = null;
+  S.ui.sheet = sh.back || null; S.ui.customForm = false; S.ui.form.custom = null;
   if (sh.mode === 'add') {
     snap('add exercise');
     const first = S.active.exercises.length;
@@ -3511,7 +3530,7 @@ function addPicked() {
 function pickEx(name) {
   const sh = S.ui.sheet;
   if (isMultiPick(sh)) { togglePick(name); return; }
-  S.ui.sheet = null; S.ui.customForm = false; S.ui.form.custom = null;
+  S.ui.sheet = sh.back || null; S.ui.customForm = false; S.ui.form.custom = null;
   if (sh.mode === 'swap') { snap('swap exercise'); const old = S.active.exercises[sh.i]; S.active.exercises[sh.i] = mkEx(name, old.plan ? { ...old.plan, restSec: old.restSec } : null); if (old.group) S.active.exercises[sh.i].group = old.group; S.ui.exMenu = null; saveActive(); render(); return; }
   if (sh.mode === 'blockswap') { S.ui.draft.days[sh.i].items[sh.j].name = name; render(); }
 }
@@ -3870,7 +3889,7 @@ Object.assign(A, {
   hold(d) { const s = S.active.stretches[+d.j]; startRest(s.holdSec, `Hold: ${s.name}${s.sides ? ' (one side)' : ''}`); },
   strdone(d) { snap('stretch'); const s = S.active.stretches[+d.j]; s.done = !s.done; saveActive(); render(); },
   // picker
-  pick(d) { S.ui.exMenu = null; S.ui.sheet = { mode: d.mode, i: d.i != null ? +d.i : null, j: d.j != null ? +d.j : null, q: '', fm: '', fe: '', sel: [] }; S.ui.customForm = false; S.ui.form.custom = null; render(); },
+  pick(d) { S.ui.exMenu = null; const back = S.ui.sheet && S.ui.sheet.mode === 'dayedit' ? S.ui.sheet : null; S.ui.sheet = { mode: d.mode, i: d.i != null ? +d.i : null, j: d.j != null ? +d.j : null, q: '', fm: '', fe: '', sel: [], back }; S.ui.customForm = false; S.ui.form.custom = null; render(); },
   pickadd() { addPicked(); },
   pickclear() { S.ui.sheet.sel = []; refreshPick(); },
   pickm(d) { const sh = S.ui.sheet; sh.fm = sh.fm === d.m ? '' : d.m; S.ui.customForm = false; refreshPick(); },
@@ -3878,7 +3897,22 @@ Object.assign(A, {
   tipok(d) { tipSeen(d.id); },
   tipsreset() { LS.del('ft.tips'); saveSetting({ tipsSeen: [] }); tipCur = null; toast('Tips will show again as you go'); },
   balm(d) { S.ui.balM = S.ui.balM === d.m ? null : d.m; render(); },
-  closesheet() { S.ui.sheet = null; S.ui.pendingStart = null; S.ui.customForm = false; render(); },
+  closesheet() { const back = S.ui.sheet && S.ui.sheet.back; S.ui.sheet = back || null; if (!back && S.ui.dayEdit) { S.ui.dayEdit = null; S.ui.draft = null; } S.ui.pendingStart = null; S.ui.customForm = false; render(); },
+  dayedit(d) {
+    const b = S.blocks.get(d.id), i = b ? (b.days || []).findIndex(x => x.key === d.key) : -1; if (i < 0) return;
+    if (S.ui.draft) { A.editblock({ id: d.id }); return; }
+    S.ui.draft = clone({ ...b, id: d.id }); S.ui.dayEdit = { id: d.id }; S.ui.sheet = { mode: 'dayedit', i }; render();
+  },
+  savedayedit() {
+    const b = S.ui.draft, cur = S.blocks.get(b.id); if (!cur) { A.closesheet(); return; }
+    const day = b.days[S.ui.sheet.i];
+    if (day.type === 'strength') fixReps(day.items);
+    // Only this session changes; anything else edited in the block since the sheet opened is kept.
+    const days = (cur.days || []).map(x => x.key === day.key ? day : x);
+    write('blocks', b.id, { ...cur, days });
+    S.ui.sheet = null; S.ui.dayEdit = null; S.ui.draft = null; render(); toast('Session saved');
+  },
+  dayeditblock() { const id = S.ui.dayEdit.id; S.ui.sheet = null; S.ui.dayEdit = null; S.ui.draft = null; A.editblock({ id }); },
   pickex(d) { pickEx(d.name); },
   pickstretch(d) { const sh = S.ui.sheet; if (sh.q && d.name === sh.q.trim()) { sh.q = ''; const el = $('#pick-q'); if (el) el.value = ''; } togglePick(d.name); },
   customform() { S.ui.customForm = true; S.ui.form.custom = null; render(); },
@@ -4387,7 +4421,7 @@ function syncPlan() {
   // Only once every collection has loaded from the server, so a half-loaded start can't save an empty plan.
   if (!settings().checkin || !engine.signedIn() || S.net.dbFailed || S.net.synced.size < COLS.length) return;
   const days = planAhead(), cur = meta('plan');
-  if (cur && cur.from === ymd() && JSON.stringify(cur.days) === JSON.stringify(days)) return;
+  if (cur && cur.from === ymd() && canon(cur.days) === canon(days)) return;
   write('meta', 'plan', { from: ymd(), days });
 }
 setInterval(() => { syncReminders(); syncPlan(); }, 60000);
