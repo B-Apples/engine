@@ -156,18 +156,20 @@
     return { text, truncated: fin.stop === 'max_tokens' };
   }
 
-  /* ---------- progress photos (private Storage bucket "photos") ---------- */
+  /* ---------- photos: progress photos (private bucket "photos") and post photos (bucket "social") ---------- */
   const URLS_KEY = 'engine.photoUrls';
   let urls = {}; try { urls = JSON.parse(localStorage.getItem(URLS_KEY) || '{}'); } catch (e) { urls = {}; }
+  // Feed photos add up, so expired links are dropped at launch.
+  for (const k of Object.keys(urls)) if (!urls[k] || urls[k].exp < Date.now()) delete urls[k];
   const fetching = new Set();
-  function photoUrl(path) {
-    const hit = urls[path];
+  function photoUrl(path, bucket = 'photos') {
+    const key = bucket === 'photos' ? path : bucket + ':' + path, hit = urls[key];
     if (hit && hit.exp > Date.now() + 86400000) return hit.url;
-    if (!fetching.has(path) && sb && navigator.onLine) {
-      fetching.add(path);
-      sb.storage.from('photos').createSignedUrl(path, 60 * 60 * 24 * 30).then(({ data }) => {
-        if (data && data.signedUrl) { urls[path] = { url: data.signedUrl, exp: Date.now() + 60 * 60 * 24 * 30 * 1000 }; try { localStorage.setItem(URLS_KEY, JSON.stringify(urls)); } catch (e) {} window.dispatchEvent(new Event('engine:photo')); }
-      }).finally(() => fetching.delete(path));
+    if (!fetching.has(key) && sb && navigator.onLine) {
+      fetching.add(key);
+      sb.storage.from(bucket).createSignedUrl(path, 60 * 60 * 24 * 30).then(({ data }) => {
+        if (data && data.signedUrl) { urls[key] = { url: data.signedUrl, exp: Date.now() + 60 * 60 * 24 * 30 * 1000 }; try { localStorage.setItem(URLS_KEY, JSON.stringify(urls)); } catch (e) {} window.dispatchEvent(new Event('engine:photo')); }
+      }).finally(() => fetching.delete(key));
     }
     return hit ? hit.url : '';
   }
@@ -226,7 +228,7 @@
     async forget(endpoint) { if (uid()) await sb.from('push_subs').delete().eq('endpoint', endpoint); }
   };
 
-  /* ---------- daily Claude allowance and friends (migration 006) ---------- */
+  /* ---------- daily Claude allowance (migration 006) ---------- */
   // {used, limit, freeAt}: requests in the last 24 hours; limit null means no limit.
   async function aiUsage() {
     if (!sb || !uid()) return null;
@@ -234,23 +236,87 @@
     if (error) throw mapErr(error);
     return data;
   }
-  // Every account that chose to share, including this one: [{ uid, name, data, at, me }].
-  async function friendList() {
-    if (!sb || !uid()) return [];
-    const { data, error } = await sb.from('friend_shares').select('user_id,name,data,updated_at').order('name');
-    if (error) throw mapErr(error);
-    return data.map(r => ({ uid: r.user_id, name: r.name, data: r.data || {}, at: r.updated_at, me: r.user_id === uid() }));
-  }
-  async function friendShare(name, data) {
-    if (!uid()) throw err('unavailable', 'signed out');
-    const { error } = await sb.from('friend_shares').upsert({ user_id: uid(), name, data, updated_at: new Date().toISOString() });
-    if (error) throw mapErr(error);
-  }
-  async function friendStop() {
-    if (!uid()) throw err('unavailable', 'signed out');
-    const { error } = await sb.from('friend_shares').delete().eq('user_id', uid());
-    if (error) throw mapErr(error);
-  }
+
+  /* ---------- social (migration 007) ---------- */
+  // Profiles, friends, stats each person chose to show, posts with photos, props, comments, groups and notifications.
+  // Row-level security on the server decides what each account can see; these calls just ask.
+  const need = () => { if (!sb || !uid()) throw err('unavailable', 'signed out'); };
+  const rpc = async (fn, args) => { need(); const { data, error } = await sb.rpc(fn, args || {}); if (error) throw mapErr(error); return data; };
+  const sel = async q => { const { data, error } = await q; if (error) throw mapErr(error); return data; };
+  const PROFILE = 'user_id,username,name,bio,notify';
+  const social = {
+    async me() { need(); const r = await sel(sb.from('profiles').select(PROFILE).eq('user_id', uid()).maybeSingle()); return r || null; },
+    async saveProfile(p) {
+      need();
+      const row = { user_id: uid(), username: p.username, name: p.name, bio: p.bio || '', notify: p.notify || {}, updated_at: new Date().toISOString() };
+      const { error } = await sb.from('profiles').upsert(row);
+      if (error) { const e = mapErr(error); if (error.code === '23505') e.code = 'taken'; throw e; }
+    },
+    async usernameFree(u) { need(); const r = await sel(sb.from('profiles').select('user_id').eq('username', u).maybeSingle()); return !r || r.user_id === uid(); },
+    // Usernames starting with q (or names containing it), not counting you.
+    async search(q) {
+      need(); q = String(q || '').trim().toLowerCase().replace(/[^a-z0-9_ ]/g, ''); if (!q) return [];
+      const u = q.replace(/ /g, '_');
+      return sel(sb.from('profiles').select('user_id,username,name,bio').or(`username.ilike.${u}%,name.ilike.%${q}%`).neq('user_id', uid()).order('username').limit(20));
+    },
+    profile: id => sel(sb.from('profiles').select('user_id,username,name,bio').eq('user_id', id).maybeSingle()),
+    friends: () => rpc('engine_friends'),
+    request: username => rpc('engine_friend_request', { p_username: username }),
+    accept: id => rpc('engine_friend_accept', { p_from: id }),
+    unfriend: id => rpc('engine_friend_remove', { p_other: id }),
+    // { userId: { section: { vis, data, at } } } for the given people (only what each chose to show you).
+    async stats(ids, sections) {
+      need(); if (!ids.length) return {};
+      let q = sb.from('profile_stats').select('user_id,section,vis,data,updated_at').in('user_id', ids);
+      if (sections) q = q.in('section', sections);
+      const out = {};
+      for (const r of await sel(q)) (out[r.user_id] = out[r.user_id] || {})[r.section] = { vis: r.vis, data: r.data, at: r.updated_at };
+      return out;
+    },
+    async putStat(section, vis, data) { need(); const { error } = await sb.from('profile_stats').upsert({ user_id: uid(), section, vis, data, updated_at: new Date().toISOString() }); if (error) throw mapErr(error); },
+    async hideStat(section) { need(); const { error } = await sb.from('profile_stats').delete().match({ user_id: uid(), section }); if (error) throw mapErr(error); },
+    feed: (o = {}) => rpc('engine_feed', { p_before: o.before || null, p_group: o.group || null, p_user: o.user || null, p_limit: o.limit || 20, p_post: o.post || null }),
+    // Sends a post; resending the same client id (an offline post retried) returns the post that already went up.
+    async post(p) {
+      need();
+      const row = { user_id: uid(), client_id: p.clientId, kind: p.kind, body: p.body || '', data: p.data || {}, photos: p.photos || [], group_id: p.group || null };
+      const { data, error } = await sb.from('posts').upsert(row, { onConflict: 'user_id,client_id', ignoreDuplicates: true }).select('id');
+      if (error) throw mapErr(error);
+      return data && data[0] ? data[0].id : null;
+    },
+    async editPost(id, body) { need(); const { error } = await sb.from('posts').update({ body, edited_at: new Date().toISOString() }).eq('id', id); if (error) throw mapErr(error); },
+    async deletePost(id, photos) {
+      need();
+      if (photos && photos.length) await sb.storage.from('social').remove(photos).catch(() => {});
+      const { error } = await sb.from('posts').delete().eq('id', id); if (error) throw mapErr(error);
+    },
+    async prop(postId, on) {
+      need();
+      const q = on ? sb.from('post_props').upsert({ post_id: postId, user_id: uid() }, { ignoreDuplicates: true }) : sb.from('post_props').delete().match({ post_id: postId, user_id: uid() });
+      const { error } = await q; if (error) throw mapErr(error);
+    },
+    comments: postId => rpc('engine_comments', { p_post: postId }),
+    async comment(postId, body) { need(); const { error } = await sb.from('post_comments').insert({ post_id: postId, user_id: uid(), body }); if (error) throw mapErr(error); },
+    async deleteComment(id) { need(); const { error } = await sb.from('post_comments').delete().eq('id', id); if (error) throw mapErr(error); },
+    notifications: () => rpc('engine_notifications'),
+    async unread() { need(); const { count, error } = await sb.from('notifications').select('id', { count: 'exact', head: true }).is('read_at', null); if (error) throw mapErr(error); return count || 0; },
+    async markRead() { need(); const { error } = await sb.from('notifications').update({ read_at: new Date().toISOString() }).is('read_at', null); if (error) throw mapErr(error); },
+    groups: () => rpc('engine_groups'),
+    groupCreate: (name, about) => rpc('engine_group_create', { p_name: name, p_about: about || '' }),
+    groupUpdate: (id, name, about) => rpc('engine_group_update', { p_group: id, p_name: name, p_about: about || '' }),
+    groupAdd: (id, user) => rpc('engine_group_add', { p_group: id, p_user: user }),
+    groupRemove: (id, user) => rpc('engine_group_remove', { p_group: id, p_user: user }),
+    groupDelete: id => rpc('engine_group_delete', { p_group: id }),
+    // Post photos go in the "social" bucket under this account's folder.
+    async upload(blob) {
+      need();
+      const path = `${uid()}/${(crypto.randomUUID && crypto.randomUUID()) || Date.now().toString(36)}.jpg`;
+      const { error } = await sb.storage.from('social').upload(path, blob, { contentType: blob.type || 'image/jpeg' });
+      if (error) throw err(isNet(error) ? 'unavailable' : 'upload_failed', error.message);
+      return path;
+    },
+    photoUrl: path => photoUrl(path, 'social')
+  };
 
   if (sb) sb.auth.onAuthStateChange((ev, s) => {
     const was = uid();
@@ -281,7 +347,7 @@
     photoUrl,
     push,
     aiUsage,
-    friends: { list: friendList, share: friendShare, stop: friendStop },
+    social,
     // Pull to refresh: fetch every collection the app listens to again.
     reload: () => Promise.all([...listeners.keys()].map(load))
   };
