@@ -86,6 +86,7 @@ svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;str
 .mi{width:36px;height:36px;border-radius:10px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--accent);flex:none}
 .mi svg.ic{width:20px;height:20px}
 .slist{padding-block:2px;gap:0}
+.setbody{display:flex;flex-direction:column;gap:22px}
 .srow{display:flex;align-items:center;gap:12px;min-height:56px;padding:9px 0;border-bottom:1px solid var(--line);width:100%;text-align:left}
 .srow:last-child{border-bottom:0}
 .srow .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
@@ -315,6 +316,7 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .ex-h{display:flex;align-items:flex-start;gap:8px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:4;background:var(--surface);margin:-14px -12px 0;padding:14px 12px 6px;border-radius:var(--r) var(--r) 0 0}
 .ex-h .exprog{flex:none;align-self:center;font-size:13px;font-weight:700;color:var(--muted);background:var(--surface-2);border-radius:999px;padding:3px 9px;white-space:nowrap}
 .ex-h .exprog.all{color:var(--accent-ink);background:var(--accent)}
+.ex-h .exprog.all{display:inline-flex;align-items:center;gap:3px;padding-left:6px}.ex-h .exprog svg.ic{width:15px;height:15px;stroke-width:3}
 .ex-h .grow{flex:1;min-width:0}
 .ex-h h3{font-size:18px;font-weight:720;font-stretch:90%;line-height:1.2}
 .why{font-size:13.5px;color:var(--fg);background:var(--accent-soft);border-radius:8px;padding:6px 9px;align-self:flex-start}
@@ -347,7 +349,17 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .ssg-h svg.ic{width:18px;height:18px;color:var(--accent)}
 .gtag{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 6px;margin-right:8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:750;vertical-align:2px;font-stretch:100%}
 .btn svg.ic{width:18px;height:18px}
-.set.done input{color:var(--muted)}
+/* A ticked set reads at a glance in every theme: the row takes an accent tint with a bar down its left edge, the number
+   turns accent, the boxes melt into the row and the values dim, so what's left to do stands out. */
+.set.done{background:color-mix(in srgb,var(--accent) 15%,var(--surface));box-shadow:inset 4px 0 0 var(--accent)}
+.set.done.sel{background:color-mix(in srgb,var(--accent) 24%,var(--surface))}
+.set.done .kind{color:var(--accent)}
+.set.done .kind.w{color:var(--warn)}
+.set.done input{color:var(--muted);background:transparent;font-weight:560}
+.set.done input::placeholder{color:transparent}
+.set.done .chk svg.ic{stroke-width:3}
+.set:not(.done) .chk svg.ic{opacity:.5}
+.ex.alldone .ex-h h3{color:var(--muted)}
 .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px 4px 8px}
 .stepper .grp{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .stepper .grp button{flex:1;height:48px;font-weight:700;color:var(--fg);font-size:16px}
@@ -538,13 +550,13 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .ict svg{width:52px;height:52px;border-radius:13px;outline:2px solid transparent;outline-offset:3px;box-shadow:0 0 0 1px var(--line)}
 .ict[aria-pressed="true"]{color:var(--fg)}
 .ict[aria-pressed="true"] svg{outline-color:var(--accent)}
-body.d-compact main{gap:14px}
+body.d-compact main,body.d-compact .setbody{gap:14px}
 body.d-compact .card{padding:11px;gap:7px}
 body.d-compact .rowi{padding:8px 0}
 body.d-compact .srow{min-height:46px;padding:6px 0}
 body.d-compact .pick{padding:9px 0}
 body.d-compact .set{padding-block:1px}
-body.d-roomy main{gap:30px}
+body.d-roomy main,body.d-roomy .setbody{gap:30px}
 body.d-roomy .card{padding:18px;gap:13px}
 body.d-roomy .rowi{padding:14px 0}
 body.d-roomy .srow{min-height:62px;padding:12px 0}
@@ -2532,7 +2544,7 @@ function exCard(ex, i, g) {
   const hist = exHist(ex.name).filter(x => x.wid !== S.active.editingId && x.ws.length);
   const last = hist[0];
   const step = settings().stepLb, wk = ex.sets.filter(x => x.kind !== 'W'), wkDone = wk.filter(x => x.done).length;
-  let h = `<section class="ex" id="ex-${i}"><div class="ex-h"><div class="grow"><h3>${groupTag(g)}${esc(ex.name)}</h3><div class="sub">${esc(ex.muscle)}${g ? '' : ` · rest ${fmtClock(ex.restSec)}`}${ex.plan ? ` · plan ${ex.plan.sets}×${ex.plan.repLow === ex.plan.repHigh ? ex.plan.repLow : ex.plan.repLow + '–' + ex.plan.repHigh}${ex.plan.rpe ? ' @ RPE ' + ex.plan.rpe : ''}` : ''}</div></div>${wk.length ? `<span class="exprog ${wkDone === wk.length ? 'all' : ''}" aria-label="${wkDone} of ${wk.length} working sets done">${wkDone}/${wk.length}</span>` : ''}<button class="icon" data-act="exmenu" data-i="${i}" aria-label="Exercise options" aria-expanded="${S.ui.exMenu === i}">${ic('more')}</button></div>`;
+  let h = `<section class="ex ${wk.length && wkDone === wk.length ? 'alldone' : ''}" id="ex-${i}"><div class="ex-h"><div class="grow"><h3>${groupTag(g)}${esc(ex.name)}</h3><div class="sub">${esc(ex.muscle)}${g ? '' : ` · rest ${fmtClock(ex.restSec)}`}${ex.plan ? ` · plan ${ex.plan.sets}×${ex.plan.repLow === ex.plan.repHigh ? ex.plan.repLow : ex.plan.repLow + '–' + ex.plan.repHigh}${ex.plan.rpe ? ' @ RPE ' + ex.plan.rpe : ''}` : ''}</div></div>${wk.length ? `<span class="exprog ${wkDone === wk.length ? 'all' : ''}" aria-label="${wkDone} of ${wk.length} working sets done">${wkDone === wk.length ? ic('check') : ''}${wkDone}/${wk.length}</span>` : ''}<button class="icon" data-act="exmenu" data-i="${i}" aria-label="Exercise options" aria-expanded="${S.ui.exMenu === i}">${ic('more')}</button></div>`;
   if (S.ui.exMenu === i) {
     let h = `<div class="dlg-t" id="dlg-t" tabindex="-1">${esc(ex.name)}</div><span class="sub" style="margin-top:-10px">Rest ${fmtClock(g ? S.active.exercises[g.end].restSec : ex.restSec)}${g ? ' after each round' : ''}</span><div class="exmenu"><button class="btn" data-act="exmove" data-i="${i}" data-d="-1">Move up</button><button class="btn" data-act="exmove" data-i="${i}" data-d="1">Move down</button><button class="btn" data-act="pick" data-mode="swap" data-i="${i}">Swap</button>
       <button class="btn" data-act="exrest" data-i="${i}" data-d="-5">Rest −5s</button><button class="btn" data-act="exrest" data-i="${i}" data-d="5">Rest +5s</button><button class="btn" data-act="exnote" data-i="${i}">Note</button></div>`;
@@ -3211,33 +3223,73 @@ function aiSummary() {
   if (u.limit == null) return `No daily limit on your account · ${u.used} in the last 24 hours`;
   return `${u.used} of ${u.limit} used in the last 24 hours (evaluations and coach chat)${u.freeAt ? ` · next one frees up at ${new Date(u.freeAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : ''}`;
 }
+// Settings sit in four groups. Each row carries the words a search should find it by; links also list what's
+// inside their page, so "accent" finds Theme and "deload" finds Progression rules.
+const SET_FIND = {
+  pappear: ['theme', 'dark', 'light', 'chalk', 'oled', 'midnight', 'graphite', 'forest', 'espresso', 'custom colours', 'accent colour', 'text size', 'font', 'layout density', 'compact', 'roomy', 'app icon'],
+  ptoday: ['today cards', 'week strip', 'coach card', 'last session', 'this week', 'recent prs', 'hide', 'reorder'],
+  ptabs: ['tab order', 'start screen', 'open engine on', 'navigation'],
+  pprog: ['adding weight', 'increment', 'upper-body lifts', 'lower-body lifts', 'weight steps', 'back off', 'missed reps', 'deload', 'block length', 'per-lift amounts'],
+  ppr: ['personal records', 'pr', 'heaviest', 'estimated max', '1rm', 'rep pr', 'volume', 'pr alert'],
+  pnotif: ['notifications', 'push', 'workout reminders', 'reminder time', 'rest timer alerts', 'check-in notification', 'test notification'],
+  phr: ['heart rate', 'garmin', 'watch', 'bluetooth', 'chest strap', 'max heart rate', 'zones', 'bpm'],
+  pdata: ['account', 'sign out', 'export', 'json', 'backup', 'sync', 'install', 'example data', 'email'],
+  psocial: ['social', 'privacy', 'username', 'friends', 'sharing', 'posts', 'bio'],
+  pmetrics: ['custom metrics', 'grip strength', 'track']
+};
+function setGroups(search) {
+  const st = settings(), cs = COACH_STYLES.find(c => c[0] === st.coachStyle) || COACH_STYLES[1];
+  const L = (k, title, icon) => ({ k, title, icon, find: SET_FIND[k] || [], html: slink(k, title, icon) });
+  const R = (title, sub, ctrl, find = []) => ({ title, sub, find, html: srow(title, sub, ctrl) });
+  const Col = (title, sub, ctrl, find = []) => ({ title, sub, find, html: scol(title, sub, ctrl) });
+  const groups = [
+    ['Look and layout', [L('pappear', 'Theme, text size and app icon', 'palette'), L('ptoday', 'Today screen', 'today'), L('ptabs', 'Tabs and start screen', 'layout')]],
+    ['Workouts', [
+      R('Rest, compound lifts', '', restPm('restCompound'), ['rest timer', 'default rest']),
+      R('Rest, accessories', 'Each exercise can override these', restPm('restAccessory'), ['rest timer', 'default rest']),
+      R('Full-screen rest timer', 'A big countdown while you rest. Tap the arrow to shrink it', swc('restFull', st.restFull === true, 'Full-screen rest timer'), ['rest timer']),
+      R('Auto warm-ups', 'Compound lifts start with a warm-up ramp to your first working weight', swc('autoWarm', st.autoWarm, 'Auto warm-ups'), ['warmup']),
+      L('pprog', 'Progression rules', 'prog'),
+      L('ppr', 'Personal records', 'trophy')]],
+    ['Coaching', [
+      Col('Coach style', `${cs[1]}: ${cs[2]} Used for evaluations, check-ins and coach chat.`, segOf('coachstyle', [['blunt', 'Blunt'], ['balanced', 'Balanced'], ['detailed', 'Detailed']], cs[0]), ['blunt', 'balanced', 'detailed', 'claude', 'evaluation']),
+      R('Weekly check-in', st.checkin ? `${DOWL[st.checkinDay]}s at ${fmtTime(st.checkinTime)}. Claude reviews your week and sets next week's targets` : 'Claude reviews your week and sets next week\'s targets', swc('checkin', st.checkin, 'Weekly check-in'), ['sunday', 'claude', 'coach']),
+      ...(st.checkin ? [R('When', '', `<span class="ctl2"><select id="ck-day" class="in mini day" data-act-change="ckday" aria-label="Check-in day">${[0, 1, 2, 3, 4, 5, 6].map(d => `<option value="${d}" ${st.checkinDay === d ? 'selected' : ''}>${DOWL[d].slice(0, 3)}</option>`).join('')}</select><input id="ck-time" type="time" class="in mini time" data-act-change="cktime" value="${esc(st.checkinTime)}" aria-label="Check-in time"></span>`, ['check-in day', 'check-in time'])] : []),
+      Col('Time zone', 'Your check-in and workout reminders follow it', tzSelect(), ['timezone', 'clock']),
+      R('Block suggestions', 'Offer a ready-made block when you start a new one', swc('suggestBlocks', st.suggestBlocks, 'Block suggestions'), ['training block', 'program']),
+      R('Claude requests', aiSummary(), '', ['limit', 'allowance', 'usage', 'ai'])]],
+    ['Phone and account', [
+      L('pnotif', 'Notifications', 'bell'),
+      L('phr', 'Heart rate monitor', 'heart'),
+      R('Sound when rest ends', 'Vibrates too', swc('sound', st.sound, 'Sound when rest ends'), ['rest timer', 'beep', 'audio']),
+      R('Haptics', 'A tap when you tick a set, a double pulse when an exercise or round is done', swc('haptics', st.haptics, 'Haptics'), ['vibrate', 'vibration']),
+      R('Buzz on taps', 'A light buzz every time you press a button', swc('tapBuzz', st.tapBuzz !== false, 'Buzz on taps'), ['vibrate', 'vibration', 'haptics']),
+      R('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'), ['display', 'sleep', 'wake lock']),
+      R('Feature tips', 'Short tips the first time you meet a feature', '<button class="btn sm" data-act="tipsreset">Show again</button>', ['help', 'hints']),
+      L('pdata', 'Data and account', 'cloud')]]
+  ];
+  if (search) groups.push(['In Profile', [L('psocial', 'Social and privacy', 'people'), L('pmetrics', 'Custom metrics', 'chart')]]);
+  return groups;
+}
+function settingsBody() {
+  const q = (S.ui.setQ || '').trim().toLowerCase(), groups = setGroups(!!q);
+  if (!q) return groups.map(([label, rows]) => `<div class="sec"><span class="label">${label}</span><div class="card slist">${rows.map(r => r.html).join('')}</div></div>`).join('')
+    + `<span class="sub" style="text-align:center">Units: pounds, kilometres, pool metres, inches.</span><div class="brand">${ic('fibre')}<span>Engine</span></div>`;
+  // Every word has to appear in the row's title, note or search words. A link that only matched on what's
+  // inside its page says which part, so you know why it's there.
+  // Words match from their start, so "rest" finds Rest timer but not Forest.
+  const words = q.split(/\s+/).map(w => new RegExp('(^|[^a-z0-9])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))), text = s => String(s || '').replace(/<[^>]+>/g, '').toLowerCase();
+  const hit = r => { const own = text(r.title) + ' ' + text(r.sub), all = own + ' ' + r.find.join(' '); if (!words.every(w => w.test(all))) return null; return words.every(w => w.test(own)) ? r.html : r.k ? setHint(r, words) : r.html; };
+  const out = groups.map(([label, rows]) => [label, rows.map(hit).filter(Boolean)]).filter(g => g[1].length);
+  if (!out.length) return `<div class="empty"><span>No settings match “${esc(q)}”.</span></div>`;
+  return out.map(([label, rows]) => `<div class="sec"><span class="label">${label}</span><div class="card slist">${rows.join('')}</div></div>`).join('');
+}
+function setHint(r, words) {
+  const f = r.find.find(p => words.some(w => w.test(p))) || '';
+  return `<button class="srow" data-act="profpage" data-k="${r.k}"><span class="mi">${ic(r.icon)}</span><span class="grow"><span class="t">${r.title}</span><span class="sub ell">Includes ${esc(f)}</span></span>${ic('chev', 'chev')}</button>`;
+}
 function vSettings() {
-  const st = settings();
-  let h = `<div class="sec"><span class="label">Look and layout</span><div class="card slist">${slink('pappear', 'Theme, text size and app icon', 'palette')}${slink('ptoday', 'Today screen', 'today')}${slink('ptabs', 'Tabs and start screen', 'layout')}</div></div>`;
-  h += `<div class="sec"><span class="label">Workouts</span><div class="card slist">
-    ${srow('Rest, compound lifts', '', restPm('restCompound'))}
-    ${srow('Rest, accessories', 'Each exercise can override these', restPm('restAccessory'))}
-    ${slink('pprog', 'Progression rules', 'prog')}
-    ${slink('ppr', 'Personal records', 'trophy')}
-    ${srow('Full-screen rest timer', 'A big countdown while you rest. Tap the arrow to shrink it', swc('restFull', st.restFull === true, 'Full-screen rest timer'))}
-    ${srow('Sound when rest ends', 'Vibrates too', swc('sound', st.sound, 'Sound when rest ends'))}
-    ${srow('Keep screen on', 'While a workout is open', swc('screenOn', st.screenOn, 'Keep screen on during workouts'))}
-    ${srow('Auto warm-ups', 'Compound lifts start with a warm-up ramp to your first working weight', swc('autoWarm', st.autoWarm, 'Auto warm-ups'))}
-    ${srow('Haptics', 'A tap when you tick a set, a double pulse when an exercise or round is done', swc('haptics', st.haptics, 'Haptics'))}
-    ${srow('Buzz on taps', 'A light buzz every time you press a button', swc('tapBuzz', st.tapBuzz !== false, 'Buzz on taps'))}</div></div>`;
-  const cs = COACH_STYLES.find(c => c[0] === st.coachStyle) || COACH_STYLES[1];
-  h += `<div class="sec"><span class="label">Coaching</span><div class="card slist">
-    ${scol('Coach style', `${cs[1]}: ${cs[2]} Used for evaluations, check-ins and coach chat.`, segOf('coachstyle', [['blunt', 'Blunt'], ['balanced', 'Balanced'], ['detailed', 'Detailed']], cs[0]))}
-    ${srow('Weekly check-in', st.checkin ? `${DOWL[st.checkinDay]}s at ${fmtTime(st.checkinTime)}. Claude reviews your week and sets next week's targets` : 'Claude reviews your week and sets next week\'s targets', swc('checkin', st.checkin, 'Weekly check-in'))}
-    ${st.checkin ? srow('When', '', `<span class="ctl2"><select id="ck-day" class="in mini day" data-act-change="ckday" aria-label="Check-in day">${[0, 1, 2, 3, 4, 5, 6].map(d => `<option value="${d}" ${st.checkinDay === d ? 'selected' : ''}>${DOWL[d].slice(0, 3)}</option>`).join('')}</select><input id="ck-time" type="time" class="in mini time" data-act-change="cktime" value="${esc(st.checkinTime)}" aria-label="Check-in time"></span>`) : ''}
-    ${srow('Block suggestions', 'Offer a ready-made block when you start a new one', swc('suggestBlocks', st.suggestBlocks, 'Block suggestions'))}
-    ${srow('Claude requests', aiSummary(), '')}</div></div>`;
-  h += `<div class="sec"><span class="label">Time zone</span><div class="card slist"><div class="srow col"><span class="grow"><span class="t">Time zone</span><span class="sub">Your check-in and workout reminders follow it</span></span>${tzSelect()}</div></div></div>`;
-  h += `<div class="sec"><span class="label">Alerts and devices</span><div class="card slist">${slink('pnotif', 'Notifications', 'bell')}${slink('phr', 'Heart rate monitor', 'heart')}</div></div>`;
-  h += `<div class="sec"><span class="label">Help</span><div class="card slist">${srow('Feature tips', 'Short tips the first time you meet a feature', '<button class="btn sm" data-act="tipsreset">Show again</button>')}</div></div>`;
-  h += `<div class="sec"><span class="label">Account</span><div class="card slist">${slink('pdata', 'Data and account', 'cloud')}</div></div>`;
-  h += `<span class="sub" style="text-align:center">Units: pounds, kilometres, pool metres, inches.</span><div class="brand">${ic('fibre')}<span>Engine</span></div>`;
-  return h;
+  return `<input id="set-q" class="in" type="search" placeholder="Search settings" value="${esc(S.ui.setQ || '')}" data-setq autocomplete="off" aria-label="Search settings"><div id="set-body" class="setbody">${settingsBody()}</div>`;
 }
 function vProfile() {
   const F = profForms(), bl = bodyList(), wa = weightAvg();
@@ -3567,6 +3619,7 @@ function tapBuzz() { if (settings().tapBuzz === false) return; try { if (navigat
 document.addEventListener('input', e => {
   const t = e.target;
   if (t.dataset.bind) { inAct++; try { bindInput(t); } finally { inAct--; } }
+  if (t.hasAttribute('data-setq')) { S.ui.setQ = t.value; const el = $('#set-body'); if (el) el.innerHTML = settingsBody(); }
   if (t.hasAttribute('data-pickq')) { S.ui.sheet.q = t.value; S.ui.customForm = false; S.ui.form.custom = null; $('#pick-list').innerHTML = pickList(); }
   if (t.hasAttribute('data-libq')) { S.ui.libQ = t.value; const q = t.value.toLowerCase(); $('#lib-list').innerHTML = libList(library().filter(x => !q || x.name.toLowerCase().includes(q) || x.muscle.toLowerCase().includes(q))); }
   if (t.hasAttribute('data-color')) applyAccent(t.value);
@@ -4004,7 +4057,7 @@ Object.assign(A, {
   // profile
   savebody() { const f = S.ui.form.body; if (f.weightLb == null && f.bodyFat == null) { toast('Enter a weight or body fat'); return; } const e = S.body.get(f.date) || {}; const doc = { ...e, date: f.date, weightLb: f.weightLb, bodyFat: f.bodyFat }; delete doc.sample; write('body', f.date, doc); S.ui.weighOpen = false; delete S.ui.form.body; render(); toast('Saved'); },
   weigh() { S.ui.weighOpen = !S.ui.weighOpen; delete S.ui.form.body; render(); if (S.ui.weighOpen) { const el = $('#bd-w'); if (el) el.focus(); } },
-  profpage(d) { go(d.k); },
+  profpage(d) { if (d.k === 'settings') S.ui.setQ = ''; go(d.k); },
   prs() { go('prs'); },
   hrchip() { if (HR.status === 'on') go('phr'); else hrConnect(); },
   pushtest() { const ep = LS.get('ft.push', ''); if (!ep) return; engine.push.restAlert(ep, new Date().toISOString(), 'Engine', 'Notifications are working on this phone.'); toast('Sent. It should arrive within about 10 seconds'); },
