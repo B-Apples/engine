@@ -360,11 +360,17 @@ select.in{appearance:none;background-image:linear-gradient(45deg,transparent 50%
 .set.done .chk svg.ic{stroke-width:3}
 .set:not(.done) .chk svg.ic{opacity:.5}
 .ex.alldone .ex-h h3{color:var(--muted)}
-.stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px 4px 8px}
-.stepper .grp{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.stepper .grp button{flex:1;height:48px;font-weight:700;color:var(--fg);font-size:16px}
-.stepper .grp button:active{background:var(--surface-2)}
-.stepper .grp span{font-size:11px;color:var(--faint);font-weight:650;text-transform:uppercase;letter-spacing:.05em}
+/* The adjust buttons open as a tray joined under the selected set, each −/+ pair sitting under the box it changes. */
+.stepwrap{margin-top:-2px}
+.swr:has(+ .stepwrap:not([hidden])) .set.sel{border-bottom-left-radius:0;border-bottom-right-radius:0}
+.stepper{display:grid;grid-template-columns:38px minmax(0,1.25fr) minmax(0,1fr) minmax(0,.85fr) 52px;gap:6px;padding:2px 4px 6px;background:var(--surface-2);border-radius:0 0 10px 10px}
+.swr:has(.set.done.sel) + .stepwrap .stepper{background:color-mix(in srgb,var(--accent) 24%,var(--surface));box-shadow:inset 4px 0 0 var(--accent)}
+.stepper .grp{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stepper .grp:first-child{grid-column:2}
+.stepper .grp button{flex:1;min-width:0;height:40px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.stepper .grp button+button{border-left:1px solid var(--line)}
+.stepper .grp button:active{background:var(--accent-soft);color:var(--accent)}
+.stepper .grp svg.ic{width:18px;height:18px;stroke-width:2.2}
 .setnote{grid-column:2/-1;font-size:13px;color:var(--muted);padding:0 4px 4px}
 .ex-f{display:flex;gap:8px}
 .ex-f .btn{flex:1;min-height:44px}
@@ -1806,6 +1812,7 @@ const IC = {
   up: '<path d="M6 15l6-6 6 6"/>',
   down: '<path d="M6 9l6 6 6-6"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
+  minus: '<path d="M5 12h14"/>',
   fibre: '<g transform="rotate(-40 12 12)" fill="currentColor" stroke="none"><rect x="3.5" y="5.8" width="17" height="3.4" rx="1.7"/><rect x="3.5" y="10.3" width="17" height="3.4" rx="1.7"/><rect x="3.5" y="14.8" width="17" height="3.4" rx="1.7"/></g>',
   folder: '<path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.2h7a2 2 0 0 1 2 2v7.8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/>',
   ruler: '<rect x="2.5" y="8" width="19" height="8" rx="1.8"/><path d="M6.5 8v3M10 8v4M13.5 8v3M17 8v4"/>',
@@ -2558,6 +2565,7 @@ function exCard(ex, i, g) {
   if (last) h += `<div class="last">Last time (${fmtShort(last.date)}): ${last.ws.map(s => `${fmtNum(s.lb || 0)}×${s.reps}${s.rpe != null ? ' @' + s.rpe : ''}`).join(', ')}</div>`;
   if (ex.note || S.ui.noteOpen === 'ex' + i) h += `<input id="exn-${i}" class="in" data-root="active" data-bind="exercises.${i}.note" value="${esc(ex.note)}" placeholder="Note for this exercise">`;
   h += `<div class="sets"><div class="sh"><span>Set</span><span>lb</span><span>Reps</span><span>RPE</span><span></span></div>`;
+  const selSet = S.ui.sel.e === i ? ex.sets[S.ui.sel.s] : null;
   let n = 0;
   ex.sets.forEach((s, j) => {
     if (s.kind !== 'W') n++;
@@ -2569,15 +2577,20 @@ function exCard(ex, i, g) {
       <input id="s${i}-${j}-r" inputmode="numeric" data-root="active" data-bind="${pfx}.reps" data-num value="${s.reps ?? ''}" placeholder="reps" aria-label="Reps">
       <input id="s${i}-${j}-p" inputmode="decimal" data-root="active" data-bind="${pfx}.rpe" data-num value="${s.rpe ?? ''}" placeholder="${ex.plan && ex.plan.rpe && s.kind !== 'W' ? ex.plan.rpe : '–'}" aria-label="RPE">
       <button class="chk ${s.done && s.pr ? 'pr' : ''}" data-act="done" data-i="${i}" data-j="${j}" aria-pressed="${!!s.done}" aria-label="${s.done && s.pr ? 'Set done, new PR (' + s.pr + ')' : 'Mark set done'}">${ic(s.done && s.pr ? 'trophy' : 'check')}${S.rest && S.rest.at === i + '-' + j ? RRING : ''}</button></div></div>`;
+    if (sel || (!selSet && j === ex.sets.length - 1)) h += stepTray(i, step, !sel);
     if (s.note && !(sel && S.ui.noteOpen === `s${i}-${j}`)) h += `<div class="setnote">${esc(s.note)}</div>`;
     if (sel && S.ui.noteOpen === `s${i}-${j}`) h += `<input id="sn-${i}-${j}" class="in" data-root="active" data-bind="${pfx}.note" value="${esc(s.note || '')}" placeholder="Note for set ${s.kind === 'W' ? '(warm-up)' : n}">`;
   });
-  const selSet = S.ui.sel.e === i ? ex.sets[S.ui.sel.s] : null;
-  h += `</div><div class="stepwrap" data-i="${i}" ${selSet ? '' : 'hidden'}><div class="stepper"><div class="grp"><button data-act="step" data-f="lb" data-d="${-step}" aria-label="Minus ${step} pounds">−${step}</button><span>lb</span><button data-act="step" data-f="lb" data-d="${step}" aria-label="Plus ${step} pounds">+${step}</button></div>
-      <div class="grp"><button data-act="step" data-f="reps" data-d="-1" aria-label="One rep fewer">−1</button><span>reps</span><button data-act="step" data-f="reps" data-d="1" aria-label="One more rep">+1</button></div>
-      <div class="grp"><button data-act="step" data-f="rpe" data-d="-0.5" aria-label="RPE down half">−½</button><span>RPE</span><button data-act="step" data-f="rpe" data-d="0.5" aria-label="RPE up half">+½</button></div></div></div>`;
+  h += `</div>`;
   h += `<div class="ex-f"><button class="btn sm" data-act="addset" data-i="${i}">+ Set</button>${ex.sets.some(x => x.kind === 'W') ? `<button class="btn sm" data-act="addwarm" data-i="${i}">+ Warm-up</button>` : `<button class="btn sm" data-act="warmups" data-i="${i}">${ic('flame')}Warm-ups</button>`}<button class="btn sm ghost" data-act="setnote" data-i="${i}">Set note</button></div></section>`;
   return h;
+}
+function stepTray(i, step, hide) {
+  const b = (f, d, label, k) => `<button data-act="step" data-f="${f}" data-d="${d}" aria-label="${label}">${ic(k)}</button>`;
+  return `<div class="stepwrap" data-i="${i}" ${hide ? 'hidden' : ''}><div class="stepper">
+    <div class="grp">${b('lb', -step, `Minus ${step} pounds`, 'minus')}${b('lb', step, `Plus ${step} pounds`, 'plus')}</div>
+    <div class="grp">${b('reps', -1, 'One rep fewer', 'minus')}${b('reps', 1, 'One more rep', 'plus')}</div>
+    <div class="grp">${b('rpe', -0.5, 'RPE down half', 'minus')}${b('rpe', 0.5, 'RPE up half', 'plus')}</div></div></div>`;
 }
 function logCardio(a) {
   const sp = SPORT[a.type];
@@ -3767,6 +3780,7 @@ function selectRow(i, j) {
   document.querySelectorAll('.set.sel').forEach(x => x.classList.remove('sel'));
   const row = document.querySelector(`.set[data-i="${i}"][data-j="${j}"]`); if (row) row.classList.add('sel');
   document.querySelectorAll('.stepwrap').forEach(x => { x.hidden = +x.dataset.i !== i; });
+  const tray = document.querySelector(`.stepwrap[data-i="${i}"]`); if (tray && row) row.closest('.swr').after(tray);
 }
 function bindInput(t) {
   const root = t.dataset.root === 'active' ? S.active : t.dataset.root === 'draft' ? S.ui.draft : S.ui.form;

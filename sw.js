@@ -1,7 +1,7 @@
 /* Engine service worker. The app shell is cached per version so Engine opens with no signal; tools/stamp.py
    rewrites VERSION from the shell files' contents before each publish, which is what makes phones pick up an update.
    Supabase data, auth and evaluations always go to the network (the app keeps its own offline copy and outbox). */
-const VERSION = 'a57405d79fbd';
+const VERSION = 'd6ca4f94d24c';
 const SHELL = 'engine-shell-' + VERSION;
 const RUNTIME = 'engine-runtime';
 const FILES = ['./', 'index.html', 'config.js', 'backend.js', 'vendor/supabase.js', 'manifest.webmanifest',
