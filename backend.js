@@ -125,7 +125,7 @@
       res = await fetch(cfg.url + '/functions/v1/evaluate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', apikey: cfg.anonKey, Authorization: 'Bearer ' + s.access_token },
-        body: JSON.stringify({ prompt: typeof input === 'string' ? input : JSON.stringify(input) })
+        body: JSON.stringify({ prompt: typeof input === 'string' ? input : JSON.stringify(input), kind: opts.kind || 'eval' })
       });
     } catch (e) { throw err('upstream_error', e && e.message); }
     if (!res.ok) {

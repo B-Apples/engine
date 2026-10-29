@@ -4,7 +4,12 @@
 import Anthropic from "npm:@anthropic-ai/sdk@1.3.0";
 import { createClient } from "npm:@supabase/supabase-js@2.118.0";
 
-const MODEL = "claude-opus-5-5";
+// The app says which feature is asking: coach chat thinks harder than a post-workout evaluation, which should come back
+// quickly. Claude Fable 5.1 always thinks; effort sets how much.
+const SETUP: Record<string, { model: string; effort: "low" | "medium" | "high" }> = {
+  chat: { model: "claude-fable-5-1", effort: "high" },
+  eval: { model: "claude-fable-5-1", effort: "medium" },
+};
 const MAX_PROMPT_CHARS = 400_000;
 
 const cors = {
@@ -73,9 +78,11 @@ Deno.serve(async (req) => {
   const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
   if (!apiKey) return json(503, { error: "Add your Anthropic API key in Supabase first.", code: "not_configured" });
 
-  let prompt = "";
+  let prompt = "", kind = "eval";
   try {
-    prompt = String((await req.json())?.prompt ?? "");
+    const b = await req.json();
+    prompt = String(b?.prompt ?? "");
+    if (b?.kind === "chat") kind = "chat";
   } catch { /* handled below */ }
   if (!prompt || prompt.length > MAX_PROMPT_CHARS) {
     return json(400, { error: "The evaluation request was empty or too large.", code: "invalid_argument" });
@@ -101,9 +108,9 @@ Deno.serve(async (req) => {
       let answered = false;
       try {
         const stream = client.beta.messages.stream({
-          model: MODEL,
+          model: SETUP[kind].model,
           max_tokens: 16000,
-          output_config: { effort: "medium" },
+          output_config: { effort: SETUP[kind].effort },
           betas: ["server-side-fallback-2026-07-01"],
           fallbacks: "default",
           ...(system ? { system } : {}),

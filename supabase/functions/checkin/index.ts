@@ -7,7 +7,7 @@ import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.1
 
 declare const EdgeRuntime: { waitUntil(p: Promise<unknown>): void };
 
-const MODEL = "claude-opus-5-5";
+const MODEL = "claude-fable-5-1";
 const PER_CALL = 3;
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -122,7 +122,7 @@ async function ask(client: Anthropic, prompt: string, style?: string) {
     ...(system ? { system } : {}),
     model: MODEL,
     max_tokens: 16000,
-    output_config: { effort: "medium" },
+    output_config: { effort: "high" },
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     messages: [{ role: "user", content: prompt }],
