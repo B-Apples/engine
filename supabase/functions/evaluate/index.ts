@@ -5,10 +5,10 @@ import Anthropic from "npm:@anthropic-ai/sdk@1.3.0";
 import { createClient } from "npm:@supabase/supabase-js@2.118.0";
 
 // The app says which feature is asking: coach chat thinks harder than a post-workout evaluation, which should come back
-// quickly. Claude Fable 5.1 always thinks; effort sets how much.
+// quickly. Claude Opus 5.5 always thinks; effort sets how much.
 const SETUP: Record<string, { model: string; effort: "low" | "medium" | "high" }> = {
-  chat: { model: "claude-fable-5-1", effort: "high" },
-  eval: { model: "claude-fable-5-1", effort: "medium" },
+  chat: { model: "claude-opus-5-5", effort: "high" },
+  eval: { model: "claude-opus-5-5", effort: "medium" },
 };
 const MAX_PROMPT_CHARS = 400_000;
 

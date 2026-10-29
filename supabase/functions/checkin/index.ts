@@ -7,7 +7,7 @@ import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.1
 
 declare const EdgeRuntime: { waitUntil(p: Promise<unknown>): void };
 
-const MODEL = "claude-fable-5-1";
+const MODEL = "claude-opus-5-5";
 const PER_CALL = 3;
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
