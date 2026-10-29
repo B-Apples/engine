@@ -122,7 +122,7 @@ async function ask(client: Anthropic, prompt: string, style?: string) {
     ...(system ? { system } : {}),
     model: MODEL,
     max_tokens: 16000,
-    output_config: { effort: "medium" },
+    output_config: { effort: "high" },
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     messages: [{ role: "user", content: prompt }],

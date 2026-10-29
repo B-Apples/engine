@@ -1356,7 +1356,7 @@ const incAuto = name => { const st = settings(); return exInfo(name).lower ? (st
 const incFor = name => { const o = (settings().incEx || {})[name]; return o > 0 ? o : incAuto(name); };
 const isMiss = (h, lo) => h.ws.some(s => s.reps < lo) || h.ws.some(s => s.rpe != null && s.rpe >= 9.5);
 function suggest(item, ctx = {}) {
-  const hist = exHist(item.name).filter(h => h.wid !== ctx.excludeId && h.ws.length);
+  const hist = exHist(item.name).filter(h => h.wid !== ctx.excludeId && h.ws.length && (!ctx.before || h.date <= ctx.before));
   const inc = incFor(item.name), lo = item.repLow || item.repHigh || 8, hi = Math.max(lo, item.repHigh || lo), tr = item.rpe || 8, st = settings().stepLb;
   let sets = item.sets || 3, lb = null, reps = lo, reason;
   const h0 = hist[0];
@@ -2792,20 +2792,24 @@ function evalPrompt(w) {
   else prevSessions[w.type] = allW().filter(x => x.type === w.type && x.id !== w.id && x.date <= w.date).slice(0, 5).map(x => ({ date: x.date, durSec: x.durSec, km: x.km, meters: x.meters, avgHr: x.avgHr, rpe: x.rpe }));
   const last7 = allW().filter(x => x.date <= w.date && x.date > addDays(w.date, -7) && x.id !== w.id).map(x => ({ date: x.date, type: x.type, title: x.title, durationMin: x.durationMin, rpe: x.rpe }));
   const p = profile();
+  // The targets Engine showed on this session's card, worked out from the history before it, so Claude can say which were hit.
+  const appTargets = day && w.type === 'strength' ? (day.items || []).map(it => { const sg = suggest(it, { excludeId: w.id, before: w.date, deload: isDeload(b, w.week) }); return { name: it.name, sets: sg.sets, reps: sg.reps, lb: sg.lb, why: sg.reason }; }) : null;
+  const ci = meta('coach'), checkIn = ci && ci.kind === 'checkin' && ci.weekOf && ci.weekOf < w.date && ci.weekOf >= addDays(w.date, -7) ? { weekOf: ci.weekOf, note: ci.note } : null;
   const ctx = {
-    athlete: { goal: p.goal || 'General strength and conditioning', units: 'pounds, kilometers, pool meters', trainingMaturity: maturity().label, age: p.age || null, trainingYears: p.trainingYears || null, previousBests: p.prevBests || null, bodyWeightLb: currentBW() ? Math.round(currentBW()) : null, customMetrics: userMetrics().map(m => { const p = metricPts(m.id).at(-1); return p ? { name: m.name, unit: m.unit, latest: p[1], date: ixd(p[0]), higherIsBetter: m.higher !== false } : null; }).filter(Boolean) },
+    athlete: { goal: p.goal || 'General strength and conditioning', units: 'pounds, kilometres, pool metres', trainingMaturity: maturity().label, age: p.age || null, trainingYears: p.trainingYears || null, previousBests: p.prevBests || null, bodyWeightLb: currentBW() ? Math.round(currentBW()) : null, customMetrics: userMetrics().map(m => { const p = metricPts(m.id).at(-1); return p ? { name: m.name, unit: m.unit, latest: p[1], date: ixd(p[0]), higherIsBetter: m.higher !== false } : null; }).filter(Boolean) },
     block: b ? { name: b.name, focus: b.focus, week: w.week, weeks: b.weeks, deloadWeek: b.deloadWeek || null } : null,
     plannedSession: day ? { title: day.title, type: day.type, items: day.items, cardio: day.cardio, stretches: day.stretches } : null,
+    appTargets, latestCheckIn: checkIn,
     workout: strip(w), summary: w.summary || null, previousSessions: prevSessions, otherSessionsLast7Days: last7
   };
   return `You are an experienced strength and conditioning coach. Evaluate the workout below for the athlete who just finished it.
 
-Write 120 to 220 words in plain, direct language. Use exactly these sections, each a bold heading on its own line followed by 2 to 4 short bullet points:
+Write 120 to 220 words in plain, direct language, using Canadian spelling. Use exactly these sections, each a bold heading on its own line followed by 2 to 4 short bullet points:
 **What went well**
 **What to watch**
 **Next session**
 Add a fourth section **About your notes** only if the athlete wrote notes, and respond to them.
-Exercises that share a "group" value were done back to back as a superset or circuit, resting only after each round. Use specific numbers from the data (weights in lb, reps, RPE, pace, distance). Base progression advice on double progression within the planned rep range and on RPE. Mention fatigue only when RPE or performance shows it. Do not invent data that is not present. No preamble and no sign-off.
+Exercises that share a "group" value were done back to back as a superset or circuit, resting only after each round. appTargets are the weights and reps Engine suggested for this session: say which were hit or missed, and where you disagree with a target, say why. If latestCheckIn set targets for this session, compare against those too. Use specific numbers from the data (weights in lb, reps, RPE, pace, distance). Base progression advice on double progression within the planned rep range and on RPE. Mention fatigue only when RPE or performance shows it. Do not invent data that is not present. No preamble and no sign-off.
 
 DATA (JSON):
 ${JSON.stringify(ctx)}`;
@@ -2830,7 +2834,7 @@ async function runEval(id, auto) {
   if (evalRunning) return;
   evalRunning = true; S.ui.evalBusy[id] = true; S.ui.evalText[id] = ''; S.ui.evalErr[id] = null; render();
   try {
-    const res = await sampleFn(evalPrompt({ ...w0, id }), { modelTier: 'default', onText: ({ text }) => { S.ui.evalText[id] = text; const el = document.getElementById('eval-' + id); if (el) el.innerHTML = md(text); } });
+    const res = await sampleFn(evalPrompt({ ...w0, id }), { kind: 'eval', onText: ({ text }) => { S.ui.evalText[id] = text; const el = document.getElementById('eval-' + id); if (el) el.innerHTML = md(text); } });
     const cur = S.workouts.get(id) || w0;
     write('workouts', id, { ...cur, evalPending: false, evaluation: { text: res.text, at: Date.now() } });
   } catch (e) {
@@ -2870,18 +2874,22 @@ function coachPrompt(msgs) {
   });
   const lifts = topLifts().slice(0, 15).map(l => { const f = liftForecast(l.name); return { name: l.name, sessions: l.n, e1rmNowLb: f ? Math.round(f.cur) : null }; });
   const byMuscle = {}; for (const e of library()) (byMuscle[e.muscle] = byMuscle[e.muscle] || []).push(e.name);
+  const ci = meta('coach');
   const ctx = {
     today: `${today} (${DOW[pd(today).getDay()]})`,
     athlete: { goal: p.goal || 'Strength and conditioning: get strong again while keeping and improving cardio', age: p.age || null, trainingYears: p.trainingYears || null, previousBests: p.prevBests || null, bodyWeightLb: currentBW() ? Math.round(currentBW()) : null, trainingMaturity: maturity().label, units: 'lb, km, pool metres', maxHr: hrMax(), weeklyDistanceGoals: st.goals || {}, defaultRestSec: { compound: st.restCompound, accessory: st.restAccessory } },
     activeBlock: b ? { id: b.id, ...strip(b), currentWeek: blockWeek(b) } : null,
     otherBlocks: allB().filter(x => !b || x.id !== b.id).slice(0, 8).map(x => ({ id: x.id, name: x.name, focus: x.focus, weeks: x.weeks, startDate: x.startDate })),
     lifts, stalledLifts: stalled(), last6WeeksSessions: recent,
+    upcomingSessions: planAhead().map(({ key, ...x }) => x),
+    latestCheckIn: ci && ci.note ? { date: ci.weekOf || (ci.updatedAt ? ymd(new Date(ci.updatedAt)) : null), note: ci.note } : null,
+    bodyLast8Weeks: bodyList().filter(e => e.date >= addDays(today, -56) && (e.weightLb != null || e.bodyFat != null)).map(e => ({ date: e.date, weightLb: e.weightLb ?? null, bodyFat: e.bodyFat ?? null })),
     exerciseLibrary: byMuscle, stretchLibrary: STRETCHES, cardioIntensities: INTENSITY
   };
   const convo = msgs.slice(-20).map(m => `${m.role === 'me' ? 'ATHLETE' : 'COACH'}: ${m.text}${m.block ? '\n[The coach attached a block draft: ' + m.block.name + ']' : ''}`).join('\n\n');
   return `You are the athlete's strength and conditioning coach inside the Engine training app. Reply to the athlete's latest message in the conversation below.
 
-Write like a coach texting: plain, direct, specific, using the athlete's real numbers from DATA. Keep replies under 180 words unless they ask for detail. Use short paragraphs or "- " bullets, and **bold** sparingly. Ask one clarifying question instead of guessing when an important detail is missing (like days available). Never invent sessions or numbers that aren't in DATA.
+Write like a coach texting: plain, direct, specific, using the athlete's real numbers from DATA and Canadian spelling. upcomingSessions holds the targets Engine will show on the next two weeks of session cards; when you give the athlete numbers, start from those and say why if you'd change them. Keep replies under 180 words unless they ask for detail. Use short paragraphs or "- " bullets, and **bold** sparingly. Ask one clarifying question instead of guessing when an important detail is missing (like days available). Never invent sessions or numbers that aren't in DATA.
 
 When you propose a new block, or a change to an existing block, briefly explain it and then end your reply with exactly one fenced code block tagged engine-block holding JSON for the COMPLETE block (every day, not just the changes). The app shows it as a card the athlete reviews in the block editor before saving. Only include it when you're actually proposing a block. Schema:
 \`\`\`engine-block
@@ -2951,7 +2959,7 @@ async function chatSend(text) {
   write('meta', 'coachchat', { msgs });
   S.ui.form.chat = ''; S.ui.chatBusy = true; S.ui.chatText = ''; S.ui.chatErr = null; render(); chatScroll();
   try {
-    const res = await sampleFn(coachPrompt(msgs), { modelTier: 'default', onText: ({ text: t }) => { S.ui.chatText = t; const el = document.getElementById('chat-live'); if (el) { el.innerHTML = md(chatVisible(t)) + (t.includes('```engine-block') ? '<p class="faint">Drafting the block…</p>' : ''); chatScroll(); } } });
+    const res = await sampleFn(coachPrompt(msgs), { kind: 'chat', onText: ({ text: t }) => { S.ui.chatText = t; const el = document.getElementById('chat-live'); if (el) { el.innerHTML = md(chatVisible(t)) + (t.includes('```engine-block') ? '<p class="faint">Drafting the block…</p>' : ''); chatScroll(); } } });
     const block = parseBlock(res.text);
     const reply = { role: 'ai', text: res.text, at: Date.now() };
     if (block) reply.block = block; else if (FENCE.test(res.text)) reply.text = chatVisible(res.text) + '\n\n(The block draft didn\'t come through complete. Ask me to send it again.)';
